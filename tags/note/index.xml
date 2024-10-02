@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Note on Myrick&#39;s Log Book</title>
+    <link>http://localhost:1313/tags/note/</link>
+    <description>Recent content in Note on Myrick&#39;s Log Book</description>
+    <generator>Hugo -- 0.135.0</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 02 Oct 2024 13:49:27 +0100</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/note/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>First Log</title>
+      <link>http://localhost:1313/posts/first/</link>
+      <pubDate>Wed, 02 Oct 2024 13:49:27 +0100</pubDate>
+      <guid>http://localhost:1313/posts/first/</guid>
+      <description>&lt;p&gt;Hi, I&amp;rsquo;m Myrick. I am going to share the notes of my study in the following weeks.&lt;/p&gt;
+&lt;h1 id=&#34;this-is-a-heading-one&#34;&gt;This is a heading one&lt;/h1&gt;
+&lt;h2 id=&#34;this-is-a-heading-two&#34;&gt;This is a heading two&lt;/h2&gt;
+&lt;p&gt;This is a paragraph.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
