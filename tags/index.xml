@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Tags on Myrick&#39;s Log Book</title>
-    <link>rickkwang.github.io/tags/</link>
+    <link>https://rickkwang.github.io/tags/</link>
     <description>Recent content in Tags on Myrick&#39;s Log Book</description>
     <generator>Hugo -- 0.135.0</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 02 Oct 2024 13:49:27 +0100</lastBuildDate>
-    <atom:link href="rickkwang.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://rickkwang.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Eng Mathmatics I</title>
-      <link>rickkwang.github.io/tags/eng-mathmatics-i/</link>
+      <link>https://rickkwang.github.io/tags/eng-mathmatics-i/</link>
       <pubDate>Wed, 02 Oct 2024 13:49:27 +0100</pubDate>
-      <guid>rickkwang.github.io/tags/eng-mathmatics-i/</guid>
+      <guid>https://rickkwang.github.io/tags/eng-mathmatics-i/</guid>
       <description></description>
     </item>
   </channel>
