@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% seo %}
+  <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <a href="{{ "/" | relative_url }}" class="berkeley-mono" style="font-size: 14px; font-weight: 700; color: var(--text); margin-left: 0;">Myrick Wang</a>
+      <nav>
+        <a href="{{ "/" | relative_url }}" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
+        <a href="{{ "/cv.html" | relative_url }}" {% if page.url == "/cv.html" %}class="active"{% endif %}>CV</a>
+        <a href="{{ "/projects.html" | relative_url }}" {% if page.url == "/projects.html" %}class="active"{% endif %}>Projects</a>
+        <a href="{{ "/publications.html" | relative_url }}" {% if page.url == "/publications.html" %}class="active"{% endif %}>Publications</a>
+        <a href="{{ "/zen.html" | relative_url }}" {% if page.url == "/zen.html" %}class="active"{% endif %}>Zen Land 🏔️</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer class="berkeley-mono">
+    <div>© {{ site.time | date: "%Y" }} MYRICK WANG</div>
+    <div style="cursor: pointer;" onclick="window.scrollTo({top:0, behavior:'smooth'})">Back to Top ↑</div>
+  </footer>
+</body>
+</html>
