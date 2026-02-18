@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { PROFILE, NEWS, FOCUS_AREAS, PROJECTS, PUBLICATIONS, PROFICIENCY, EDUCATION, EXPERIENCES, CV_MARKDOWN, ZEN_POSTS } from './constants';
 import { Project, Publication, ZenPost } from './types';
 
+type Tab = 'HOME' | 'CV' | 'PROJECTS' | 'PUBLICATIONS' | 'ZEN';
+type Article = Project | Publication | ZenPost;
+const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
+
 // --- Monochromatic Icon Components ---
 const IconUser = () => (
   <svg className="w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -121,20 +125,21 @@ const MarkdownContent = ({ content }: { content: string }) => {
           return <div key={i} className={blockQuoteStyle}>{parseLine(trimmed.replace('> ', ''))}</div>;
         }
         
-        // Code
-        if (trimmed.startsWith('```')) return null; 
-        if (line.startsWith('    ') || line.startsWith('\t')) {
-          return <div key={i} className={codeBlockStyle}>{line}</div>;
-        }
-        
         // Lists
-        if (trimmed.startsWith('- ')) {
+        if (/^\s*-\s+/.test(line)) {
+          const listContent = line.replace(/^\s*-\s+/, '');
           return (
             <div key={i} className="flex items-start gap-3 ml-1 mb-2">
               <span className="mt-2.5 w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600 flex-shrink-0"></span>
-              <div className="text-[15px] leading-relaxed">{parseLine(trimmed.replace('- ', ''))}</div>
+              <div className="text-[15px] leading-relaxed">{parseLine(listContent)}</div>
             </div>
           );
+        }
+
+        // Code
+        if (trimmed.startsWith('```')) return null;
+        if (line.startsWith('    ') || line.startsWith('\t')) {
+          return <div key={i} className={codeBlockStyle}>{line}</div>;
         }
         
         // Paragraphs
@@ -161,7 +166,7 @@ const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) =
 // --- VIEW COMPONENTS (Unified Grid System) ---
 
 interface ArticleProps {
-  data: Project | Publication | ZenPost | any;
+  data: Article;
   onBack: () => void;
   backLabel: string;
 }
@@ -224,10 +229,10 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
             </div>
           </div>
           <div className="grid grid-cols-5 gap-4 text-neutral-400 dark:text-neutral-600">
-            <a href={`https://${PROFILE.socials.github}`} target="_blank" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
-            <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
-            <a href={`https://${PROFILE.socials.scholar}`} target="_blank" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
-            <a href={`https://${PROFILE.socials.twitter}`} target="_blank" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="X (Twitter)"><IconX /></a>
+            <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
+            <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
+            <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
+            <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="X (Twitter)"><IconX /></a>
             <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Email"><IconMail /></a>
           </div>
         </div>
@@ -386,10 +391,11 @@ const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => void }) =>
       <PageHeader title="Projects" subtitle="Engineering Artifacts & Findings" />
       <div className="space-y-0">
         {PROJECTS.map((project) => (
-          <div 
+          <button
+            type="button"
             key={project.id} 
             onClick={() => onSelect(project)}
-            className="cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
             <div className="flex justify-between items-baseline gap-4">
               <h3 className="text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
@@ -405,7 +411,7 @@ const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => void }) =>
             </div>
             
             <p className="text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-3xl">{project.description}</p>
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -417,11 +423,12 @@ const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) => void }
     <div className="max-w-5xl mx-auto">
       <PageHeader title="Publications" subtitle="Scholarly Contributions" />
       <div className="space-y-0">
-        {PUBLICATIONS.map((pub, i) => (
-          <div 
-            key={i} 
+        {PUBLICATIONS.map((pub) => (
+          <button
+            type="button"
+            key={pub.id}
             onClick={() => onSelect(pub)}
-            className="cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
             <div className="flex justify-between items-baseline gap-4">
               <h3 className="text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
@@ -437,7 +444,7 @@ const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) => void }
                 <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
               </div>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -450,10 +457,11 @@ const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
       <PageHeader title="Zen Land" subtitle="Reflections on Logic" />
       <div className="space-y-0">
         {ZEN_POSTS.map((post) => (
-          <div 
+          <button
+            type="button"
             key={post.id} 
             onClick={() => onSelect(post)}
-            className="cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
             <div className="flex justify-between items-baseline gap-4">
                <h3 className="text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
@@ -462,7 +470,7 @@ const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
                <span className="text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{post.date}</span>
             </div>
             <p className="text-[14px] text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-3xl">{post.description}</p>
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -470,26 +478,33 @@ const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
 );
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('HOME');
-  const [selectedArticle, setSelectedArticle] = useState<any | null>(null);
+  const [activeTab, setActiveTab] = useState<Tab>('HOME');
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [time, setTime] = useState({ ldn: '', bjs: '' });
-
-  // Theme State
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    }
-    return 'light';
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window === 'undefined') return 'light';
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
-  useEffect(() => {
-    // Initial Route Check from URL Query Params (GitHub Pages friendly)
-    const params = new URLSearchParams(window.location.search);
-    const tab = params.get('tab');
-    if (tab && ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'].includes(tab.toUpperCase())) {
-      setActiveTab(tab.toUpperCase());
-    }
+  const getTabFromUrl = (): Tab => {
+    const query = new URLSearchParams(window.location.search).get('tab');
+    const normalized = query?.toUpperCase();
+    return (normalized && NAV_TABS.includes(normalized as Tab)) ? (normalized as Tab) : 'HOME';
+  };
 
+  useEffect(() => {
+    const handlePopState = () => {
+      setActiveTab(getTabFromUrl());
+      setSelectedArticle(null);
+    };
+    handlePopState();
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
@@ -515,7 +530,7 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleTabChange = (tab: string) => {
+  const handleTabChange = (tab: Tab) => {
     setActiveTab(tab);
     setSelectedArticle(null);
     window.scrollTo({ top: 0, behavior: 'auto' });
@@ -530,7 +545,7 @@ const App: React.FC = () => {
     window.history.pushState({}, '', url);
   };
 
-  const handleArticleSelect = (article: any) => {
+  const handleArticleSelect = (article: Article) => {
     setSelectedArticle(article);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -539,9 +554,15 @@ const App: React.FC = () => {
     <div className="min-h-screen max-w-[1400px] mx-auto px-6 md:px-12 dark:text-neutral-200">
       <header>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center h-16 uppercase font-medium text-[11px]">
-          <h1 className="cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100" onClick={() => handleTabChange('HOME')}>Myrick Wang</h1>
+          <button
+            type="button"
+            className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+            onClick={() => handleTabChange('HOME')}
+          >
+            Myrick Wang
+          </button>
           <nav className="flex items-center space-x-10">
-            {['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'].map((tab) => (
+            {NAV_TABS.map((tab) => (
               <button 
                 key={tab} 
                 onClick={() => handleTabChange(tab)} 
@@ -582,7 +603,13 @@ const App: React.FC = () => {
       
       <footer className="mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex justify-between items-center text-[9px] text-neutral-300 dark:text-neutral-600 uppercase pb-8 font-medium">
         <div>© {new Date().getFullYear()} MYRICK WANG <span className="mx-4 opacity-20">/</span> BRISTOL EEE</div>
-        <div className="cursor-pointer hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>INDEX <span>↑</span></div>
+        <button
+          type="button"
+          className="bg-transparent p-0 cursor-pointer hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        >
+          INDEX <span>↑</span>
+        </button>
       </footer>
     </div>
   );
