@@ -5,8 +5,12 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     const isProduction = mode === 'production';
+    const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
+    const base = isProduction
+      ? (repoName?.endsWith('.github.io') ? '/' : `/${repoName || 'minimalist-academic-portfolio'}/`)
+      : '/';
     return {
-      base: isProduction ? '/minimalist-academic-portfolio/' : '/',
+      base,
       server: {
         port: 3000,
         host: '0.0.0.0',
