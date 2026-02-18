@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Publish Site
 
 on:
   push:
@@ -7,20 +7,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: publish-site
   cancel-in-progress: true
 
 jobs:
-  build:
+  publish:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -29,32 +30,29 @@ jobs:
           cache: npm
           cache-dependency-path: minimalist-academic-portfolio/package-lock.json
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
       - name: Install dependencies
         working-directory: minimalist-academic-portfolio
-        run: npm install
+        run: npm ci
 
       - name: Build
         working-directory: minimalist-academic-portfolio
-        run: npm run build
+        run: npm run build -- --base=/
 
-      - name: Disable Jekyll
-        run: touch minimalist-academic-portfolio/dist/.nojekyll
+      - name: Sync build output to repository root
+        run: |
+          rm -rf assets
+          cp -R minimalist-academic-portfolio/dist/* .
+          touch .nojekyll
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: minimalist-academic-portfolio/dist
+      - name: Commit and push published site
+        run: |
+          if [ -z "$(git status --porcelain -- index.html assets .nojekyll)" ]; then
+            echo "No published-site changes to commit."
+            exit 0
+          fi
 
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A index.html assets .nojekyll
+          git commit -m "chore: publish static site [skip ci]"
+          git push

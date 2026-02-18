@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myrick Wang | Academic Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Hanken Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #ffffff;
+            --text-primary: #0a0a0a;
+            --border-color: #f2f2f2;
+            --header-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        html {
+            background-color: var(--bg-primary);
+            transition: background-color 0.3s ease;
+        }
+
+        html.dark {
+            --bg-primary: #0a0a0a;
+            --text-primary: #ededed;
+            --border-color: #262626;
+            --header-bg: rgba(10, 10, 10, 0.95);
+        }
+        
+        /* Eliminate elastic bounce (rubber-banding) for static UI components */
+        html, body {
+            overscroll-behavior-y: none;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        body {
+            font-family: "Hanken Grotesk", sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: normal;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .mono { 
+            font-family: "JetBrains Mono", monospace; 
+        }
+
+        .tracking-tight-titles {
+            letter-spacing: normal;
+            line-height: 1.05;
+        }
+
+        .thin-border {
+            border: 0.5px solid var(--border-color);
+        }
+
+        .page-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Strictly Fixed Header with Compositor Promotion to prevent inertia shifts */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            transform: translateZ(0);
+            will-change: transform;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            border-bottom: 0.5px solid var(--border-color);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Enforce Hard Corners for professional look */
+        * { border-radius: 0 !important; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e5e5e5; }
+        html.dark ::-webkit-scrollbar-thumb { background: #404040; }
+        ::-webkit-scrollbar-thumb:hover { background: #d4d4d4; }
+        html.dark ::-webkit-scrollbar-thumb:hover { background: #525252; }
+    </style>
+  <script type="module" crossorigin src="/assets/index-C7Tie3Ac.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
