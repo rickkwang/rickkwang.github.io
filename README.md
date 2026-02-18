@@ -2,6 +2,12 @@
 
 这是你的 GitHub Pages 学术网站仓库，已整理为一套可维护流程。
 
+## 当前结构（统一后）
+
+- 根目录：GitHub Pages 发布产物与部署工作流（`index.html`、`assets/`、`.github/workflows/deploy.yml`）
+- 源码目录：`minimalist-academic-portfolio/`（React + Vite）
+- 历史资料：`minimalist-academic-portfolio/legacy-jekyll/`（旧 Jekyll 内容，仅归档保留）
+
 ## 你应该修改哪里
 
 - 只改源码目录：`minimalist-academic-portfolio/`
@@ -15,6 +21,11 @@
 - `assets/`（仓库根目录）
 
 上面两项是构建产物，会由 GitHub Actions 自动更新。
+
+## 安全约束
+
+- 前端项目中不要注入或提交任何私钥（API Key、Token）。
+- 若未来需要服务端密钥，必须放在后端或云函数，不进入浏览器构建产物。
 
 ## 在根目录直接运行（推荐）
 
