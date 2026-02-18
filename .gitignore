@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Node / build
+node_modules/
+minimalist-academic-portfolio/node_modules/
+minimalist-academic-portfolio/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

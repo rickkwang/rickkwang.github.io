@@ -1,0 +1,11 @@
+{
+  "name": "rickkwang-github-io-workspace",
+  "private": true,
+  "scripts": {
+    "bootstrap": "npm --prefix minimalist-academic-portfolio ci",
+    "dev": "npm --prefix minimalist-academic-portfolio run dev",
+    "build": "npm --prefix minimalist-academic-portfolio run build -- --base=/",
+    "preview": "npm --prefix minimalist-academic-portfolio run preview",
+    "publish:local": "npm run build && rm -rf assets && cp -R minimalist-academic-portfolio/dist/* . && touch .nojekyll"
+  }
+}
