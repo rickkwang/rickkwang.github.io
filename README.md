@@ -1,9 +1,9 @@
 # rickkwang.github.io
 
-[中文](#zh-cn) | [English](#en)
+语言 / Language：在同一页切换，不跳转到其他文件。
 
-<a id="zh-cn"></a>
-## 中文
+<details open>
+<summary><strong>中文</strong>（点击展开/收起）</summary>
 
 个人学术主页仓库（GitHub Pages 部署），采用“源码与发布产物分离”的结构：
 - 源码在 `minimalist-academic-portfolio/`（React + Vite）
@@ -91,10 +91,10 @@ git push origin main
 - 是否可以提交 API Key？  
   不可以。前端仓库和构建产物中都不应出现任何私钥或令牌。
 
----
+</details>
 
-<a id="en"></a>
-## English
+<details>
+<summary><strong>English</strong> (Click to expand/collapse)</summary>
 
 Personal academic homepage repository (deployed with GitHub Pages), organized with a clear separation between source code and published artifacts:
 - Source code: `minimalist-academic-portfolio/` (React + Vite)
@@ -181,3 +181,5 @@ After pushing to `main`, `.github/workflows/deploy.yml` will automatically:
 
 - Can I commit API keys/tokens here?  
   No. Never store secrets in frontend source code or published artifacts.
+
+</details>
