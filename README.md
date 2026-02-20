@@ -24,7 +24,6 @@
    ├─ package.json                         # 子项目脚本（vite dev/build/preview）
    ├─ vite.config.ts                       # Vite 配置（含 base 逻辑）
    ├─ dist/                                # 子项目构建输出
-   └─ legacy-jekyll/                       # 旧 Jekyll 资料归档（不参与当前构建）
 ```
 
 ## 编辑约定
@@ -115,7 +114,6 @@ Personal academic homepage repository (deployed with GitHub Pages), organized wi
    ├─ package.json                         # Subproject scripts (vite dev/build/preview)
    ├─ vite.config.ts                       # Vite config (includes base logic)
    ├─ dist/                                # Subproject build output
-   └─ legacy-jekyll/                       # Archived Jekyll content (not in active build)
 ```
 
 ## Editing Rules
