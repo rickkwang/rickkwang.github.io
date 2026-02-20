@@ -46,13 +46,16 @@ jobs:
 
       - name: Commit and push published site
         run: |
-          if [ -z "$(git status --porcelain -- index.html assets .nojekyll)" ]; then
+          mapfile -t published_files < <(find minimalist-academic-portfolio/dist -mindepth 1 -maxdepth 1 -printf '%f\n' | sort)
+          published_files+=(".nojekyll")
+
+          if [ -z "$(git status --porcelain -- "${published_files[@]}")" ]; then
             echo "No published-site changes to commit."
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A index.html assets .nojekyll
+          git add -A -- "${published_files[@]}"
           git commit -m "chore: publish static site [skip ci]"
           git push
