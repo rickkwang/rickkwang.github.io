@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PROFILE, NEWS, FOCUS_AREAS, PROJECTS, PUBLICATIONS, PROFICIENCY, EDUCATION, EXPERIENCES, CV_MARKDOWN, ZEN_POSTS } from './constants';
 import { Project, Publication, ZenPost } from './types';
 
 type Tab = 'HOME' | 'CV' | 'PROJECTS' | 'PUBLICATIONS' | 'ZEN';
 type Article = Project | Publication | ZenPost;
 const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
-const WORK_TABS: Tab[] = ['PROJECTS', 'PUBLICATIONS', 'ZEN'];
+const MOBILE_MENU_TABS: Tab[] = ['PROJECTS', 'PUBLICATIONS', 'ZEN'];
 
 // --- Monochromatic Icon Components ---
 const IconUser = () => (
@@ -198,10 +198,10 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
       <div className="w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
-        <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-32 md:h-32 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 overflow-hidden shadow-sm border-neutral-200 dark:border-neutral-800">
+        <div className="w-36 sm:w-40 md:w-36 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
-            className="w-full h-full object-contain p-1 opacity-100 transition-all duration-500" 
+            className="w-full h-auto object-contain p-1 opacity-100 transition-all duration-500" 
             alt="Avatar" 
           />
         </div>
@@ -481,8 +481,9 @@ const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('HOME');
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [time, setTime] = useState({ ldn: '', bjs: '' });
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
     const savedTheme = localStorage.getItem('theme');
@@ -535,7 +536,7 @@ const App: React.FC = () => {
   const handleTabChange = (tab: Tab) => {
     setActiveTab(tab);
     setSelectedArticle(null);
-    setIsWorkMenuOpen(false);
+    setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'auto' });
     
     // Update URL Query Parameter
@@ -553,7 +554,20 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const isWorkActive = WORK_TABS.includes(activeTab);
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (!mobileMenuRef.current) return;
+      if (mobileMenuRef.current.contains(event.target as Node)) return;
+      setIsMobileMenuOpen(false);
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <div className="min-h-screen max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
@@ -568,26 +582,30 @@ const App: React.FC = () => {
             >
               Myrick Wang
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3" ref={mobileMenuRef}>
               <button
                 type="button"
                 onClick={() => handleTabChange('CV')}
-                className={`px-2.5 py-1.5 rounded-full border transition-all ${activeTab === 'CV' && !selectedArticle ? 'border-neutral-800 text-black dark:text-white dark:border-neutral-300' : 'border-neutral-200 text-neutral-500 dark:border-neutral-700 dark:text-neutral-500'}`}
+                className={`transition-colors text-[11px] uppercase ${activeTab === 'CV' && !selectedArticle ? 'text-black dark:text-white underline underline-offset-4 decoration-[0.5px]' : 'text-neutral-500 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
               >
                 CV
               </button>
               <div className="relative">
                 <button
                   type="button"
-                  onClick={() => setIsWorkMenuOpen((prev) => !prev)}
-                  className={`px-2.5 py-1.5 rounded-full border transition-all inline-flex items-center gap-1 ${isWorkActive ? 'border-neutral-800 text-black dark:text-white dark:border-neutral-300' : 'border-neutral-200 text-neutral-500 dark:border-neutral-700 dark:text-neutral-500'}`}
+                  onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                  className="text-neutral-500 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-0.5"
+                  aria-label="Open navigation menu"
                 >
-                  WORK
-                  <span className={`transition-transform ${isWorkMenuOpen ? 'rotate-180' : ''}`}>▾</span>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                    <path d="M4 7h16" />
+                    <path d="M4 12h16" />
+                    <path d="M4 17h16" />
+                  </svg>
                 </button>
-                {isWorkMenuOpen && (
+                {isMobileMenuOpen && (
                   <div className="absolute right-0 mt-2 w-40 z-20 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-md p-1.5">
-                    {WORK_TABS.map((tab) => (
+                    {MOBILE_MENU_TABS.map((tab) => (
                       <button
                         key={tab}
                         type="button"
