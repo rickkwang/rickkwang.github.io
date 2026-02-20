@@ -198,7 +198,7 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
       {/* Mobile Hero Card */}
-      <div className="md:hidden w-full border-b-[0.5px] border-neutral-200 dark:border-neutral-800 pb-5">
+      <div className="md:hidden w-full border-b-[0.5px] border-dashed border-neutral-200 dark:border-neutral-800 pb-5">
         <div className="flex items-start gap-3">
           <div className="w-[27vw] max-w-[118px] min-w-[88px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 flex-shrink-0">
             <img
@@ -217,7 +217,7 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
               <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="X (Twitter)"><IconX /></a>
               <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Email"><IconMail /></a>
             </div>
-            <div className="mt-2.5 pt-2 border-t border-neutral-200 dark:border-neutral-800 text-[10px] text-neutral-500 dark:text-neutral-400 leading-[1.35]">
+            <div className="mt-2.5 pt-2 border-t-[0.5px] border-dashed border-neutral-200 dark:border-neutral-800 text-[10px] text-neutral-500 dark:text-neutral-400 leading-[1.35]">
               <div className="flex items-center gap-1.5 min-w-0">
                 <span className="scale-[0.75] origin-left"><IconLocation /></span>
                 <span className="truncate">{PROFILE.location}</span>
