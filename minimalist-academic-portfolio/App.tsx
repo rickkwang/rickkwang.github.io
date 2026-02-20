@@ -157,9 +157,9 @@ const SectionHeader = ({ title }: { title: string }) => (
 
 // Improved PageHeader Component - Left aligned, large typography
 const PageHeader = ({ title, subtitle }: { title: string, subtitle?: string }) => (
-  <div className="flex flex-col items-start mb-16 space-y-2">
-    <h1 className="text-4xl md:text-5xl font-medium text-neutral-900 dark:text-neutral-100">{title}</h1>
-    {subtitle && <p className="text-lg text-neutral-500 dark:text-neutral-400 font-light max-w-2xl leading-relaxed">{subtitle}</p>}
+  <div className="flex flex-col items-start mb-10 md:mb-16 space-y-2">
+    <h1 className="text-3xl md:text-5xl font-medium text-neutral-900 dark:text-neutral-100">{title}</h1>
+    {subtitle && <p className="text-base md:text-lg text-neutral-500 dark:text-neutral-400 font-light max-w-2xl leading-relaxed">{subtitle}</p>}
   </div>
 );
 
@@ -193,11 +193,11 @@ const ViewArticle: React.FC<ArticleProps> = ({ data, onBack, backLabel }) => {
 };
 
 const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
-  <div className="page-fade-in space-y-20">
+  <div className="page-fade-in space-y-14 md:space-y-20">
     {/* Profile Header */}
-    <section className="flex flex-col md:flex-row gap-12 md:gap-24 lg:gap-32">
-      <div className="w-full md:w-[160px] flex-shrink-0 space-y-6">
-        <div className="w-32 h-32 thin-border bg-white dark:bg-neutral-900 overflow-hidden shadow-sm border-neutral-200 dark:border-neutral-800">
+    <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
+      <div className="w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
+        <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 overflow-hidden shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
             className="w-full h-full object-cover opacity-100 transition-all duration-500" 
@@ -206,29 +206,29 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
         </div>
         
         <div className="space-y-6">
-          <div className="space-y-3.5 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 leading-none">
-            <div className="flex items-center gap-2.5">
+          <div className="space-y-3 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 leading-tight">
+            <div className="flex items-start gap-2.5">
                <IconUser />
-               <span className="uppercase whitespace-nowrap text-neutral-600 dark:text-neutral-300 font-medium">{PROFILE.name}</span>
+               <span className="uppercase break-words text-neutral-600 dark:text-neutral-300 font-medium">{PROFILE.name}</span>
             </div>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-start gap-2.5">
               <IconSchool />
-              <span className="whitespace-nowrap">University of Bristol</span>
+              <span className="break-words">University of Bristol</span>
             </div>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-start gap-2.5">
               <IconLocation />
-              <span className="whitespace-nowrap">{PROFILE.location}</span>
+              <span className="break-words">{PROFILE.location}</span>
             </div>
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-start gap-2.5">
               <IconClock />
-              <div className="uppercase flex items-center whitespace-nowrap mono">
+              <div className="uppercase flex flex-wrap items-center gap-y-1 mono">
                 <span>LDN {time.ldn}</span>
                 <span className="mx-1.5 opacity-30">•</span>
                 <span>BJS {time.bjs}</span>
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-5 gap-4 text-neutral-400 dark:text-neutral-600">
+          <div className="grid grid-cols-5 gap-4 text-neutral-400 dark:text-neutral-600 max-w-[220px] mx-auto md:mx-0">
             <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
             <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
             <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
@@ -238,9 +238,9 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
         </div>
       </div>
 
-      <div className="flex-grow space-y-12">
+      <div className="flex-grow space-y-10 md:space-y-12">
         <div className="space-y-6">
-          <h2 className="text-[21px] md:text-[24px] font-medium tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight">
+          <h2 className="text-[20px] md:text-[24px] font-medium tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight">
             Electrical & Electronic Engineering <span className="text-neutral-200 dark:text-neutral-700 mx-1.5 font-light">/</span> <span className="text-neutral-400 dark:text-neutral-500">University of Bristol</span>
           </h2>
           <p className="text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400 font-normal max-w-3xl">
@@ -255,8 +255,8 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
           </div>
           <div className="space-y-4">
             {NEWS.slice(0, 4).map((item, i) => (
-              <div key={i} className="flex space-x-8 items-start group">
-                <span className="text-[10px] text-neutral-300 dark:text-neutral-600 w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
+              <div key={i} className="flex flex-col sm:flex-row sm:space-x-8 gap-1 sm:gap-0 items-start group">
+                <span className="text-[10px] text-neutral-300 dark:text-neutral-600 w-auto sm:w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
                 <p className="text-[14px] leading-relaxed flex-grow text-neutral-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-neutral-200 transition-colors max-w-3xl">{item.content}</p>
               </div>
             ))}
@@ -266,20 +266,20 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     </section>
 
     {/* Research / Focus Areas */}
-    <section className="pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
+    <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
       <SectionHeader title="Research" />
       <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
         {FOCUS_AREAS.map((area, i) => (
           <div key={i} className="flex items-baseline space-x-4">
             <span className="text-[11px] text-neutral-300 dark:text-neutral-600 mono font-medium">{(i + 1).toString().padStart(2, '0')}</span>
-            <span className="text-[16px] font-normal text-neutral-900 dark:text-neutral-200">{area}</span>
+            <span className="text-[15px] sm:text-[16px] font-normal text-neutral-900 dark:text-neutral-200">{area}</span>
           </div>
         ))}
       </div>
     </section>
 
     {/* Academic Section */}
-    <section className="pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
+    <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
       <SectionHeader title="Academic" />
       <div className="flex-grow">
          <div className="space-y-8">
@@ -325,7 +325,7 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     </section>
 
     {/* Logistics / Proficiency - Optimized for Alignment */}
-    <section className="pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
+    <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
       <SectionHeader title="Logistics" />
       <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
         {PROFICIENCY.map((group, i) => (
@@ -350,13 +350,13 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
 
 const ViewCV = () => (
   <div className="page-fade-in pb-32">
-    <div className="max-w-4xl mx-auto space-y-12">
+    <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
       
       {/* Unified Header */}
       <div className="text-center space-y-6">
          {/* Title */}
          <div className="space-y-2">
-            <h1 className="text-3xl font-medium text-neutral-900 dark:text-neutral-100">{PROFILE.name}</h1>
+            <h1 className="text-2xl sm:text-3xl font-medium text-neutral-900 dark:text-neutral-100">{PROFILE.name}</h1>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 uppercase">{PROFILE.title}</p>
          </div>
 
@@ -395,13 +395,13 @@ const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => void }) =>
             type="button"
             key={project.id} 
             onClick={() => onSelect(project)}
-            className="w-full text-left bg-transparent cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-8 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
-            <div className="flex justify-between items-baseline gap-4">
-              <h3 className="text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
+              <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
                 {project.title}
               </h3>
-              <span className="text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{project.year}</span>
+              <span className="text-[11px] sm:text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{project.year}</span>
             </div>
             
             <div className="flex flex-wrap gap-2.5">
@@ -428,18 +428,18 @@ const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) => void }
             type="button"
             key={pub.id}
             onClick={() => onSelect(pub)}
-            className="w-full text-left bg-transparent cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-8 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
-            <div className="flex justify-between items-baseline gap-4">
-              <h3 className="text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
+              <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
                 {pub.title}
               </h3>
-              <span className="text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{pub.year}</span>
+              <span className="text-[11px] sm:text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{pub.year}</span>
             </div>
             
             <div className="space-y-2">
               <p className="text-[12px] text-neutral-500 dark:text-neutral-400 uppercase font-medium">{pub.authors}</p>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                 <p className="text-[12px] text-neutral-400 dark:text-neutral-500 italic">{pub.venue}</p>
                 <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
               </div>
@@ -461,13 +461,13 @@ const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
             type="button"
             key={post.id} 
             onClick={() => onSelect(post)}
-            className="w-full text-left bg-transparent cursor-pointer py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-8 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
-            <div className="flex justify-between items-baseline gap-4">
-               <h3 className="text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
+               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
                  {post.title}
                </h3>
-               <span className="text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{post.date}</span>
+               <span className="text-[11px] sm:text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{post.date}</span>
             </div>
             <p className="text-[14px] text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-3xl">{post.description}</p>
           </button>
@@ -551,9 +551,9 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-[1400px] mx-auto px-6 md:px-12 dark:text-neutral-200">
+    <div className="min-h-screen max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
       <header>
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex justify-between items-center h-16 uppercase font-medium text-[11px]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0 py-4 sm:h-16 sm:py-0 uppercase font-medium text-[11px]">
           <button
             type="button"
             className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
@@ -561,12 +561,12 @@ const App: React.FC = () => {
           >
             Myrick Wang
           </button>
-          <nav className="flex items-center space-x-10">
+          <nav className="w-full sm:w-auto flex flex-wrap sm:flex-nowrap items-center gap-x-5 gap-y-2 sm:gap-x-10">
             {NAV_TABS.map((tab) => (
               <button 
                 key={tab} 
                 onClick={() => handleTabChange(tab)} 
-                className={`transition-all ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white underline underline-offset-8 decoration-[0.5px]' : 'text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
+                className={`transition-all whitespace-nowrap ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white underline underline-offset-8 decoration-[0.5px]' : 'text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
               >
                 {tab === 'ZEN' ? 'ZEN LAND' : tab}
               </button>
@@ -583,7 +583,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="pt-32 min-h-[calc(100vh-200px)]">
+      <main className="pt-10 sm:pt-16 md:pt-24 min-h-[calc(100vh-200px)]">
         {selectedArticle ? (
           <ViewArticle 
             data={selectedArticle} 
@@ -601,8 +601,8 @@ const App: React.FC = () => {
         )}
       </main>
       
-      <footer className="mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex justify-between items-center text-[9px] text-neutral-300 dark:text-neutral-600 uppercase pb-8 font-medium">
-        <div>© {new Date().getFullYear()} MYRICK WANG <span className="mx-4 opacity-20">/</span> BRISTOL EEE</div>
+      <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[9px] text-neutral-300 dark:text-neutral-600 uppercase pb-8 font-medium">
+        <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
         <button
           type="button"
           className="bg-transparent p-0 cursor-pointer hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
