@@ -198,10 +198,10 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
       <div className="w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
-        <div className="w-36 sm:w-40 md:w-36 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
+        <div className="w-[52vw] max-w-[220px] min-w-[160px] md:w-40 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
-            className="w-full h-auto object-contain p-1 opacity-100 transition-all duration-500" 
+            className="block w-full h-auto object-contain opacity-100 transition-all duration-500" 
             alt="Avatar" 
           />
         </div>

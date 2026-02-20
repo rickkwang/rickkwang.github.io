@@ -74,12 +74,13 @@
         }
 
         .page-fade-in {
-            animation: fadeIn 0.4s ease-out forwards;
+            animation: breatheIn 0.26s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+            will-change: opacity, transform;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes breatheIn {
+            from { opacity: 0.76; transform: translateY(2px) scale(0.998); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* Strictly Fixed Header with Compositor Promotion to prevent inertia shifts */
