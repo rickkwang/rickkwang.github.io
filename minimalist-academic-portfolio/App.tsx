@@ -652,7 +652,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="pt-20 sm:pt-16 md:pt-24 min-h-[calc(100vh-200px)]">
+      <main className="pt-28 sm:pt-20 md:pt-24 min-h-[calc(100vh-200px)]">
         {selectedArticle ? (
           <ViewArticle 
             data={selectedArticle} 
