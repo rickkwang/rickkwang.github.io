@@ -198,8 +198,8 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
       {/* Mobile Hero Card */}
-      <div className="md:hidden w-full border-b border-dashed border-neutral-200 dark:border-neutral-800 pb-3.5">
-        <div className="flex items-start gap-2">
+      <div className="md:hidden w-full border-b-[0.5px] border-neutral-200 dark:border-neutral-800 pb-5">
+        <div className="flex items-start gap-3">
           <div className="w-[27vw] max-w-[118px] min-w-[88px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 flex-shrink-0">
             <img
               src={PROFILE.avatar}
@@ -208,21 +208,21 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
             />
           </div>
           <div className="flex-1 min-w-0 pt-0.5">
-            <h3 className="text-[18px] leading-[1.1] font-medium text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
-            <p className="mt-0.5 text-[11px] leading-[1.2] text-neutral-500 dark:text-neutral-400 truncate">University of Bristol</p>
-            <div className="mt-1.5 grid grid-cols-5 gap-1.5 text-neutral-400 dark:text-neutral-600 max-w-[160px]">
+            <h3 className="text-[16px] leading-[1.2] font-medium text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
+            <p className="mt-1 text-[12px] leading-[1.3] text-neutral-500 dark:text-neutral-400 truncate">University of Bristol</p>
+            <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-400 dark:text-neutral-600 max-w-[172px]">
               <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="GitHub"><IconGitHub /></a>
               <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="LinkedIn"><IconLinkedIn /></a>
               <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Google Scholar"><IconScholar /></a>
               <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="X (Twitter)"><IconX /></a>
               <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Email"><IconMail /></a>
             </div>
-            <div className="mt-1.5 pt-1 border-t border-dashed border-neutral-200 dark:border-neutral-800 text-[10px] text-neutral-500 dark:text-neutral-400 leading-tight">
-              <div className="flex items-center gap-1 min-w-0">
+            <div className="mt-2.5 pt-2 border-t border-neutral-200 dark:border-neutral-800 text-[10px] text-neutral-500 dark:text-neutral-400 leading-[1.35]">
+              <div className="flex items-center gap-1.5 min-w-0">
                 <span className="scale-[0.75] origin-left"><IconLocation /></span>
                 <span className="truncate">{PROFILE.location}</span>
               </div>
-              <div className="mt-0.5 flex items-center gap-1 uppercase mono">
+              <div className="mt-1 flex items-center gap-1.5 uppercase mono">
                 <span className="scale-[0.75] origin-left"><IconClock /></span>
                 <span>LDN {time.ldn}</span>
                 <span className="opacity-30">/</span>
