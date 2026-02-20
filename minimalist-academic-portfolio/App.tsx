@@ -197,7 +197,46 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
   <div className="page-fade-in space-y-14 md:space-y-20">
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
-      <div className="w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
+      {/* Mobile Hero Card */}
+      <div className="md:hidden w-full border-b border-dashed border-neutral-200 dark:border-neutral-800 pb-6">
+        <div className="flex items-start gap-4">
+          <div className="w-[38vw] max-w-[170px] min-w-[120px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 flex-shrink-0">
+            <img
+              src={PROFILE.avatar}
+              className="block w-full h-auto object-contain opacity-100"
+              alt="Avatar"
+            />
+          </div>
+          <div className="flex-1 min-w-0 pt-1">
+            <h3 className="text-[24px] leading-[1.1] font-medium text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
+            <p className="mt-1 text-[16px] leading-[1.25] text-neutral-500 dark:text-neutral-400 truncate">University of Bristol</p>
+            <div className="mt-3 grid grid-cols-5 gap-3 text-neutral-400 dark:text-neutral-600 max-w-[220px]">
+              <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all" title="GitHub"><IconGitHub /></a>
+              <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all" title="LinkedIn"><IconLinkedIn /></a>
+              <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all" title="Google Scholar"><IconScholar /></a>
+              <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all" title="X (Twitter)"><IconX /></a>
+              <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all" title="Email"><IconMail /></a>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-5 pt-4 border-t border-dashed border-neutral-200 dark:border-neutral-800 space-y-2.5 text-[12px] text-neutral-500 dark:text-neutral-400">
+          <div className="flex items-center gap-2.5">
+            <IconLocation />
+            <span className="break-words">{PROFILE.location}</span>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <IconClock />
+            <div className="uppercase flex items-center gap-2 mono">
+              <span>LDN {time.ldn}</span>
+              <span className="opacity-30">/</span>
+              <span>BJS {time.bjs}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden md:block w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
         <div className="w-full max-w-[220px] md:max-w-[180px] mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
