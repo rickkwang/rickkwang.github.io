@@ -49,3 +49,6 @@ export interface ZenPost {
   description: string;
   content: string;
 }
+
+export type Tab = 'HOME' | 'CV' | 'PROJECTS' | 'PUBLICATIONS' | 'ZEN';
+export type Article = Project | Publication | ZenPost;
