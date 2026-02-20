@@ -200,7 +200,7 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
         <div className="w-32 h-32 thin-border bg-white dark:bg-neutral-900 overflow-hidden shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
-            className="w-full h-full object-cover grayscale opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-500" 
+            className="w-full h-full object-cover opacity-100 transition-all duration-500" 
             alt="Avatar" 
           />
         </div>
