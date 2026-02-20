@@ -8,7 +8,7 @@ export const PROFILE = {
   email: "myrickwan9@gmail.com",
   phone: "+86 15160733691",
   location: "Bristol, UK / Xiamen, China",
-  avatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Myrick&backgroundColor=d1d4f9", 
+  avatar: "/avatar.jpg",
   socials: {
     github: "github.com/rickkwang",
     linkedin: "linkedin.com/in/myrick-wang",
