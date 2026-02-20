@@ -5,6 +5,7 @@ import { Project, Publication, ZenPost } from './types';
 type Tab = 'HOME' | 'CV' | 'PROJECTS' | 'PUBLICATIONS' | 'ZEN';
 type Article = Project | Publication | ZenPost;
 const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
+const WORK_TABS: Tab[] = ['PROJECTS', 'PUBLICATIONS', 'ZEN'];
 
 // --- Monochromatic Icon Components ---
 const IconUser = () => (
@@ -197,10 +198,10 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
       <div className="w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
-        <div className="w-28 h-28 sm:w-32 sm:h-32 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 overflow-hidden shadow-sm border-neutral-200 dark:border-neutral-800">
+        <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-32 md:h-32 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 overflow-hidden shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
-            className="w-full h-full object-cover opacity-100 transition-all duration-500" 
+            className="w-full h-full object-contain p-1 opacity-100 transition-all duration-500" 
             alt="Avatar" 
           />
         </div>
@@ -480,6 +481,7 @@ const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('HOME');
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [isWorkMenuOpen, setIsWorkMenuOpen] = useState(false);
   const [time, setTime] = useState({ ldn: '', bjs: '' });
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
@@ -533,6 +535,7 @@ const App: React.FC = () => {
   const handleTabChange = (tab: Tab) => {
     setActiveTab(tab);
     setSelectedArticle(null);
+    setIsWorkMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'auto' });
     
     // Update URL Query Parameter
@@ -550,40 +553,95 @@ const App: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const isWorkActive = WORK_TABS.includes(activeTab);
+
   return (
     <div className="min-h-screen max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
       <header>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-0 py-4 sm:h-16 sm:py-0 uppercase font-medium text-[11px]">
-          <button
-            type="button"
-            className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
-            onClick={() => handleTabChange('HOME')}
-          >
-            Myrick Wang
-          </button>
-          <nav className="w-full sm:w-auto flex flex-wrap sm:flex-nowrap items-center gap-x-5 gap-y-2 sm:gap-x-10">
-            {NAV_TABS.map((tab) => (
-              <button 
-                key={tab} 
-                onClick={() => handleTabChange(tab)} 
-                className={`transition-all whitespace-nowrap ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white underline underline-offset-8 decoration-[0.5px]' : 'text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
-              >
-                {tab === 'ZEN' ? 'ZEN LAND' : tab}
-              </button>
-            ))}
-            {/* Theme Toggle Button */}
-            <button 
-              onClick={toggleTheme} 
-              className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-1"
-              aria-label="Toggle Dark Mode"
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 uppercase font-medium text-[11px]">
+          {/* Mobile Header */}
+          <div className="sm:hidden flex items-center justify-between py-4">
+            <button
+              type="button"
+              className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+              onClick={() => handleTabChange('HOME')}
             >
-              {theme === 'dark' ? <IconSun /> : <IconMoon />}
+              Myrick Wang
             </button>
-          </nav>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleTabChange('CV')}
+                className={`px-2.5 py-1.5 rounded-full border transition-all ${activeTab === 'CV' && !selectedArticle ? 'border-neutral-800 text-black dark:text-white dark:border-neutral-300' : 'border-neutral-200 text-neutral-500 dark:border-neutral-700 dark:text-neutral-500'}`}
+              >
+                CV
+              </button>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setIsWorkMenuOpen((prev) => !prev)}
+                  className={`px-2.5 py-1.5 rounded-full border transition-all inline-flex items-center gap-1 ${isWorkActive ? 'border-neutral-800 text-black dark:text-white dark:border-neutral-300' : 'border-neutral-200 text-neutral-500 dark:border-neutral-700 dark:text-neutral-500'}`}
+                >
+                  WORK
+                  <span className={`transition-transform ${isWorkMenuOpen ? 'rotate-180' : ''}`}>▾</span>
+                </button>
+                {isWorkMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-40 z-20 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-md p-1.5">
+                    {WORK_TABS.map((tab) => (
+                      <button
+                        key={tab}
+                        type="button"
+                        onClick={() => handleTabChange(tab)}
+                        className={`w-full text-left px-2 py-1.5 rounded text-[10px] uppercase transition-colors ${activeTab === tab ? 'text-black dark:text-white bg-neutral-100 dark:bg-neutral-800' : 'text-neutral-500 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'}`}
+                      >
+                        {tab === 'ZEN' ? 'ZEN LAND' : tab}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <button 
+                onClick={toggleTheme} 
+                className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-1"
+                aria-label="Toggle Dark Mode"
+              >
+                {theme === 'dark' ? <IconSun /> : <IconMoon />}
+              </button>
+            </div>
+          </div>
+
+          {/* Desktop Header */}
+          <div className="hidden sm:flex justify-between items-center h-16">
+            <button
+              type="button"
+              className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+              onClick={() => handleTabChange('HOME')}
+            >
+              Myrick Wang
+            </button>
+            <nav className="w-full sm:w-auto flex flex-wrap sm:flex-nowrap items-center gap-x-5 gap-y-2 sm:gap-x-10">
+              {NAV_TABS.map((tab) => (
+                <button 
+                  key={tab} 
+                  onClick={() => handleTabChange(tab)} 
+                  className={`transition-all whitespace-nowrap ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white underline underline-offset-8 decoration-[0.5px]' : 'text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
+                >
+                  {tab === 'ZEN' ? 'ZEN LAND' : tab}
+                </button>
+              ))}
+              <button 
+                onClick={toggleTheme} 
+                className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-1"
+                aria-label="Toggle Dark Mode"
+              >
+                {theme === 'dark' ? <IconSun /> : <IconMoon />}
+              </button>
+            </nav>
+          </div>
         </div>
       </header>
 
-      <main className="pt-10 sm:pt-16 md:pt-24 min-h-[calc(100vh-200px)]">
+      <main className="pt-8 sm:pt-16 md:pt-24 min-h-[calc(100vh-200px)]">
         {selectedArticle ? (
           <ViewArticle 
             data={selectedArticle} 
