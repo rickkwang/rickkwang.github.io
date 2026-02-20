@@ -5,7 +5,7 @@ import { Project, Publication, ZenPost } from './types';
 type Tab = 'HOME' | 'CV' | 'PROJECTS' | 'PUBLICATIONS' | 'ZEN';
 type Article = Project | Publication | ZenPost;
 const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
-const MOBILE_MENU_TABS: Tab[] = ['PROJECTS', 'PUBLICATIONS', 'ZEN'];
+const MOBILE_MENU_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
 
 // --- Monochromatic Icon Components ---
 const IconUser = () => (
@@ -198,7 +198,7 @@ const ViewHome = ({ time }: { time: { ldn: string, bjs: string } }) => (
     {/* Profile Header */}
     <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
       <div className="w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
-        <div className="w-[52vw] max-w-[220px] min-w-[160px] md:w-40 mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
+        <div className="w-full max-w-[220px] md:max-w-[180px] mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
           <img 
             src={PROFILE.avatar} 
             className="block w-full h-auto object-contain opacity-100 transition-all duration-500" 
@@ -583,13 +583,6 @@ const App: React.FC = () => {
               Myrick Wang
             </button>
             <div className="flex items-center gap-3" ref={mobileMenuRef}>
-              <button
-                type="button"
-                onClick={() => handleTabChange('CV')}
-                className={`transition-colors text-[11px] uppercase ${activeTab === 'CV' && !selectedArticle ? 'text-black dark:text-white underline underline-offset-4 decoration-[0.5px]' : 'text-neutral-500 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
-              >
-                CV
-              </button>
               <div className="relative">
                 <button
                   type="button"
@@ -604,7 +597,7 @@ const App: React.FC = () => {
                   </svg>
                 </button>
                 {isMobileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-40 z-20 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-md p-1.5">
+                  <div className="absolute right-0 mt-2 w-44 z-20 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-md p-1.5">
                     {MOBILE_MENU_TABS.map((tab) => (
                       <button
                         key={tab}
@@ -659,7 +652,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="pt-8 sm:pt-16 md:pt-24 min-h-[calc(100vh-200px)]">
+      <main className="pt-20 sm:pt-16 md:pt-24 min-h-[calc(100vh-200px)]">
         {selectedArticle ? (
           <ViewArticle 
             data={selectedArticle} 
