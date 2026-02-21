@@ -13,13 +13,24 @@ import {
 
 const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
 const MOBILE_MENU_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
+const PAGE_TRANSITION_MS = 220;
+const getInitialTab = (): Tab => {
+  if (typeof window === 'undefined') return 'HOME';
+  const query = new URLSearchParams(window.location.search).get('tab');
+  const normalized = query?.toUpperCase();
+  return normalized && NAV_TABS.includes(normalized as Tab) ? (normalized as Tab) : 'HOME';
+};
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState<Tab>('HOME');
+  const [activeTab, setActiveTab] = useState<Tab>(getInitialTab);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [renderTab, setRenderTab] = useState<Tab>(getInitialTab);
+  const [renderArticle, setRenderArticle] = useState<Article | null>(null);
+  const [isPageVisible, setIsPageVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [time, setTime] = useState<WorldTime>({ ldn: '', bjs: '' });
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const transitionTimerRef = useRef<number | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
     const savedTheme = localStorage.getItem('theme');
@@ -27,20 +38,43 @@ const App = () => {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
-  const getTabFromUrl = (): Tab => {
-    const query = new URLSearchParams(window.location.search).get('tab');
-    const normalized = query?.toUpperCase();
-    return normalized && NAV_TABS.includes(normalized as Tab) ? (normalized as Tab) : 'HOME';
-  };
+  const getTabFromUrl = (): Tab => getInitialTab();
 
   useEffect(() => {
+    const clearTimer = () => {
+      if (transitionTimerRef.current !== null) {
+        window.clearTimeout(transitionTimerRef.current);
+        transitionTimerRef.current = null;
+      }
+    };
+
+    const runTransition = (nextTab: Tab, nextArticle: Article | null, withSmoothScroll = false) => {
+      clearTimer();
+      setActiveTab(nextTab);
+      setSelectedArticle(nextArticle);
+      setIsPageVisible(false);
+
+      transitionTimerRef.current = window.setTimeout(() => {
+        setRenderTab(nextTab);
+        setRenderArticle(nextArticle);
+        if (withSmoothScroll) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+        setIsPageVisible(true);
+      }, PAGE_TRANSITION_MS);
+    };
+
     const handlePopState = () => {
-      setActiveTab(getTabFromUrl());
-      setSelectedArticle(null);
+      runTransition(getTabFromUrl(), null);
     };
     handlePopState();
     window.addEventListener('popstate', handlePopState);
-    return () => window.removeEventListener('popstate', handlePopState);
+    return () => {
+      clearTimer();
+      window.removeEventListener('popstate', handlePopState);
+    };
   }, []);
 
   useEffect(() => {
@@ -84,7 +118,7 @@ const App = () => {
     setActiveTab(tab);
     setSelectedArticle(null);
     setIsMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'auto' });
+    setIsPageVisible(false);
 
     const url = new URL(window.location.href);
     if (tab === 'HOME') {
@@ -93,11 +127,30 @@ const App = () => {
       url.searchParams.set('tab', tab);
     }
     window.history.pushState({}, '', url);
+
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
+    transitionTimerRef.current = window.setTimeout(() => {
+      setRenderTab(tab);
+      setRenderArticle(null);
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      setIsPageVisible(true);
+    }, PAGE_TRANSITION_MS);
   };
 
   const handleArticleSelect = (article: Article) => {
     setSelectedArticle(article);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setIsPageVisible(false);
+
+    if (transitionTimerRef.current !== null) {
+      window.clearTimeout(transitionTimerRef.current);
+    }
+    transitionTimerRef.current = window.setTimeout(() => {
+      setRenderArticle(article);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setIsPageVisible(true);
+    }, PAGE_TRANSITION_MS);
   };
 
   useEffect(() => {
@@ -200,20 +253,23 @@ const App = () => {
       </header>
 
       <main className="pt-28 sm:pt-20 md:pt-24 min-h-[calc(100vh-200px)]">
-        <div className="page-fade-in" key={selectedArticle ? `article-${selectedArticle.id}` : `tab-${activeTab}`}>
-          {selectedArticle ? (
+        <div
+          className={`transition-all duration-200 ease-out ${isPageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'}`}
+          style={{ transitionDuration: `${PAGE_TRANSITION_MS}ms` }}
+        >
+          {renderArticle ? (
             <ViewArticle
-              data={selectedArticle}
-              onBack={() => setSelectedArticle(null)}
+              data={renderArticle}
+              onBack={() => handleTabChange(activeTab)}
               backLabel={activeTab === 'ZEN' ? 'ZEN LAND' : activeTab}
             />
           ) : (
             <>
-              {activeTab === 'HOME' && <ViewHome time={time} />}
-              {activeTab === 'CV' && <ViewCV />}
-              {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
-              {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
-              {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
+              {renderTab === 'HOME' && <ViewHome time={time} />}
+              {renderTab === 'CV' && <ViewCV />}
+              {renderTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
+              {renderTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
+              {renderTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
             </>
           )}
         </div>
