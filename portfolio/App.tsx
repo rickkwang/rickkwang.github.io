@@ -200,21 +200,23 @@ const App = () => {
       </header>
 
       <main className="pt-28 sm:pt-20 md:pt-24 min-h-[calc(100vh-200px)]">
-        {selectedArticle ? (
-          <ViewArticle
-            data={selectedArticle}
-            onBack={() => setSelectedArticle(null)}
-            backLabel={activeTab === 'ZEN' ? 'ZEN LAND' : activeTab}
-          />
-        ) : (
-          <>
-            {activeTab === 'HOME' && <ViewHome time={time} />}
-            {activeTab === 'CV' && <ViewCV />}
-            {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
-            {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
-            {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
-          </>
-        )}
+        <div className="page-fade-in" key={selectedArticle ? `article-${selectedArticle.id}` : `tab-${activeTab}`}>
+          {selectedArticle ? (
+            <ViewArticle
+              data={selectedArticle}
+              onBack={() => setSelectedArticle(null)}
+              backLabel={activeTab === 'ZEN' ? 'ZEN LAND' : activeTab}
+            />
+          ) : (
+            <>
+              {activeTab === 'HOME' && <ViewHome time={time} />}
+              {activeTab === 'CV' && <ViewCV />}
+              {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
+              {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
+              {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
+            </>
+          )}
+        </div>
       </main>
 
       <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[9px] text-neutral-300 dark:text-neutral-600 uppercase pb-8 font-medium">
