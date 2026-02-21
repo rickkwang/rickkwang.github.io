@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => {
     const isProduction = mode === 'production';
     const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1];
     const base = isProduction
-      ? (repoName?.endsWith('.github.io') ? '/' : `/${repoName || 'academic-portfolio'}/`)
+      ? (repoName?.endsWith('.github.io') ? '/' : `/${repoName || 'portfolio'}/`)
       : '/';
     return {
       base,
