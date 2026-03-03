@@ -122,20 +122,6 @@ const HeroContent = () => (
       <p className="text-[15px] leading-relaxed text-neutral-800 dark:text-neutral-300 font-normal max-w-3xl">
         {PROFILE.bio}
       </p>
-      <div className="flex flex-wrap items-center gap-3 pt-1">
-        <a
-          href="?tab=PROJECTS"
-          className="inline-flex items-center px-3 py-1.5 text-[10px] uppercase tracking-[0.08em] border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 hover:border-neutral-900 dark:hover:border-neutral-300 transition-colors"
-        >
-          View Projects
-        </a>
-        <a
-          href="?tab=PUBLICATIONS"
-          className="inline-flex items-center px-3 py-1.5 text-[10px] uppercase tracking-[0.08em] border border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
-        >
-          Read Publications
-        </a>
-      </div>
     </div>
     <IntelligenceSection />
   </div>
