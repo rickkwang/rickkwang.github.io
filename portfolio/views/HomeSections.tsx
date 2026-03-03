@@ -25,7 +25,7 @@ interface WorldTime {
 }
 
 const SocialLinksCompact = () => (
-  <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-400 dark:text-neutral-600 max-w-[172px]">
+  <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-500 dark:text-neutral-500 max-w-[172px]">
     <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="GitHub"><IconGitHub /></a>
     <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="LinkedIn"><IconLinkedIn /></a>
     <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Google Scholar"><IconScholar /></a>
@@ -35,7 +35,7 @@ const SocialLinksCompact = () => (
 );
 
 const SocialLinksDesktop = () => (
-  <div className="grid grid-cols-5 gap-4 text-neutral-400 dark:text-neutral-600 max-w-[220px] mx-auto md:mx-0">
+  <div className="grid grid-cols-5 gap-4 text-neutral-500 dark:text-neutral-500 max-w-[220px] mx-auto md:mx-0">
     <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
     <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
     <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
@@ -55,10 +55,10 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
         />
       </div>
       <div className="redaction-50 flex-1 min-w-0 pt-0.5">
-        <h3 className="redaction-50 text-[16px] leading-[1.2] text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
-        <p className="mt-1 text-[12px] leading-[1.3] text-neutral-500 dark:text-neutral-400 truncate">University of Bristol</p>
+        <h3 className="redaction-50 text-[16px] leading-[1.2] text-neutral-950 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
+        <p className="mt-1 text-[12px] leading-[1.3] text-neutral-700 dark:text-neutral-300 truncate">University of Bristol</p>
         <SocialLinksCompact />
-        <div className="mt-2.5 pt-2 border-t-[0.5px] border-dashed border-neutral-100 dark:border-neutral-800 text-[10px] text-neutral-500 dark:text-neutral-400 leading-[1.35]">
+        <div className="mt-2.5 pt-2 border-t-[0.5px] border-dashed border-neutral-100 dark:border-neutral-800 text-[10px] text-neutral-700 dark:text-neutral-300 leading-[1.35]">
           <div className="flex items-center gap-1.5 min-w-0">
             <span className="scale-[0.75] origin-left"><IconLocation /></span>
             <span className="truncate">{PROFILE.location}</span>
@@ -86,10 +86,10 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
     </div>
 
     <div className="space-y-6">
-      <div className="redaction-50 space-y-3 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 leading-tight">
+      <div className="redaction-50 space-y-3 text-[11px] font-normal text-neutral-700 dark:text-neutral-300 leading-tight">
         <div className="flex items-start gap-2.5">
           <IconUser />
-          <span className="redaction-50 uppercase break-words text-neutral-600 dark:text-neutral-300">{PROFILE.name}</span>
+          <span className="redaction-50 uppercase break-words text-neutral-900 dark:text-neutral-100">{PROFILE.name}</span>
         </div>
         <div className="flex items-start gap-2.5">
           <IconSchool />
@@ -116,12 +116,26 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
 const HeroContent = () => (
   <div className="flex-grow space-y-10 md:space-y-12">
     <div className="space-y-6">
-      <h2 className="text-[20px] md:text-[24px] font-medium tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight">
-        Electrical & Electronic Engineering <span className="text-neutral-200 dark:text-neutral-700 mx-1.5 font-light">/</span> <span className="text-neutral-400 dark:text-neutral-500">University of Bristol</span>
+      <h2 className="text-[20px] md:text-[24px] font-medium tracking-tight-titles text-neutral-950 dark:text-neutral-100 leading-tight">
+        Electrical & Electronic Engineering <span className="text-neutral-300 dark:text-neutral-700 mx-1.5 font-light">/</span> <span className="text-neutral-600 dark:text-neutral-400">University of Bristol</span>
       </h2>
-      <p className="text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400 font-normal max-w-3xl">
+      <p className="text-[15px] leading-relaxed text-neutral-800 dark:text-neutral-300 font-normal max-w-3xl">
         {PROFILE.bio}
       </p>
+      <div className="flex flex-wrap items-center gap-3 pt-1">
+        <a
+          href="?tab=PROJECTS"
+          className="inline-flex items-center px-3 py-1.5 text-[10px] uppercase tracking-[0.08em] border border-neutral-300 dark:border-neutral-700 text-neutral-800 dark:text-neutral-200 hover:border-neutral-900 dark:hover:border-neutral-300 transition-colors"
+        >
+          View Projects
+        </a>
+        <a
+          href="?tab=PUBLICATIONS"
+          className="inline-flex items-center px-3 py-1.5 text-[10px] uppercase tracking-[0.08em] border border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200 transition-colors"
+        >
+          Read Publications
+        </a>
+      </div>
     </div>
     <IntelligenceSection />
   </div>
@@ -144,8 +158,8 @@ export const IntelligenceSection = () => (
     <div className="space-y-4">
       {NEWS.slice(0, 4).map((item, i) => (
         <div key={i} className="flex flex-col sm:flex-row sm:space-x-8 gap-1 sm:gap-0 items-start group">
-          <span className="text-[10px] text-neutral-300 dark:text-neutral-600 w-auto sm:w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
-          <p className="text-[14px] leading-relaxed flex-grow text-neutral-600 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-neutral-200 transition-colors max-w-3xl">{item.content}</p>
+          <span className="text-[10px] text-neutral-500 dark:text-neutral-500 w-auto sm:w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
+          <p className="text-[14px] leading-relaxed flex-grow text-neutral-700 dark:text-neutral-300 group-hover:text-black dark:group-hover:text-neutral-200 transition-colors max-w-3xl">{item.content}</p>
         </div>
       ))}
     </div>

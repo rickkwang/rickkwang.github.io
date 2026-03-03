@@ -174,11 +174,11 @@ const App = () => {
   return (
     <div className="min-h-screen max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
       <header>
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 uppercase font-medium text-[11px]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 font-medium text-[11px]">
           <div className="sm:hidden flex items-center justify-between py-4">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+              className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -204,7 +204,7 @@ const App = () => {
                         key={tab}
                         type="button"
                         onClick={() => handleTabChange(tab)}
-                        className={`w-full text-left px-2 py-1.5 rounded text-[10px] uppercase transition-colors ${activeTab === tab ? 'text-black dark:text-white bg-neutral-100 dark:bg-neutral-800' : 'text-neutral-500 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800'}`}
+                        className={`w-full text-left px-2 py-1.5 rounded text-[10px] uppercase tracking-[0.08em] transition-colors border-l ${activeTab === tab ? 'text-black dark:text-white bg-neutral-100 dark:bg-neutral-800 border-neutral-400 dark:border-neutral-500' : 'text-neutral-500 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 border-transparent'}`}
                       >
                         {tab === 'ZEN' ? 'ZEN LAND' : tab}
                       </button>
@@ -225,7 +225,7 @@ const App = () => {
           <div className="hidden sm:flex justify-between items-center h-16">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+              className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -235,7 +235,7 @@ const App = () => {
                 <button
                   key={tab}
                   onClick={() => handleTabChange(tab)}
-                  className={`transition-all whitespace-nowrap ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white underline underline-offset-8 decoration-[0.5px]' : 'text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white'}`}
+                  className={`transition-all whitespace-nowrap text-[11px] uppercase tracking-[0.08em] border-b pb-1 ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white border-neutral-800 dark:border-neutral-200' : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'}`}
                 >
                   {tab === 'ZEN' ? 'ZEN LAND' : tab}
                 </button>
