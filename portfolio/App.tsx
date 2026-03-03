@@ -178,7 +178,7 @@ const App = () => {
           <div className="sm:hidden flex items-center justify-between py-4">
             <button
               type="button"
-              className="redaction-50 bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+              className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -225,7 +225,7 @@ const App = () => {
           <div className="hidden sm:flex justify-between items-center h-16">
             <button
               type="button"
-              className="redaction-50 bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
+              className="bg-transparent p-0 cursor-pointer hover:opacity-50 transition-opacity text-neutral-900 dark:text-neutral-100"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang

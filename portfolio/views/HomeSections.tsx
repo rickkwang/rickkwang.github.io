@@ -54,7 +54,7 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
           alt="Avatar"
         />
       </div>
-      <div className="flex-1 min-w-0 pt-0.5">
+      <div className="redaction-50 flex-1 min-w-0 pt-0.5">
         <h3 className="redaction-50 text-[16px] leading-[1.2] text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
         <p className="mt-1 text-[12px] leading-[1.3] text-neutral-500 dark:text-neutral-400 truncate">University of Bristol</p>
         <SocialLinksCompact />
@@ -86,7 +86,7 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
     </div>
 
     <div className="space-y-6">
-      <div className="space-y-3 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 leading-tight">
+      <div className="redaction-50 space-y-3 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 leading-tight">
         <div className="flex items-start gap-2.5">
           <IconUser />
           <span className="redaction-50 uppercase break-words text-neutral-600 dark:text-neutral-300">{PROFILE.name}</span>
