@@ -140,6 +140,28 @@
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
+        /* iOS safe-area support for fixed mobile header and first-screen content */
+        .mobile-header-row {
+            padding-top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
+            padding-bottom: 0.75rem;
+        }
+
+        .app-main {
+            padding-top: calc(env(safe-area-inset-top, 0px) + 4.75rem);
+        }
+
+        @media (min-width: 640px) {
+            .app-main {
+                padding-top: 5rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .app-main {
+                padding-top: 5.5rem;
+            }
+        }
+
         /* Enforce Hard Corners for professional look */
         * { border-radius: 0 !important; }
 
@@ -150,7 +172,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #d4d4d4; }
         html.dark ::-webkit-scrollbar-thumb:hover { background: #525252; }
     </style>
-  <script type="module" crossorigin src="/assets/index-hbQX1t4n.js"></script>
+  <script type="module" crossorigin src="/assets/index-BNGer_su.js"></script>
 </head>
 <body>
     <div id="root"></div>
