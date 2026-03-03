@@ -45,7 +45,7 @@ const SocialLinksDesktop = () => (
 );
 
 const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
-  <div className="md:hidden w-full border-b-[0.5px] border-dashed border-neutral-100 dark:border-neutral-800 pb-5">
+  <div className="md:hidden w-full pb-5">
     <div className="flex items-start gap-3">
       <div className="w-[27vw] max-w-[118px] min-w-[88px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 flex-shrink-0">
         <img
@@ -58,7 +58,7 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
         <h3 className="redaction-50 text-[16px] leading-[1.2] text-neutral-950 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
         <p className="mt-1 text-[12px] leading-[1.3] text-neutral-700 dark:text-neutral-300 truncate">University of Bristol</p>
         <SocialLinksCompact />
-        <div className="mt-2.5 pt-2 border-t-[0.5px] border-dashed border-neutral-100 dark:border-neutral-800 text-[10px] text-neutral-700 dark:text-neutral-300 leading-[1.35]">
+        <div className="mt-2.5 pt-2 text-[10px] text-neutral-700 dark:text-neutral-300 leading-[1.35]">
           <div className="flex items-center gap-1.5 min-w-0">
             <span className="scale-[0.75] origin-left"><IconLocation /></span>
             <span className="truncate">{PROFILE.location}</span>
@@ -116,7 +116,7 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
 const HeroContent = () => (
   <div className="flex-grow space-y-10 md:space-y-12">
     <div className="space-y-6">
-      <h2 className="text-[20px] md:text-[24px] font-medium tracking-tight-titles text-neutral-950 dark:text-neutral-100 leading-tight">
+      <h2 className="text-[21px] md:text-[26px] font-medium tracking-tight-titles text-neutral-950 dark:text-neutral-100 leading-tight">
         Electrical & Electronic Engineering <span className="text-neutral-300 dark:text-neutral-700 mx-1.5 font-light">/</span> <span className="text-neutral-600 dark:text-neutral-400">University of Bristol</span>
       </h2>
       <p className="text-[15px] leading-relaxed text-neutral-800 dark:text-neutral-300 font-normal max-w-3xl">
@@ -139,7 +139,6 @@ export const IntelligenceSection = () => (
   <div className="space-y-6">
     <div className="flex items-center space-x-4">
       <h4 className="text-[10px] font-medium text-neutral-400 dark:text-neutral-500 uppercase">Intelligence</h4>
-      <div className="h-[0.5px] bg-neutral-100 dark:bg-neutral-800 flex-grow"></div>
     </div>
     <div className="space-y-4">
       {NEWS.slice(0, 4).map((item, i) => (
@@ -158,7 +157,7 @@ export const ResearchSection = () => (
     <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
       {FOCUS_AREAS.map((area, i) => (
         <div key={i} className="flex items-baseline space-x-4">
-          <span className="text-[11px] text-neutral-300 dark:text-neutral-600 mono font-medium">{(i + 1).toString().padStart(2, '0')}</span>
+          <span className="text-[11px] text-neutral-500 dark:text-neutral-500 mono font-medium">{(i + 1).toString().padStart(2, '0')}</span>
           <span className="text-[15px] sm:text-[16px] font-normal text-neutral-900 dark:text-neutral-200">{area}</span>
         </div>
       ))}
@@ -175,12 +174,12 @@ export const AcademicSection = () => (
           <div key={i} className="group">
             <div className="flex flex-col sm:flex-row justify-between items-baseline gap-1 mb-2">
               <h3 className="text-[16px] font-medium text-neutral-900 dark:text-neutral-200">{edu.institution}</h3>
-              <span className="text-[10px] text-neutral-400 dark:text-neutral-500 mono uppercase">{edu.period}</span>
+              <span className="text-[10px] text-neutral-500 dark:text-neutral-500 mono uppercase">{edu.period}</span>
             </div>
             <div className="space-y-1">
-              <p className="text-[14px] text-neutral-600 dark:text-neutral-400 leading-relaxed">{edu.degree}</p>
+              <p className="text-[14px] text-neutral-700 dark:text-neutral-300 leading-relaxed">{edu.degree}</p>
               {edu.details && (
-                <p className="text-[13px] text-neutral-400 dark:text-neutral-500 leading-relaxed max-w-3xl">{edu.details}</p>
+                <p className="text-[13px] text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">{edu.details}</p>
               )}
             </div>
           </div>
@@ -188,17 +187,16 @@ export const AcademicSection = () => (
 
         {EXPERIENCES.length > 0 && (
           <>
-            <div className="h-[0.5px] w-full bg-neutral-100 dark:bg-neutral-800 my-8"></div>
             {EXPERIENCES.map((exp, i) => (
               <div key={i} className="space-y-4">
                 <div className="flex flex-col sm:flex-row justify-between items-baseline gap-2">
-                  <p className="text-[18px] font-normal text-neutral-900 dark:text-neutral-200">{exp.company}</p>
-                  <span className="text-[10px] text-neutral-400 dark:text-neutral-500 mono uppercase">{exp.period}</span>
+                  <h3 className="text-[16px] font-medium text-neutral-900 dark:text-neutral-200">{exp.company}</h3>
+                  <span className="text-[10px] text-neutral-500 dark:text-neutral-500 mono uppercase">{exp.period}</span>
                 </div>
-                <p className="text-[15px] text-neutral-500 dark:text-neutral-400 font-normal">{exp.role}</p>
+                <p className="text-[15px] text-neutral-700 dark:text-neutral-300 font-normal">{exp.role}</p>
                 <ul className="space-y-2">
                   {exp.description.map((desc, j) => (
-                    <li key={j} className="text-[14px] text-neutral-400 dark:text-neutral-500 flex items-start gap-4">
+                    <li key={j} className="text-[14px] text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
                       <span className="mt-2.5 w-1.5 h-[0.5px] bg-neutral-300 dark:bg-neutral-600 flex-shrink-0"></span>
                       <span className="leading-relaxed max-w-3xl">{desc}</span>
                     </li>
@@ -219,14 +217,14 @@ export const LogisticsSection = () => (
     <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
       {PROFICIENCY.map((group, i) => (
         <div key={i} className="space-y-6">
-          <h4 className="text-[10px] font-medium text-neutral-300 dark:text-neutral-600 uppercase border-b-[0.5px] border-neutral-100 dark:border-neutral-800 pb-2 mb-6">
+          <h4 className="text-[10px] font-medium text-neutral-500 dark:text-neutral-500 uppercase pb-2 mb-4">
             {group.category}
           </h4>
           <div className="space-y-5">
             {group.skills.map((skill, j) => (
               <div key={j} className="space-y-0.5">
                 <p className="text-[14px] font-normal text-neutral-900 dark:text-neutral-200">{skill.name}</p>
-                <p className="text-[13px] leading-normal text-neutral-500 dark:text-neutral-400 max-w-xs">{skill.desc}</p>
+                <p className="text-[13px] leading-normal text-neutral-600 dark:text-neutral-400 max-w-xs">{skill.desc}</p>
               </div>
             ))}
           </div>

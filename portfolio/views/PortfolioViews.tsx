@@ -103,12 +103,12 @@ export const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => voi
               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
                 {project.title}
               </h3>
-              <span className="text-[11px] sm:text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{project.year}</span>
+              <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{project.year}</span>
             </div>
 
             <div className="flex flex-wrap gap-2.5">
               {project.tech.map((t) => (
-                <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-neutral-200 dark:border-neutral-700 text-neutral-500 dark:text-neutral-400 uppercase">{t}</span>
+                <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 uppercase">{t}</span>
               ))}
             </div>
 
@@ -136,14 +136,14 @@ export const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) =>
               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
                 {pub.title}
               </h3>
-              <span className="text-[11px] sm:text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{pub.year}</span>
+              <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{pub.year}</span>
             </div>
 
             <div className="space-y-2">
-              <p className="text-[12px] text-neutral-500 dark:text-neutral-400 uppercase font-medium">{pub.authors}</p>
+              <p className="text-[12px] text-neutral-600 dark:text-neutral-400 uppercase font-medium">{pub.authors}</p>
               <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                <p className="text-[12px] text-neutral-400 dark:text-neutral-500 italic">{pub.venue}</p>
-                <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-400 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
+                <p className="text-[12px] text-neutral-600 dark:text-neutral-400 italic">{pub.venue}</p>
+                <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
               </div>
             </div>
           </button>
@@ -169,7 +169,7 @@ export const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void })
               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
                 {post.title}
               </h3>
-              <span className="text-[11px] sm:text-[12px] mono text-neutral-300 dark:text-neutral-600 font-medium whitespace-nowrap">{post.date}</span>
+              <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{post.date}</span>
             </div>
             <p className="text-[14px] text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-3xl">{post.description}</p>
           </button>
