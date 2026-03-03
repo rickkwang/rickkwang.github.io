@@ -26,25 +26,25 @@ interface WorldTime {
 
 const SocialLinksCompact = () => (
   <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-600 dark:text-neutral-400 max-w-[172px]">
-    <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="GitHub"><IconGitHub /></a>
-    <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="LinkedIn"><IconLinkedIn /></a>
-    <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Google Scholar"><IconScholar /></a>
-    <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="X (Twitter)"><IconX /></a>
-    <a href={`mailto:${PROFILE.email}`} className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Email"><IconMail /></a>
+    <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="GitHub"><IconGitHub /></a>
+    <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="LinkedIn"><IconLinkedIn /></a>
+    <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Google Scholar"><IconScholar /></a>
+    <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="X (Twitter)"><IconX /></a>
+    <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Email"><IconMail /></a>
   </div>
 );
 
 const SocialLinksDesktop = () => (
   <div className="grid grid-cols-5 gap-4 text-neutral-600 dark:text-neutral-400 max-w-[220px] mx-auto md:mx-0">
-    <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
-    <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
-    <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
-    <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="X (Twitter)"><IconX /></a>
-    <a href={`mailto:${PROFILE.email}`} className="ink-link hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Email"><IconMail /></a>
+    <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
+    <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
+    <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
+    <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="X (Twitter)"><IconX /></a>
+    <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Email"><IconMail /></a>
   </div>
 );
 
-const MobileProfileBlock = ({ time, isTimePulseActive }: { time: WorldTime; isTimePulseActive: boolean }) => (
+const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
   <div className="md:hidden w-full pb-5">
     <div className="flex items-start gap-3">
       <div className="w-[27vw] max-w-[118px] min-w-[88px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 flex-shrink-0">
@@ -66,7 +66,7 @@ const MobileProfileBlock = ({ time, isTimePulseActive }: { time: WorldTime; isTi
           <div className="mt-1 flex items-center gap-1.5 uppercase">
             <span className="scale-[0.75] origin-left"><IconClock /></span>
             <span>LDN {time.ldn}</span>
-            <span className={`time-pulse-dot ${isTimePulseActive ? 'is-pulsing' : ''}`}>/</span>
+            <span className="opacity-30">/</span>
             <span>BJS {time.bjs}</span>
           </div>
         </div>
@@ -75,7 +75,7 @@ const MobileProfileBlock = ({ time, isTimePulseActive }: { time: WorldTime; isTi
   </div>
 );
 
-const DesktopProfileBlock = ({ time, isTimePulseActive }: { time: WorldTime; isTimePulseActive: boolean }) => (
+const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
   <div className="hidden md:block w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
     <div className="w-full max-w-[220px] md:max-w-[180px] mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
       <img
@@ -103,7 +103,7 @@ const DesktopProfileBlock = ({ time, isTimePulseActive }: { time: WorldTime; isT
           <IconClock />
           <div className="uppercase flex flex-wrap items-center gap-y-1">
             <span>LDN {time.ldn}</span>
-            <span className={`mx-1.5 time-pulse-dot ${isTimePulseActive ? 'is-pulsing' : ''}`}>•</span>
+            <span className="mx-1.5 opacity-30">•</span>
             <span>BJS {time.bjs}</span>
           </div>
         </div>
@@ -127,10 +127,10 @@ const HeroContent = () => (
   </div>
 );
 
-export const HeroSection = ({ time, isTimePulseActive }: { time: WorldTime; isTimePulseActive: boolean }) => (
+export const HeroSection = ({ time }: { time: WorldTime }) => (
   <section className="flex flex-col md:flex-row gap-10 md:gap-24 lg:gap-32">
-    <MobileProfileBlock time={time} isTimePulseActive={isTimePulseActive} />
-    <DesktopProfileBlock time={time} isTimePulseActive={isTimePulseActive} />
+    <MobileProfileBlock time={time} />
+    <DesktopProfileBlock time={time} />
     <HeroContent />
   </section>
 );

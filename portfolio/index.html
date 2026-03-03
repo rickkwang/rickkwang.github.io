@@ -125,44 +125,6 @@
             to { opacity: 1; }
         }
 
-        @keyframes dotPulse {
-            0% { opacity: 0.35; transform: scale(0.92); }
-            35% { opacity: 1; transform: scale(1.08); }
-            100% { opacity: 0.35; transform: scale(0.92); }
-        }
-
-        .time-pulse-dot {
-            display: inline-block;
-            transform-origin: center;
-            opacity: 0.35;
-        }
-
-        .time-pulse-dot.is-pulsing {
-            animation: dotPulse 220ms ease-out;
-        }
-
-        .ink-link {
-            position: relative;
-            text-decoration: none;
-        }
-
-        .ink-link::after {
-            content: "";
-            position: absolute;
-            left: 50%;
-            bottom: -1px;
-            width: 0;
-            height: 1px;
-            background: currentColor;
-            opacity: 0.75;
-            transform: translateX(-50%);
-            transition: width 180ms ease;
-        }
-
-        .ink-link:hover::after {
-            width: 100%;
-        }
-
         /* Strictly Fixed Header with Compositor Promotion to prevent inertia shifts */
         header {
             position: fixed;
