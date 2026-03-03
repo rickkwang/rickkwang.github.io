@@ -55,7 +55,7 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
         />
       </div>
       <div className="flex-1 min-w-0 pt-0.5">
-        <h3 className="text-[16px] leading-[1.2] font-medium text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
+        <h3 className="redaction-50 text-[16px] leading-[1.2] text-neutral-900 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
         <p className="mt-1 text-[12px] leading-[1.3] text-neutral-500 dark:text-neutral-400 truncate">University of Bristol</p>
         <SocialLinksCompact />
         <div className="mt-2.5 pt-2 border-t-[0.5px] border-dashed border-neutral-100 dark:border-neutral-800 text-[10px] text-neutral-500 dark:text-neutral-400 leading-[1.35]">
@@ -89,7 +89,7 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
       <div className="space-y-3 text-[11px] font-normal text-neutral-500 dark:text-neutral-400 leading-tight">
         <div className="flex items-start gap-2.5">
           <IconUser />
-          <span className="uppercase break-words text-neutral-600 dark:text-neutral-300 font-medium">{PROFILE.name}</span>
+          <span className="redaction-50 uppercase break-words text-neutral-600 dark:text-neutral-300">{PROFILE.name}</span>
         </div>
         <div className="flex items-start gap-2.5">
           <IconSchool />
