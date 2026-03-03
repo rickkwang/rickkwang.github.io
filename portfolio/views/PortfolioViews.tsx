@@ -57,7 +57,7 @@ export const ViewHome = ({ time }: { time: WorldTime }) => (
 );
 
 export const ViewCV = () => (
-  <div className="page-fade-in pb-32">
+  <div className="work-sans page-fade-in pb-32">
     <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
       <div className="text-center space-y-6">
         <div className="space-y-2">
@@ -65,7 +65,7 @@ export const ViewCV = () => (
           <p className="text-sm text-neutral-500 dark:text-neutral-400 uppercase">{PROFILE.title}</p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-neutral-500 dark:text-neutral-400 font-mono">
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-neutral-500 dark:text-neutral-400">
           <span>{PROFILE.email}</span>
           <span>{PROFILE.phone}</span>
           <span>{PROFILE.location}</span>
