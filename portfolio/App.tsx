@@ -29,8 +29,13 @@ const App = () => {
   const [isPageVisible, setIsPageVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [time, setTime] = useState<WorldTime>({ ldn: '', bjs: '' });
+  const [isTimePulseActive, setIsTimePulseActive] = useState(false);
+  const [showEasterToast, setShowEasterToast] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const transitionTimerRef = useRef<number | null>(null);
+  const clickResetTimerRef = useRef<number | null>(null);
+  const toastTimerRef = useRef<number | null>(null);
+  const homeNameClickCountRef = useRef(0);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
     const savedTheme = localStorage.getItem('theme');
@@ -107,11 +112,20 @@ const App = () => {
           hour12: false,
         }),
       });
+      setIsTimePulseActive(true);
+      window.setTimeout(() => setIsTimePulseActive(false), 240);
     };
 
     updateTime();
     const interval = setInterval(updateTime, 60000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (clickResetTimerRef.current !== null) window.clearTimeout(clickResetTimerRef.current);
+      if (toastTimerRef.current !== null) window.clearTimeout(toastTimerRef.current);
+    };
   }, []);
 
   const handleTabChange = (tab: Tab) => {
@@ -171,6 +185,27 @@ const App = () => {
     };
   }, [isMobileMenuOpen]);
 
+  const handleNameClick = () => {
+    handleTabChange('HOME');
+    homeNameClickCountRef.current += 1;
+
+    if (clickResetTimerRef.current !== null) window.clearTimeout(clickResetTimerRef.current);
+    clickResetTimerRef.current = window.setTimeout(() => {
+      homeNameClickCountRef.current = 0;
+      clickResetTimerRef.current = null;
+    }, 800);
+
+    if (homeNameClickCountRef.current >= 3) {
+      homeNameClickCountRef.current = 0;
+      setShowEasterToast(true);
+      if (toastTimerRef.current !== null) window.clearTimeout(toastTimerRef.current);
+      toastTimerRef.current = window.setTimeout(() => {
+        setShowEasterToast(false);
+        toastTimerRef.current = null;
+      }, 2000);
+    }
+  };
+
   return (
     <div className="min-h-screen max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
       <header>
@@ -179,7 +214,7 @@ const App = () => {
             <button
               type="button"
               className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100"
-              onClick={() => handleTabChange('HOME')}
+              onClick={handleNameClick}
             >
               Myrick Wang
             </button>
@@ -191,11 +226,11 @@ const App = () => {
                   className="text-neutral-500 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-0.5"
                   aria-label="Open navigation menu"
                 >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                    <path d="M4 7h16" />
-                    <path d="M4 12h16" />
-                    <path d="M4 17h16" />
-                  </svg>
+                  <span className="relative block w-4 h-4" aria-hidden="true">
+                    <span className={`absolute left-0 top-[3px] h-[1.5px] w-4 bg-current transition-all duration-200 ${isMobileMenuOpen ? 'top-[7px] rotate-45' : ''}`}></span>
+                    <span className={`absolute left-0 top-[7px] h-[1.5px] w-4 bg-current transition-all duration-150 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                    <span className={`absolute left-0 top-[11px] h-[1.5px] w-4 bg-current transition-all duration-200 ${isMobileMenuOpen ? 'top-[7px] -rotate-45' : ''}`}></span>
+                  </span>
                 </button>
                 {isMobileMenuOpen && (
                   <div className="absolute right-0 mt-2 w-44 z-20 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 shadow-lg rounded-md p-1.5">
@@ -226,7 +261,7 @@ const App = () => {
             <button
               type="button"
               className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100"
-              onClick={() => handleTabChange('HOME')}
+              onClick={handleNameClick}
             >
               Myrick Wang
             </button>
@@ -265,7 +300,7 @@ const App = () => {
             />
           ) : (
             <>
-              {renderTab === 'HOME' && <ViewHome time={time} />}
+              {renderTab === 'HOME' && <ViewHome time={time} isTimePulseActive={isTimePulseActive} />}
               {renderTab === 'CV' && <ViewCV />}
               {renderTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
               {renderTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
@@ -274,6 +309,14 @@ const App = () => {
           )}
         </div>
       </main>
+
+      {showEasterToast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[10000] pointer-events-none">
+          <div className="px-3 py-1.5 text-[10px] uppercase tracking-[0.08em] text-neutral-100 bg-neutral-900/90 dark:bg-neutral-100/90 dark:text-neutral-900 border border-neutral-700 dark:border-neutral-300">
+            Signal locked.
+          </div>
+        </div>
+      )}
 
       <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-neutral-500 dark:text-neutral-400 uppercase pb-8 font-medium tracking-[0.04em]">
         <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>

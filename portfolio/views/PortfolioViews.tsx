@@ -47,9 +47,9 @@ export const ViewArticle = ({ data, onBack, backLabel }: ArticleProps) => {
   );
 };
 
-export const ViewHome = ({ time }: { time: WorldTime }) => (
+export const ViewHome = ({ time, isTimePulseActive }: { time: WorldTime; isTimePulseActive: boolean }) => (
   <div className="page-fade-in space-y-16 md:space-y-20">
-    <HeroSection time={time} />
+    <HeroSection time={time} isTimePulseActive={isTimePulseActive} />
     <ResearchSection />
     <AcademicSection />
     <LogisticsSection />

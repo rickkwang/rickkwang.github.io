@@ -25,7 +25,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
           href={match[2]}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-neutral-900 dark:text-neutral-200 border-b border-neutral-300 dark:border-neutral-600 hover:border-black dark:hover:border-white transition-colors"
+          className="ink-link text-neutral-900 dark:text-neutral-200 border-b border-neutral-300 dark:border-neutral-600 hover:border-black dark:hover:border-white transition-colors"
         >
           {match[1]}
         </a>
