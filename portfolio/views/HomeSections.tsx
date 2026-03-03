@@ -63,7 +63,7 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
             <span className="scale-[0.75] origin-left"><IconLocation /></span>
             <span className="truncate">{PROFILE.location}</span>
           </div>
-          <div className="mt-1 flex items-center gap-1.5 uppercase mono">
+          <div className="mt-1 flex items-center gap-1.5 uppercase">
             <span className="scale-[0.75] origin-left"><IconClock /></span>
             <span>LDN {time.ldn}</span>
             <span className="opacity-30">/</span>
@@ -101,7 +101,7 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
         </div>
         <div className="flex items-start gap-2.5">
           <IconClock />
-          <div className="uppercase flex flex-wrap items-center gap-y-1 mono">
+          <div className="uppercase flex flex-wrap items-center gap-y-1">
             <span>LDN {time.ldn}</span>
             <span className="mx-1.5 opacity-30">•</span>
             <span>BJS {time.bjs}</span>
