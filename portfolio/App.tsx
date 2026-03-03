@@ -175,7 +175,7 @@ const App = () => {
     <div className="min-h-screen max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
       <header>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 md:px-12 font-medium text-[11px]">
-          <div className="sm:hidden flex items-center justify-between py-4">
+          <div className="sm:hidden mobile-header-row flex items-center justify-between">
             <button
               type="button"
               className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100"
@@ -252,7 +252,7 @@ const App = () => {
         </div>
       </header>
 
-      <main className="pt-26 sm:pt-20 md:pt-22 min-h-[calc(100vh-200px)]">
+      <main className="app-main min-h-[calc(100vh-200px)]">
         <div
           className={`transition-all duration-200 ease-out ${isPageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'}`}
           style={{ transitionDuration: `${PAGE_TRANSITION_MS}ms` }}
