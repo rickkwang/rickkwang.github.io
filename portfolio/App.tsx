@@ -252,7 +252,7 @@ const App = () => {
         </div>
       </header>
 
-      <main className="pt-28 sm:pt-20 md:pt-24 min-h-[calc(100vh-200px)]">
+      <main className="pt-26 sm:pt-20 md:pt-22 min-h-[calc(100vh-200px)]">
         <div
           className={`transition-all duration-200 ease-out ${isPageVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1 pointer-events-none'}`}
           style={{ transitionDuration: `${PAGE_TRANSITION_MS}ms` }}
@@ -275,11 +275,11 @@ const App = () => {
         </div>
       </main>
 
-      <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[9px] text-neutral-300 dark:text-neutral-600 uppercase pb-8 font-medium">
+      <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-neutral-500 dark:text-neutral-400 uppercase pb-8 font-medium tracking-[0.04em]">
         <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
         <button
           type="button"
-          className="bg-transparent p-0 cursor-pointer hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
+          className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           INDEX <span>↑</span>

@@ -48,7 +48,7 @@ export const ViewArticle = ({ data, onBack, backLabel }: ArticleProps) => {
 };
 
 export const ViewHome = ({ time }: { time: WorldTime }) => (
-  <div className="page-fade-in space-y-14 md:space-y-20">
+  <div className="page-fade-in space-y-16 md:space-y-20">
     <HeroSection time={time} />
     <ResearchSection />
     <AcademicSection />
@@ -97,7 +97,7 @@ export const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => voi
             type="button"
             key={project.id}
             onClick={() => onSelect(project)}
-            className="w-full text-left bg-transparent cursor-pointer py-8 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-9 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
@@ -112,7 +112,7 @@ export const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => voi
               ))}
             </div>
 
-            <p className="text-[15px] leading-relaxed text-neutral-600 dark:text-neutral-400 max-w-3xl">{project.description}</p>
+            <p className="text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300 max-w-3xl">{project.description}</p>
           </button>
         ))}
       </div>
@@ -130,7 +130,7 @@ export const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) =>
             type="button"
             key={pub.id}
             onClick={() => onSelect(pub)}
-            className="w-full text-left bg-transparent cursor-pointer py-8 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-9 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
@@ -140,9 +140,9 @@ export const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) =>
             </div>
 
             <div className="space-y-2">
-              <p className="text-[12px] text-neutral-600 dark:text-neutral-400 uppercase font-medium">{pub.authors}</p>
+              <p className="text-[12px] text-neutral-700 dark:text-neutral-300 uppercase font-medium">{pub.authors}</p>
               <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                <p className="text-[12px] text-neutral-600 dark:text-neutral-400 italic">{pub.venue}</p>
+                <p className="text-[12px] text-neutral-700 dark:text-neutral-300 italic">{pub.venue}</p>
                 <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
               </div>
             </div>
@@ -163,7 +163,7 @@ export const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void })
             type="button"
             key={post.id}
             onClick={() => onSelect(post)}
-            className="w-full text-left bg-transparent cursor-pointer py-8 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
+            className="w-full text-left bg-transparent cursor-pointer py-9 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
               <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
@@ -171,7 +171,7 @@ export const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void })
               </h3>
               <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{post.date}</span>
             </div>
-            <p className="text-[14px] text-neutral-500 dark:text-neutral-400 leading-relaxed max-w-3xl">{post.description}</p>
+            <p className="text-[14px] text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-3xl">{post.description}</p>
           </button>
         ))}
       </div>

@@ -43,10 +43,10 @@ const MarkdownContent = ({ content }: { content: string }) => {
   const parseLine = (line: string) => parseLinks(line);
 
   const codeBlockStyle = "font-mono text-[13px] bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 p-4 block w-full whitespace-pre overflow-x-auto my-6 text-neutral-700 dark:text-neutral-300";
-  const blockQuoteStyle = "border-l-2 border-neutral-300 dark:border-neutral-700 pl-4 italic text-neutral-900 dark:text-neutral-200 my-6 font-normal";
+  const blockQuoteStyle = "border-l-2 border-neutral-300 dark:border-neutral-700 pl-4 italic text-neutral-800 dark:text-neutral-200 my-6 font-normal";
 
   return (
-    <div className="work-sans prose max-w-none text-neutral-900 dark:text-neutral-200 leading-7 font-normal">
+    <div className="work-sans prose max-w-none text-neutral-800 dark:text-neutral-200 leading-7 font-normal">
       {content.split('\n').map((line, i) => {
         const trimmed = line.trim();
         if (trimmed === '') return <div key={i} className="h-3" />;
@@ -61,14 +61,14 @@ const MarkdownContent = ({ content }: { content: string }) => {
         }
         if (trimmed.startsWith('## ')) {
           return (
-            <h2 key={i} className="text-[11px] uppercase font-medium text-neutral-400 dark:text-neutral-500 mt-12 mb-6 pb-2 border-b border-neutral-100 dark:border-neutral-800">
+            <h2 key={i} className="text-[12px] uppercase font-medium text-neutral-500 dark:text-neutral-400 mt-12 mb-6 pb-2 border-b border-neutral-100 dark:border-neutral-800 tracking-[0.06em]">
               {parseLine(trimmed.replace('## ', ''))}
             </h2>
           );
         }
         if (trimmed.startsWith('### ')) {
           return (
-            <h3 key={i} className="text-[16px] font-medium text-neutral-900 dark:text-neutral-200 mt-6 mb-2">
+            <h3 key={i} className="text-[17px] font-medium text-neutral-900 dark:text-neutral-200 mt-6 mb-2">
               {parseLine(trimmed.replace('### ', ''))}
             </h3>
           );
@@ -83,7 +83,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
           return (
             <div key={i} className="flex items-start gap-3 ml-1 mb-2">
               <span className="mt-2.5 w-1 h-1 rounded-full bg-neutral-300 dark:bg-neutral-600 flex-shrink-0"></span>
-              <div className="text-[15px] leading-relaxed text-neutral-900 dark:text-neutral-200 font-normal">{parseLine(listContent)}</div>
+              <div className="text-[15px] leading-relaxed text-neutral-800 dark:text-neutral-200 font-normal">{parseLine(listContent)}</div>
             </div>
           );
         }
@@ -93,7 +93,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
           return <div key={i} className={codeBlockStyle}>{line}</div>;
         }
 
-        return <p key={i} className="text-[15px] leading-relaxed mb-3 text-neutral-900 dark:text-neutral-200 font-normal">{parseLine(trimmed)}</p>;
+        return <p key={i} className="text-[15px] leading-relaxed mb-3 text-neutral-800 dark:text-neutral-200 font-normal">{parseLine(trimmed)}</p>;
       })}
     </div>
   );

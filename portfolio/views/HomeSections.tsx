@@ -25,7 +25,7 @@ interface WorldTime {
 }
 
 const SocialLinksCompact = () => (
-  <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-500 dark:text-neutral-500 max-w-[172px]">
+  <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-600 dark:text-neutral-400 max-w-[172px]">
     <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="GitHub"><IconGitHub /></a>
     <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="LinkedIn"><IconLinkedIn /></a>
     <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Google Scholar"><IconScholar /></a>
@@ -35,7 +35,7 @@ const SocialLinksCompact = () => (
 );
 
 const SocialLinksDesktop = () => (
-  <div className="grid grid-cols-5 gap-4 text-neutral-500 dark:text-neutral-500 max-w-[220px] mx-auto md:mx-0">
+  <div className="grid grid-cols-5 gap-4 text-neutral-600 dark:text-neutral-400 max-w-[220px] mx-auto md:mx-0">
     <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
     <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
     <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
@@ -86,7 +86,7 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
     </div>
 
     <div className="space-y-6">
-      <div className="redaction-50 space-y-3 text-[11px] font-normal text-neutral-700 dark:text-neutral-300 leading-tight">
+      <div className="redaction-50 space-y-3 text-[12px] font-normal text-neutral-700 dark:text-neutral-300 leading-tight">
         <div className="flex items-start gap-2.5">
           <IconUser />
           <span className="redaction-50 uppercase break-words text-neutral-900 dark:text-neutral-100">{PROFILE.name}</span>
@@ -138,13 +138,13 @@ export const HeroSection = ({ time }: { time: WorldTime }) => (
 export const IntelligenceSection = () => (
   <div className="space-y-6">
     <div className="flex items-center space-x-4">
-      <h4 className="text-[10px] font-medium text-neutral-400 dark:text-neutral-500 uppercase">Intelligence</h4>
+      <h4 className="text-[11px] font-medium text-neutral-500 dark:text-neutral-400 uppercase tracking-[0.06em]">Intelligence</h4>
     </div>
     <div className="space-y-4">
       {NEWS.slice(0, 4).map((item, i) => (
         <div key={i} className="flex flex-col sm:flex-row sm:space-x-8 gap-1 sm:gap-0 items-start group">
-          <span className="text-[10px] text-neutral-500 dark:text-neutral-500 w-auto sm:w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
-          <p className="text-[14px] leading-relaxed flex-grow text-neutral-700 dark:text-neutral-300 group-hover:text-black dark:group-hover:text-neutral-200 transition-colors max-w-3xl">{item.content}</p>
+          <span className="text-[11px] text-neutral-500 dark:text-neutral-400 w-auto sm:w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
+          <p className="text-[15px] leading-relaxed flex-grow text-neutral-800 dark:text-neutral-300 group-hover:text-black dark:group-hover:text-neutral-200 transition-colors max-w-3xl">{item.content}</p>
         </div>
       ))}
     </div>
@@ -152,7 +152,7 @@ export const IntelligenceSection = () => (
 );
 
 export const ResearchSection = () => (
-  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
+  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
     <SectionHeader title="Research" />
     <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
       {FOCUS_AREAS.map((area, i) => (
@@ -166,20 +166,20 @@ export const ResearchSection = () => (
 );
 
 export const AcademicSection = () => (
-  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
+  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
     <SectionHeader title="Academic" />
-    <div className="flex-grow">
-      <div className="space-y-8">
+    <div className="flex-grow max-w-4xl">
+      <div className="space-y-10">
         {EDUCATION.map((edu, i) => (
-          <div key={i} className="group">
-            <div className="flex flex-col sm:flex-row justify-between items-baseline gap-1 mb-2">
+          <div key={i} className="space-y-2.5">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-1.5">
               <h3 className="text-[16px] font-medium text-neutral-900 dark:text-neutral-200">{edu.institution}</h3>
               <span className="text-[10px] text-neutral-500 dark:text-neutral-500 mono uppercase">{edu.period}</span>
             </div>
-            <div className="space-y-1">
-              <p className="text-[14px] text-neutral-700 dark:text-neutral-300 leading-relaxed">{edu.degree}</p>
+            <div className="space-y-1.5">
+              <p className="text-[15px] text-neutral-700 dark:text-neutral-300 leading-relaxed">{edu.degree}</p>
               {edu.details && (
-                <p className="text-[13px] text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">{edu.details}</p>
+                <p className="text-[14px] text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-3xl">{edu.details}</p>
               )}
             </div>
           </div>
@@ -188,18 +188,15 @@ export const AcademicSection = () => (
         {EXPERIENCES.length > 0 && (
           <>
             {EXPERIENCES.map((exp, i) => (
-              <div key={i} className="space-y-4">
-                <div className="flex flex-col sm:flex-row justify-between items-baseline gap-2">
+              <div key={i} className="space-y-3">
+                <div className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-1.5">
                   <h3 className="text-[16px] font-medium text-neutral-900 dark:text-neutral-200">{exp.company}</h3>
                   <span className="text-[10px] text-neutral-500 dark:text-neutral-500 mono uppercase">{exp.period}</span>
                 </div>
                 <p className="text-[15px] text-neutral-700 dark:text-neutral-300 font-normal">{exp.role}</p>
-                <ul className="space-y-2">
+                <ul className="list-disc pl-6 space-y-1.5 marker:text-neutral-400 dark:marker:text-neutral-600">
                   {exp.description.map((desc, j) => (
-                    <li key={j} className="text-[14px] text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
-                      <span className="mt-2.5 w-1.5 h-[0.5px] bg-neutral-300 dark:bg-neutral-600 flex-shrink-0"></span>
-                      <span className="leading-relaxed max-w-3xl">{desc}</span>
-                    </li>
+                    <li key={j} className="text-[14px] text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-3xl">{desc}</li>
                   ))}
                 </ul>
               </div>
@@ -212,19 +209,19 @@ export const AcademicSection = () => (
 );
 
 export const LogisticsSection = () => (
-  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-4 md:gap-24 lg:gap-32">
+  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
     <SectionHeader title="Logistics" />
     <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
       {PROFICIENCY.map((group, i) => (
         <div key={i} className="space-y-6">
-          <h4 className="text-[10px] font-medium text-neutral-500 dark:text-neutral-500 uppercase pb-2 mb-4">
+          <h4 className="text-[11px] font-medium text-neutral-500 dark:text-neutral-400 uppercase pb-2 mb-4 tracking-[0.06em]">
             {group.category}
           </h4>
           <div className="space-y-5">
             {group.skills.map((skill, j) => (
               <div key={j} className="space-y-0.5">
                 <p className="text-[14px] font-normal text-neutral-900 dark:text-neutral-200">{skill.name}</p>
-                <p className="text-[13px] leading-normal text-neutral-600 dark:text-neutral-400 max-w-xs">{skill.desc}</p>
+                <p className="text-[13px] leading-normal text-neutral-700 dark:text-neutral-300 max-w-xs">{skill.desc}</p>
               </div>
             ))}
           </div>
