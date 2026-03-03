@@ -46,7 +46,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
   const blockQuoteStyle = "border-l-2 border-neutral-300 dark:border-neutral-700 pl-4 italic text-neutral-900 dark:text-neutral-200 my-6 font-normal";
 
   return (
-    <div className="prose max-w-none text-neutral-900 dark:text-neutral-200 leading-7 font-normal">
+    <div className="work-sans prose max-w-none text-neutral-900 dark:text-neutral-200 leading-7 font-normal">
       {content.split('\n').map((line, i) => {
         const trimmed = line.trim();
         if (trimmed === '') return <div key={i} className="h-3" />;
