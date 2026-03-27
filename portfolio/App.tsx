@@ -37,6 +37,11 @@ const App = () => {
     if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
+  const [displayFont, setDisplayFont] = useState<'redaction' | 'work-sans'>(() => {
+    if (typeof window === 'undefined') return 'redaction';
+    const savedFont = localStorage.getItem('display-font');
+    return savedFont === 'work-sans' ? 'work-sans' : 'redaction';
+  });
 
   const getTabFromUrl = (): Tab => getInitialTab();
 
@@ -86,8 +91,21 @@ const App = () => {
     localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    if (displayFont === 'work-sans') {
+      document.documentElement.classList.add('font-work-sans');
+    } else {
+      document.documentElement.classList.remove('font-work-sans');
+    }
+    localStorage.setItem('display-font', displayFont);
+  }, [displayFont]);
+
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  const toggleDisplayFont = () => {
+    setDisplayFont((prev) => (prev === 'redaction' ? 'work-sans' : 'redaction'));
   };
 
   useEffect(() => {
@@ -277,13 +295,23 @@ const App = () => {
 
       <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-neutral-500 dark:text-neutral-400 uppercase pb-8 font-medium tracking-[0.04em]">
         <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
-        <button
-          type="button"
-          className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        >
-          INDEX <span>↑</span>
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={toggleDisplayFont}
+            className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-colors text-[10px] uppercase tracking-[0.06em]"
+            aria-label="Toggle Display Font"
+          >
+            FONT {displayFont === 'redaction' ? 'R50' : 'WS'}
+          </button>
+          <button
+            type="button"
+            className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            INDEX <span>↑</span>
+          </button>
+        </div>
       </footer>
     </div>
   );
