@@ -37,10 +37,10 @@ const App = () => {
     if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
-  const [displayFont, setDisplayFont] = useState<'redaction' | 'work-sans'>(() => {
-    if (typeof window === 'undefined') return 'redaction';
+  const [displayFont, setDisplayFont] = useState<'newsreader' | 'work-sans'>(() => {
+    if (typeof window === 'undefined') return 'newsreader';
     const savedFont = localStorage.getItem('display-font');
-    return savedFont === 'work-sans' ? 'work-sans' : 'redaction';
+    return savedFont === 'work-sans' ? 'work-sans' : 'newsreader';
   });
 
   const getTabFromUrl = (): Tab => getInitialTab();
@@ -105,7 +105,7 @@ const App = () => {
   };
 
   const toggleDisplayFont = () => {
-    setDisplayFont((prev) => (prev === 'redaction' ? 'work-sans' : 'redaction'));
+    setDisplayFont((prev) => (prev === 'newsreader' ? 'work-sans' : 'newsreader'));
   };
 
   useEffect(() => {
@@ -302,7 +302,7 @@ const App = () => {
             className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-colors text-[10px] uppercase tracking-[0.06em]"
             aria-label="Toggle Display Font"
           >
-            FONT {displayFont === 'redaction' ? 'R50' : 'WS'}
+            FONT {displayFont === 'newsreader' ? 'NR' : 'WS'}
           </button>
           <button
             type="button"
