@@ -24,23 +24,35 @@ interface WorldTime {
   bjs: string;
 }
 
-const SocialLinksCompact = () => (
-  <div className="mt-2.5 grid grid-cols-5 gap-2 text-neutral-600 dark:text-neutral-400 max-w-[172px]">
-    <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="GitHub"><IconGitHub /></a>
-    <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="LinkedIn"><IconLinkedIn /></a>
-    <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Google Scholar"><IconScholar /></a>
-    <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="X (Twitter)"><IconX /></a>
-    <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all scale-[0.8] origin-left" title="Email"><IconMail /></a>
-  </div>
-);
+const SOCIAL_ITEMS = [
+  { href: `https://${PROFILE.socials.github}`, title: 'GitHub', Icon: IconGitHub },
+  { href: `https://${PROFILE.socials.linkedin}`, title: 'LinkedIn', Icon: IconLinkedIn },
+  { href: `https://${PROFILE.socials.scholar}`, title: 'Google Scholar', Icon: IconScholar },
+  { href: `https://${PROFILE.socials.twitter}`, title: 'X (Twitter)', Icon: IconX },
+  { href: `mailto:${PROFILE.email}`, title: 'Email', Icon: IconMail },
+] as const;
 
-const SocialLinksDesktop = () => (
-  <div className="grid grid-cols-5 gap-4 text-neutral-600 dark:text-neutral-400 max-w-[220px] mx-auto md:mx-0">
-    <a href={`https://${PROFILE.socials.github}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="GitHub"><IconGitHub /></a>
-    <a href={`https://${PROFILE.socials.linkedin}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="LinkedIn"><IconLinkedIn /></a>
-    <a href={`https://${PROFILE.socials.scholar}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Google Scholar"><IconScholar /></a>
-    <a href={`https://${PROFILE.socials.twitter}`} target="_blank" rel="noopener noreferrer" className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="X (Twitter)"><IconX /></a>
-    <a href={`mailto:${PROFILE.email}`} className="hover:text-black dark:hover:text-neutral-200 transition-all transform hover:-translate-y-0.5" title="Email"><IconMail /></a>
+const SocialLinks = ({ compact = false }: { compact?: boolean }) => (
+  <div className={
+    compact
+      ? 'mt-2.5 grid grid-cols-5 gap-2 text-neutral-600 dark:text-neutral-400 max-w-[172px]'
+      : 'grid grid-cols-5 gap-4 text-neutral-600 dark:text-neutral-400 max-w-[220px] mx-auto md:mx-0'
+  }>
+    {SOCIAL_ITEMS.map(({ href, title, Icon }) => (
+      <a
+        key={title}
+        href={href}
+        target={href.startsWith('http') ? '_blank' : undefined}
+        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        title={title}
+        className={
+          'transition-all hover:text-black dark:hover:text-neutral-200 ' +
+          (compact ? 'scale-[0.8] origin-left' : 'transform hover:-translate-y-0.5')
+        }
+      >
+        <Icon />
+      </a>
+    ))}
   </div>
 );
 
@@ -57,7 +69,7 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
       <div className="newsreader flex-1 min-w-0 pt-0.5">
         <h3 className="newsreader text-[16px] leading-[1.2] text-neutral-950 dark:text-neutral-100 truncate">{PROFILE.name}</h3>
         <p className="mt-1 text-[12px] leading-[1.3] text-neutral-700 dark:text-neutral-300 truncate">University of Bristol</p>
-        <SocialLinksCompact />
+        <SocialLinks compact />
         <div className="mt-2.5 pt-2 text-[10px] text-neutral-700 dark:text-neutral-300 leading-[1.35]">
           <div className="flex items-center gap-1.5 min-w-0">
             <span className="scale-[0.75] origin-left"><IconLocation /></span>
@@ -108,7 +120,7 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
           </div>
         </div>
       </div>
-      <SocialLinksDesktop />
+      <SocialLinks />
     </div>
   </div>
 );

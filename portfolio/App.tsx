@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Article, Tab } from './types';
 import { IconMoon, IconSun } from './components/Icons';
 import IntroOverlay from './components/IntroOverlay';
@@ -13,7 +13,6 @@ import {
 } from './views/PortfolioViews';
 
 const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
-const MOBILE_MENU_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
 const TAB_LABEL: Record<Tab, string> = {
   HOME: 'HOME',
   CV: 'CV',
@@ -21,7 +20,6 @@ const TAB_LABEL: Record<Tab, string> = {
   PUBLICATIONS: 'PUBLICATIONS',
   ZEN: 'ZEN LAND',
 };
-const PAGE_TRANSITION_MS = 220;
 const getInitialTab = (): Tab => {
   if (typeof window === 'undefined') return 'HOME';
   const query = new URLSearchParams(window.location.search).get('tab');
@@ -31,15 +29,12 @@ const getInitialTab = (): Tab => {
 
 const App = () => {
   const [introVisible, setIntroVisible] = useState(true);
+  const [introReverse, setIntroReverse] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>(getInitialTab);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-  const [renderTab, setRenderTab] = useState<Tab>(getInitialTab);
-  const [renderArticle, setRenderArticle] = useState<Article | null>(null);
-  const [isPageVisible, setIsPageVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [time, setTime] = useState<WorldTime>({ ldn: '', bjs: '' });
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  const transitionTimerRef = useRef<number | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
     const savedTheme = localStorage.getItem('theme');
@@ -48,41 +43,20 @@ const App = () => {
   });
 
   useEffect(() => {
-    const clearTimer = () => {
-      if (transitionTimerRef.current !== null) {
-        window.clearTimeout(transitionTimerRef.current);
-        transitionTimerRef.current = null;
-      }
-    };
-
-    const runTransition = (nextTab: Tab, nextArticle: Article | null, withSmoothScroll = false) => {
-      clearTimer();
-      setActiveTab(nextTab);
-      setSelectedArticle(nextArticle);
-      setIsPageVisible(false);
-
-      transitionTimerRef.current = window.setTimeout(() => {
-        setRenderTab(nextTab);
-        setRenderArticle(nextArticle);
-        if (withSmoothScroll) {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'auto' });
-        }
-        setIsPageVisible(true);
-      }, PAGE_TRANSITION_MS);
-    };
-
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
     const handlePopState = () => {
-      runTransition(getInitialTab(), null);
+      setActiveTab(getInitialTab());
+      setSelectedArticle(null);
     };
-    handlePopState();
     window.addEventListener('popstate', handlePopState);
-    return () => {
-      clearTimer();
-      window.removeEventListener('popstate', handlePopState);
-    };
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
+
+  useLayoutEffect(() => {
+    window.scrollTo(0, 0);
+  }, [activeTab, selectedArticle]);
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -125,7 +99,6 @@ const App = () => {
     setActiveTab(tab);
     setSelectedArticle(null);
     setIsMobileMenuOpen(false);
-    setIsPageVisible(false);
 
     const url = new URL(window.location.href);
     if (tab === 'HOME') {
@@ -134,30 +107,11 @@ const App = () => {
       url.searchParams.set('tab', tab);
     }
     window.history.pushState({}, '', url);
-
-    if (transitionTimerRef.current !== null) {
-      window.clearTimeout(transitionTimerRef.current);
-    }
-    transitionTimerRef.current = window.setTimeout(() => {
-      setRenderTab(tab);
-      setRenderArticle(null);
-      window.scrollTo({ top: 0, behavior: 'auto' });
-      setIsPageVisible(true);
-    }, PAGE_TRANSITION_MS);
+    window.scrollTo(0, 0);
   };
 
   const handleArticleSelect = (article: Article) => {
     setSelectedArticle(article);
-    setIsPageVisible(false);
-
-    if (transitionTimerRef.current !== null) {
-      window.clearTimeout(transitionTimerRef.current);
-    }
-    transitionTimerRef.current = window.setTimeout(() => {
-      setRenderArticle(article);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setIsPageVisible(true);
-    }, PAGE_TRANSITION_MS);
   };
 
   useEffect(() => {
@@ -180,23 +134,13 @@ const App = () => {
 
   return (
     <div className="min-h-screen max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
-      {introVisible && <IntroOverlay onEnter={() => {
-        setActiveTab('HOME');
-        setRenderTab('HOME');
-        setSelectedArticle(null);
-        setRenderArticle(null);
-        const url = new URL(window.location.href);
-        url.searchParams.delete('tab');
-        window.history.replaceState({}, '', url);
-        setIntroVisible(false);
-        window.scrollTo({ top: 0, behavior: 'auto' });
-      }} />}
+      {introVisible && <IntroOverlay reverse={introReverse} onEnter={() => { handleTabChange('HOME'); setIntroVisible(false); setIntroReverse(false); }} />}
       <header className="app-header">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 font-medium text-[11px]">
           <div className="sm:hidden mobile-header-row flex items-center justify-between">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100"
+              className="bg-transparent p-0 cursor-pointer transition-colors text-neutral-900 dark:text-neutral-100 hover:text-neutral-500 dark:hover:text-neutral-400"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -217,7 +161,7 @@ const App = () => {
                 </button>
                 {isMobileMenuOpen && (
                   <div className="absolute right-0 mt-2 w-44 z-20 bg-white dark:bg-neutral-900 border-[0.5px] border-neutral-300 dark:border-neutral-700 p-1.5">
-                    {MOBILE_MENU_TABS.map((tab) => (
+                    {NAV_TABS.map((tab) => (
                       <button
                         key={tab}
                         type="button"
@@ -243,7 +187,7 @@ const App = () => {
           <div className="hidden sm:flex justify-between items-center h-11">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer hover:opacity-60 transition-opacity text-neutral-900 dark:text-neutral-100 leading-none flex items-center"
+              className="bg-transparent p-0 cursor-pointer transition-colors text-neutral-900 dark:text-neutral-100 hover:text-neutral-500 dark:hover:text-neutral-400 leading-none flex items-center"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -258,67 +202,54 @@ const App = () => {
                   {TAB_LABEL[tab]}
                 </button>
               ))}
-              <button
-                onClick={toggleTheme}
-                className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-1 flex items-center"
-                aria-label="Toggle Dark Mode"
-              >
-                {theme === 'dark' ? <IconSun /> : <IconMoon />}
-              </button>
+              <span className="ml-2 pl-6 border-l-[0.5px] border-neutral-200 dark:border-neutral-700 flex items-center">
+                <button
+                  onClick={toggleTheme}
+                  className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors flex items-center"
+                  aria-label="Toggle Dark Mode"
+                >
+                  {theme === 'dark' ? <IconSun /> : <IconMoon />}
+                </button>
+              </span>
             </nav>
           </div>
         </div>
       </header>
 
-      <main className="app-main min-h-[calc(100vh-200px)]">
-        <div
-          className={`transition-opacity ease-out ${isPageVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-          style={{ transitionDuration: `${PAGE_TRANSITION_MS}ms` }}
-        >
-          {renderArticle ? (
-            <ViewArticle
-              data={renderArticle}
-              onBack={() => handleTabChange(activeTab)}
-              backLabel={TAB_LABEL[activeTab]}
-            />
-          ) : (
-            <>
-              {renderTab === 'HOME' && <ViewHome time={time} />}
-              {renderTab === 'CV' && <ViewCV />}
-              {renderTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
-              {renderTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
-              {renderTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
-            </>
-          )}
-        </div>
+      <main className="app-main min-h-[calc(100vh-200px)]" key={selectedArticle ? `article-${selectedArticle.id}` : `tab-${activeTab}`}>
+        {selectedArticle ? (
+          <ViewArticle
+            data={selectedArticle}
+            onBack={() => handleTabChange(activeTab)}
+            backLabel={TAB_LABEL[activeTab]}
+          />
+        ) : (
+          <>
+            {activeTab === 'HOME' && <ViewHome time={time} />}
+            {activeTab === 'CV' && <ViewCV />}
+            {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
+            {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
+            {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
+          </>
+        )}
       </main>
 
       <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-neutral-500 dark:text-neutral-400 uppercase pb-8 font-medium tracking-[0.04em]">
         <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-6">
           <button
             type="button"
-            className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
-            onClick={() => {
-              setActiveTab('HOME');
-              setRenderTab('HOME');
-              setSelectedArticle(null);
-              setRenderArticle(null);
-              const url = new URL(window.location.href);
-              url.searchParams.delete('tab');
-              window.history.replaceState({}, '', url);
-              window.scrollTo({ top: 0, behavior: 'auto' });
-              setIntroVisible(true);
-            }}
+            className="bg-transparent p-0 cursor-pointer text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-neutral-200 transition-colors"
+            onClick={() => { handleTabChange('HOME'); setIntroReverse(true); setIntroVisible(true); }}
           >
-            <span>↩</span> COVER
+            cover
           </button>
           <button
             type="button"
-            className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-all flex items-center gap-2"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-colors flex items-center gap-1.5"
+            onClick={() => window.scrollTo(0, 0)}
           >
-            INDEX <span>↑</span>
+            top <span aria-hidden>↑</span>
           </button>
         </div>
       </footer>

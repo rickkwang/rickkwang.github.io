@@ -7,8 +7,9 @@ const pickLine = (hour: number): string => {
   return 'You arrived at a quiet hour.';
 };
 
-const IntroOverlay = ({ onEnter }: { onEnter: () => void }) => {
+const IntroOverlay = ({ onEnter, reverse = false }: { onEnter: () => void; reverse?: boolean }) => {
   const [entering, setEntering] = useState(false);
+  const [reverseActive, setReverseActive] = useState(reverse);
   const [now, setNow] = useState(() => new Date());
   const overlayRef = useRef<HTMLDivElement | null>(null);
 
@@ -16,6 +17,12 @@ const IntroOverlay = ({ onEnter }: { onEnter: () => void }) => {
     const id = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(id);
   }, []);
+
+  useEffect(() => {
+    if (!reverseActive) return;
+    const t = window.setTimeout(() => setReverseActive(false), 950);
+    return () => window.clearTimeout(t);
+  }, [reverseActive]);
 
   const ldnHour = Number(now.toLocaleString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', hour12: false }));
   const text = pickLine(ldnHour);
@@ -61,7 +68,7 @@ const IntroOverlay = ({ onEnter }: { onEnter: () => void }) => {
   };
 
   return (
-    <div ref={overlayRef} className={`intro-overlay${entering ? ' entering' : ''}`}>
+    <div ref={overlayRef} className={`intro-overlay${entering ? ' entering' : ''}${reverseActive && !entering ? ' reverse' : ''}`}>
       <div className="intro-cover">
         <div className="intro-top">
           <div className="intro-name">Myrick Wang</div>
@@ -102,6 +109,7 @@ const IntroOverlay = ({ onEnter }: { onEnter: () => void }) => {
       >
         <div className="pshadow"></div>
         <div className="pback"></div>
+        <span className="phint">enter ↗</span>
       </div>
     </div>
   );
