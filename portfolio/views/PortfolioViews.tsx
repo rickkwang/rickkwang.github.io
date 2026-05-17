@@ -7,6 +7,7 @@ import {
 } from '../constants';
 import { Article, Project, Publication, ZenPost } from '../types';
 import MarkdownContent from '../components/MarkdownContent';
+import { ArticleList, ArticleRow } from '../components/ArticleList';
 import PageHeader from '../components/PageHeader';
 import {
   AcademicSection,
@@ -27,6 +28,7 @@ export interface WorldTime {
 }
 
 export const ViewArticle = ({ data, onBack, backLabel }: ArticleProps) => {
+  const figure = 'figure' in data ? data.figure : undefined;
   return (
     <div className="page-fade-in pb-32">
       <div className="max-w-4xl mx-auto">
@@ -39,6 +41,18 @@ export const ViewArticle = ({ data, onBack, backLabel }: ArticleProps) => {
             <span>Back to {backLabel}</span>
           </button>
         </div>
+        {figure && (
+          <figure className="mb-12 md:mb-16 mx-auto max-w-3xl">
+            <div className="thin-border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900">
+              <img src={figure.src} alt={figure.label} className="block w-full h-auto" />
+            </div>
+            <figcaption className="mt-3 flex items-baseline gap-3 text-[10px] mono uppercase tracking-[0.08em] text-neutral-500 dark:text-neutral-500">
+              <span>{figure.id}</span>
+              <span className="opacity-30">/</span>
+              <span>{figure.label}</span>
+            </figcaption>
+          </figure>
+        )}
         <div className="bg-transparent p-0 md:px-8 shadow-none">
           <MarkdownContent content={data.content} />
         </div>
@@ -48,7 +62,7 @@ export const ViewArticle = ({ data, onBack, backLabel }: ArticleProps) => {
 };
 
 export const ViewHome = ({ time }: { time: WorldTime }) => (
-  <div className="page-fade-in space-y-16 md:space-y-20">
+  <div className="page-fade-in space-y-8 md:space-y-10">
     <HeroSection time={time} />
     <ResearchSection />
     <AcademicSection />
@@ -88,69 +102,34 @@ export const ViewCV = () => (
 );
 
 export const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => void }) => (
-  <div className="page-fade-in pb-32">
-    <div className="max-w-5xl mx-auto">
-      <PageHeader title="Projects" subtitle="Engineering Artifacts & Findings" />
-      <div className="space-y-0">
-        {PROJECTS.map((project) => (
-          <button
-            type="button"
-            key={project.id}
-            onClick={() => onSelect(project)}
-            className="w-full text-left bg-transparent cursor-pointer py-9 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
-          >
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
-              <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
-                {project.title}
-              </h3>
-              <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{project.year}</span>
-            </div>
-
-            <div className="flex flex-wrap gap-2.5">
-              {project.tech.map((t) => (
-                <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 uppercase">{t}</span>
-              ))}
-            </div>
-
-            <p className="text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300 max-w-3xl">{project.description}</p>
-          </button>
-        ))}
-      </div>
-    </div>
-  </div>
+  <ArticleList title="Projects" subtitle="Engineering Artifacts & Findings">
+    {PROJECTS.map((project) => (
+      <ArticleRow key={project.id} onClick={() => onSelect(project)} title={project.title} meta={project.year}>
+        <div className="flex flex-wrap gap-2.5">
+          {project.tech.map((t) => (
+            <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-neutral-200 dark:border-neutral-700 text-neutral-600 dark:text-neutral-400 uppercase">{t}</span>
+          ))}
+        </div>
+        <p className="text-[15px] leading-relaxed text-neutral-700 dark:text-neutral-300 max-w-3xl">{project.description}</p>
+      </ArticleRow>
+    ))}
+  </ArticleList>
 );
 
 export const ViewPublications = ({ onSelect }: { onSelect: (pub: Publication) => void }) => (
-  <div className="page-fade-in pb-32">
-    <div className="max-w-5xl mx-auto">
-      <PageHeader title="Publications" subtitle="Scholarly Contributions" />
-      <div className="space-y-0">
-        {PUBLICATIONS.map((pub) => (
-          <button
-            type="button"
-            key={pub.id}
-            onClick={() => onSelect(pub)}
-            className="w-full text-left bg-transparent cursor-pointer py-9 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
-          >
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
-              <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
-                {pub.title}
-              </h3>
-              <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{pub.year}</span>
-            </div>
-
-            <div className="space-y-2">
-              <p className="text-[12px] text-neutral-700 dark:text-neutral-300 uppercase font-medium">{pub.authors}</p>
-              <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-                <p className="text-[12px] text-neutral-700 dark:text-neutral-300 italic">{pub.venue}</p>
-                <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
-    </div>
-  </div>
+  <ArticleList title="Publications" subtitle="Scholarly Contributions">
+    {PUBLICATIONS.map((pub) => (
+      <ArticleRow key={pub.id} onClick={() => onSelect(pub)} title={pub.title} meta={pub.year}>
+        <div className="space-y-2">
+          <p className="text-[12px] text-neutral-700 dark:text-neutral-300 uppercase font-medium">{pub.authors}</p>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
+            <p className="text-[12px] text-neutral-700 dark:text-neutral-300 italic">{pub.venue}</p>
+            <span className="px-2 py-0.5 text-[8px] mono font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-500 border-[0.5px] border-neutral-200 dark:border-neutral-700 uppercase">{pub.status}</span>
+          </div>
+        </div>
+      </ArticleRow>
+    ))}
+  </ArticleList>
 );
 
 export const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void }) => (
@@ -159,20 +138,11 @@ export const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void })
       <PageHeader title="Zen Land" subtitle="Reflections on Logic" />
       <div className="space-y-0">
         {ZEN_POSTS.map((post) => (
-          <button
-            type="button"
-            key={post.id}
-            onClick={() => onSelect(post)}
-            className="w-full text-left bg-transparent cursor-pointer py-9 md:py-10 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col gap-4 group transition-colors hover:opacity-70"
-          >
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
-              <h3 className="text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-neutral-900 dark:text-neutral-100 leading-tight text-left">
-                {post.title}
-              </h3>
-              <span className="text-[11px] sm:text-[12px] mono text-neutral-500 dark:text-neutral-500 font-medium whitespace-nowrap">{post.date}</span>
-            </div>
-            <p className="text-[14px] text-neutral-700 dark:text-neutral-300 leading-relaxed max-w-3xl">{post.description}</p>
-          </button>
+          <ArticleRow key={post.id} variant="essay" onClick={() => onSelect(post)} title={post.title} meta={post.date}>
+            <p className="newsreader italic text-[16px] leading-[1.75] text-neutral-600 dark:text-neutral-400 max-w-[58ch]">
+              {post.description}
+            </p>
+          </ArticleRow>
         ))}
       </div>
     </div>

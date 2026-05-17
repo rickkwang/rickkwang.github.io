@@ -42,7 +42,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
 
   const parseLine = (line: string) => parseLinks(line);
 
-  const codeBlockStyle = "font-mono text-[13px] bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 p-4 block w-full whitespace-pre overflow-x-auto my-6 text-neutral-700 dark:text-neutral-300";
+  const codeBlockStyle = "font-mono text-[13px] bg-neutral-50 dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-700 p-4 block w-full whitespace-pre overflow-x-auto my-6 text-neutral-700 dark:text-neutral-300";
   const blockQuoteStyle = "border-l-2 border-neutral-300 dark:border-neutral-700 pl-4 italic text-neutral-800 dark:text-neutral-200 my-6 font-normal";
 
   return (
@@ -50,7 +50,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
       {content.split('\n').map((line, i) => {
         const trimmed = line.trim();
         if (trimmed === '') return <div key={i} className="h-3" />;
-        if (trimmed === '---') return <hr key={i} className="border-neutral-100 dark:border-neutral-800 my-8" />;
+        if (trimmed === '---') return <hr key={i} className="border-neutral-100 dark:border-neutral-700 my-8" />;
 
         if (trimmed.startsWith('# ')) {
           return (
@@ -61,7 +61,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
         }
         if (trimmed.startsWith('## ')) {
           return (
-            <h2 key={i} className="text-[12px] uppercase font-medium text-neutral-500 dark:text-neutral-400 mt-12 mb-6 pb-2 border-b border-neutral-100 dark:border-neutral-800 tracking-[0.06em]">
+            <h2 key={i} className="text-[12px] uppercase font-medium text-neutral-500 dark:text-neutral-400 mt-12 mb-6 pb-2 border-b border-neutral-100 dark:border-neutral-700 tracking-[0.06em]">
               {parseLine(trimmed.replace('## ', ''))}
             </h2>
           );

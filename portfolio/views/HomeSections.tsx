@@ -47,7 +47,7 @@ const SocialLinksDesktop = () => (
 const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
   <div className="md:hidden w-full pb-5">
     <div className="flex items-start gap-3">
-      <div className="w-[27vw] max-w-[118px] min-w-[88px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800 flex-shrink-0">
+      <div className="w-[27vw] max-w-[118px] min-w-[88px] thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-700 flex-shrink-0">
         <img
           src={PROFILE.avatar}
           className="block w-full h-auto object-contain opacity-100"
@@ -77,7 +77,7 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
 
 const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
   <div className="hidden md:block w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
-    <div className="w-full max-w-[220px] md:max-w-[180px] mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-800">
+    <div className="w-full max-w-[220px] md:max-w-[180px] mx-auto md:mx-0 thin-border bg-white dark:bg-neutral-900 shadow-sm border-neutral-200 dark:border-neutral-700">
       <img
         src={PROFILE.avatar}
         className="block w-full h-auto object-contain opacity-100 transition-all duration-500"
@@ -152,7 +152,7 @@ export const IntelligenceSection = () => (
 );
 
 export const ResearchSection = () => (
-  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
+  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-700 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
     <SectionHeader title="Research" />
     <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-6">
       {FOCUS_AREAS.map((area, i) => (
@@ -166,7 +166,7 @@ export const ResearchSection = () => (
 );
 
 export const AcademicSection = () => (
-  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
+  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-700 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
     <SectionHeader title="Academic" />
     <div className="flex-grow max-w-4xl">
       <div className="space-y-10">
@@ -209,7 +209,7 @@ export const AcademicSection = () => (
 );
 
 export const LogisticsSection = () => (
-  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-800 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
+  <section className="pt-10 md:pt-12 border-t-[0.5px] border-neutral-200 dark:border-neutral-700 flex flex-col md:flex-row gap-6 md:gap-24 lg:gap-32">
     <SectionHeader title="Logistics" />
     <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-8">
       {PROFICIENCY.map((group, i) => (
