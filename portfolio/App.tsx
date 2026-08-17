@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Article, Tab } from './types';
 import { IconMoon, IconSun } from './components/Icons';
-import IntroOverlay from './components/IntroOverlay';
 import {
   ViewArticle,
   ViewCV,
@@ -28,8 +27,6 @@ const getInitialTab = (): Tab => {
 };
 
 const App = () => {
-  const [introVisible, setIntroVisible] = useState(true);
-  const [introReverse, setIntroReverse] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>(getInitialTab);
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -134,7 +131,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
-      {introVisible && <IntroOverlay reverse={introReverse} onEnter={() => { handleTabChange('HOME'); setIntroVisible(false); setIntroReverse(false); }} />}
       <header className="app-header">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 font-medium text-[11px]">
           <div className="sm:hidden mobile-header-row flex items-center justify-between">
@@ -237,13 +233,6 @@ const App = () => {
       <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-neutral-500 dark:text-neutral-400 uppercase pb-8 font-medium tracking-[0.04em]">
         <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
         <div className="flex items-center gap-6">
-          <button
-            type="button"
-            className="bg-transparent p-0 cursor-pointer text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-neutral-200 transition-colors"
-            onClick={() => { handleTabChange('HOME'); setIntroReverse(true); setIntroVisible(true); }}
-          >
-            cover
-          </button>
           <button
             type="button"
             className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-colors flex items-center gap-1.5"
