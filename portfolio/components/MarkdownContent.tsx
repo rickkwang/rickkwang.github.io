@@ -54,7 +54,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
 
         if (trimmed.startsWith('# ')) {
           return (
-            <h1 key={i} className="text-[32px] font-medium text-stone-900 dark:text-stone-100 mt-0 mb-10 text-center">
+            <h1 key={i} className="text-[28px] font-medium text-stone-900 dark:text-stone-100 mt-0 mb-10 text-center">
               {parseLine(trimmed.replace('# ', ''))}
             </h1>
           );
@@ -68,7 +68,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
         }
         if (trimmed.startsWith('### ')) {
           return (
-            <h3 key={i} className="text-[17px] font-medium text-stone-900 dark:text-stone-200 mt-6 mb-2">
+            <h3 key={i} className="text-[16px] font-medium text-stone-900 dark:text-stone-200 mt-6 mb-2">
               {parseLine(trimmed.replace('### ', ''))}
             </h3>
           );
@@ -83,7 +83,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
           return (
             <div key={i} className="flex items-start gap-3 ml-1 mb-2">
               <span className="mt-2.5 w-1 h-1 rounded-full bg-stone-300 dark:bg-stone-600 flex-shrink-0"></span>
-              <div className="text-[15px] leading-relaxed text-stone-800 dark:text-stone-200 font-normal">{parseLine(listContent)}</div>
+              <div className="text-[14px] leading-relaxed text-stone-800 dark:text-stone-200 font-normal">{parseLine(listContent)}</div>
             </div>
           );
         }
@@ -93,7 +93,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
           return <div key={i} className={codeBlockStyle}>{line}</div>;
         }
 
-        return <p key={i} className="text-[15px] leading-relaxed mb-3 text-stone-800 dark:text-stone-200 font-normal">{parseLine(trimmed)}</p>;
+        return <p key={i} className="text-[14px] leading-relaxed mb-3 text-stone-800 dark:text-stone-200 font-normal">{parseLine(trimmed)}</p>;
       })}
     </div>
   );

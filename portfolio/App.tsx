@@ -130,10 +130,10 @@ const App = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <div className="min-h-screen max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 dark:text-stone-200">
-      <header className="app-header">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 font-medium text-[11px]">
-          <div className="sm:hidden mobile-header-row flex items-center justify-between">
+    <div className="min-h-screen max-w-[1200px] sm:max-w-[1460px] mx-auto px-4 sm:px-6 md:px-12 dark:text-stone-200">
+      <header className="app-header sm:hidden">
+        <div className="max-w-[1200px] mx-auto px-4 font-medium text-[11px]">
+          <div className="mobile-header-row flex items-center justify-between">
             <button
               type="button"
               className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400"
@@ -179,69 +179,86 @@ const App = () => {
               </button>
             </div>
           </div>
-
-          <div className="hidden sm:flex justify-between items-center h-11">
-            <button
-              type="button"
-              className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400 leading-none flex items-center"
-              onClick={() => handleTabChange('HOME')}
-            >
-              Myrick Wang
-            </button>
-            <nav className="w-full sm:w-auto flex flex-wrap sm:flex-nowrap items-center gap-x-5 gap-y-2 sm:gap-x-10">
-              {NAV_TABS.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => handleTabChange(tab)}
-                  className={`transition-all whitespace-nowrap text-[11px] uppercase tracking-[0.08em] leading-none flex items-center border-b ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white border-stone-800 dark:border-stone-200' : 'text-stone-500 dark:text-stone-500 border-transparent hover:text-black dark:hover:text-white hover:border-stone-300 dark:hover:border-stone-600'}`}
-                >
-                  {TAB_LABEL[tab]}
-                </button>
-              ))}
-              <span className="ml-2 pl-6 flex items-center">
-                <button
-                  onClick={toggleTheme}
-                  className="text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors flex items-center"
-                  aria-label="Toggle Dark Mode"
-                >
-                  {theme === 'dark' ? <IconSun /> : <IconMoon />}
-                </button>
-              </span>
-            </nav>
-          </div>
         </div>
       </header>
 
-      <main className="app-main min-h-[calc(100vh-200px)]" key={selectedArticle ? `article-${selectedArticle.id}` : `tab-${activeTab}`}>
-        {selectedArticle ? (
-          <ViewArticle
-            data={selectedArticle}
-            onBack={() => handleTabChange(activeTab)}
-            backLabel={TAB_LABEL[activeTab]}
-          />
-        ) : (
-          <>
-            {activeTab === 'HOME' && <ViewHome time={time} />}
-            {activeTab === 'CV' && <ViewCV />}
-            {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
-            {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
-            {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
-          </>
-        )}
-      </main>
+      <div className="sm:flex sm:gap-14 md:gap-20 lg:gap-24 pt-12 sm:pt-14">
+        <aside className="hidden sm:block sm:w-[150px] md:w-[168px] flex-shrink-0">
+          <div className="sticky top-14 flex flex-col justify-between h-[calc(100vh-5rem)]">
+            <div>
+              <button
+                type="button"
+                className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400 leading-none"
+                onClick={() => handleTabChange('HOME')}
+              >
+                Myrick Wang
+              </button>
+              <nav className="mt-10 relative pl-5">
+                <span className="absolute left-0 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-700" aria-hidden="true"></span>
+                <div className="flex flex-col gap-1.5">
+                  {NAV_TABS.map((tab) => {
+                    const active = activeTab === tab && !selectedArticle;
+                    return (
+                      <button
+                        key={tab}
+                        onClick={() => handleTabChange(tab)}
+                        aria-current={active ? 'page' : undefined}
+                        className={`group relative flex items-center py-1 text-left text-[11px] uppercase tracking-[0.08em] transition-colors ${active ? 'text-black dark:text-white' : 'text-stone-500 dark:text-stone-500 hover:text-black dark:hover:text-white'}`}
+                      >
+                        <span
+                          className={`absolute -left-5 h-px transition-all duration-200 ${active ? 'w-4 bg-stone-900 dark:bg-stone-100' : 'w-2.5 bg-stone-300 dark:bg-stone-600 group-hover:w-3.5 group-hover:bg-stone-500 dark:group-hover:bg-stone-400'}`}
+                          aria-hidden="true"
+                        ></span>
+                        {TAB_LABEL[tab]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </nav>
+            </div>
+            <button
+              onClick={toggleTheme}
+              className="text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2 text-[11px] uppercase tracking-[0.08em]"
+              aria-label="Toggle Dark Mode"
+            >
+              {theme === 'dark' ? <IconSun /> : <IconMoon />}
+            </button>
+          </div>
+        </aside>
 
-      <footer className="mt-16 md:mt-20 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
-        <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
-        <div className="flex items-center gap-6">
-          <button
-            type="button"
-            className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 transition-colors flex items-center gap-1.5"
-            onClick={() => window.scrollTo(0, 0)}
-          >
-            top <span aria-hidden>↑</span>
-          </button>
+        <div className="flex-1 min-w-0 sm:pr-8 lg:pr-12">
+          <main className="app-main min-h-[calc(100vh-200px)]" key={selectedArticle ? `article-${selectedArticle.id}` : `tab-${activeTab}`}>
+            {selectedArticle ? (
+              <ViewArticle
+                data={selectedArticle}
+                onBack={() => handleTabChange(activeTab)}
+                backLabel={TAB_LABEL[activeTab]}
+              />
+            ) : (
+              <>
+                {activeTab === 'HOME' && <ViewHome time={time} />}
+                {activeTab === 'CV' && <ViewCV />}
+                {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
+                {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
+                {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
+              </>
+            )}
+          </main>
+
+          <footer className="mt-16 md:mt-20 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
+            <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
+            <div className="flex items-center gap-6">
+              <button
+                type="button"
+                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 transition-colors flex items-center gap-1.5"
+                onClick={() => window.scrollTo(0, 0)}
+              >
+                top <span aria-hidden>↑</span>
+              </button>
+            </div>
+          </footer>
         </div>
-      </footer>
+      </div>
     </div>
   );
 };

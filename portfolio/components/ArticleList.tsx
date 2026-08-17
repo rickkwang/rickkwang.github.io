@@ -36,8 +36,8 @@ export const ArticleRow = ({ onClick, title, meta, variant = 'index', children }
         <h3
           className={
             isEssay
-              ? 'newsreader italic text-[17px] sm:text-[19px] font-normal tracking-tight-titles text-stone-900 dark:text-stone-100 leading-[1.2] text-left'
-              : 'text-[19px] sm:text-[21px] font-normal tracking-tight-titles text-stone-900 dark:text-stone-100 leading-tight text-left'
+              ? 'newsreader italic text-[16px] sm:text-[18px] font-normal tracking-tight-titles text-stone-900 dark:text-stone-100 leading-[1.2] text-left'
+              : 'text-[17px] sm:text-[19px] font-normal tracking-tight-titles text-stone-900 dark:text-stone-100 leading-tight text-left'
           }
         >
           {title}

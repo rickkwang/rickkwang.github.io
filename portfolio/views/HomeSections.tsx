@@ -36,7 +36,7 @@ const SocialLinks = ({ compact = false }: { compact?: boolean }) => (
   <div className={
     compact
       ? 'mt-2.5 grid grid-cols-5 gap-2 text-stone-600 dark:text-stone-400 max-w-[172px]'
-      : 'grid grid-cols-5 gap-4 text-stone-600 dark:text-stone-400 max-w-[220px] mx-auto md:mx-0'
+      : 'grid grid-cols-5 gap-3 text-stone-600 dark:text-stone-400 max-w-[172px] mx-auto md:mx-0 scale-[0.9] origin-left'
   }>
     {SOCIAL_ITEMS.map(({ href, title, Icon }) => (
       <a
@@ -88,8 +88,8 @@ const MobileProfileBlock = ({ time }: { time: WorldTime }) => (
 );
 
 const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
-  <div className="hidden md:block w-full md:w-[190px] flex-shrink-0 space-y-5 md:space-y-6">
-    <div className="w-full max-w-[220px] md:max-w-[180px] mx-auto md:mx-0">
+  <div className="hidden md:block w-full md:w-[172px] flex-shrink-0 space-y-4 md:space-y-5">
+    <div className="w-full max-w-[196px] md:max-w-[172px] mx-auto md:mx-0">
       <img
         src={PROFILE.avatar}
         className="block w-full h-auto object-contain opacity-100 transition-all duration-500"
@@ -97,8 +97,8 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
       />
     </div>
 
-    <div className="space-y-6">
-      <div className="newsreader space-y-3 text-[12px] font-normal text-stone-700 dark:text-stone-300 leading-tight">
+    <div className="space-y-5">
+      <div className="newsreader space-y-2.5 text-[12px] font-normal text-stone-700 dark:text-stone-300 leading-tight">
         <div className="flex items-start gap-2.5">
           <IconUser />
           <span className="newsreader uppercase break-words text-stone-900 dark:text-stone-100">{PROFILE.name}</span>
@@ -128,10 +128,10 @@ const DesktopProfileBlock = ({ time }: { time: WorldTime }) => (
 const HeroContent = () => (
   <div className="flex-grow space-y-10 md:space-y-12">
     <div className="space-y-6">
-      <h2 className="text-[21px] md:text-[26px] font-medium tracking-tight-titles text-stone-950 dark:text-stone-100 leading-tight">
+      <h2 className="text-[19px] md:text-[23px] font-medium tracking-tight-titles text-stone-950 dark:text-stone-100 leading-tight">
         Electrical & Electronic Engineering <span className="text-stone-300 dark:text-stone-700 mx-1.5 font-light">/</span> <span className="text-stone-600 dark:text-stone-400">University of Bristol</span>
       </h2>
-      <p className="text-[15px] leading-relaxed text-stone-800 dark:text-stone-300 font-normal max-w-3xl">
+      <p className="text-[14px] leading-relaxed text-stone-800 dark:text-stone-300 font-normal max-w-3xl">
         {PROFILE.bio}
       </p>
     </div>
@@ -156,7 +156,7 @@ export const IntelligenceSection = () => (
       {NEWS.slice(0, 4).map((item, i) => (
         <div key={i} className="flex flex-col sm:flex-row sm:space-x-8 gap-1 sm:gap-0 items-start group">
           <span className="text-[11px] text-stone-500 dark:text-stone-400 w-auto sm:w-16 flex-shrink-0 pt-1 mono font-medium uppercase">{item.date}</span>
-          <p className="text-[15px] leading-relaxed flex-grow text-stone-800 dark:text-stone-300 group-hover:text-black dark:group-hover:text-stone-200 transition-colors max-w-3xl">{item.content}</p>
+          <p className="text-[14px] leading-relaxed flex-grow text-stone-800 dark:text-stone-300 group-hover:text-black dark:group-hover:text-stone-200 transition-colors max-w-3xl">{item.content}</p>
         </div>
       ))}
     </div>
@@ -170,7 +170,7 @@ export const ResearchSection = () => (
       {FOCUS_AREAS.map((area, i) => (
         <div key={i} className="flex items-baseline space-x-4">
           <span className="text-[11px] text-stone-500 dark:text-stone-500 mono font-medium">{(i + 1).toString().padStart(2, '0')}</span>
-          <span className="text-[15px] sm:text-[16px] font-normal text-stone-900 dark:text-stone-200">{area}</span>
+          <span className="text-[14px] sm:text-[15px] font-normal text-stone-900 dark:text-stone-200">{area}</span>
         </div>
       ))}
     </div>
@@ -185,13 +185,13 @@ export const AcademicSection = () => (
         {EDUCATION.map((edu, i) => (
           <div key={i} className="space-y-2.5">
             <div className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-1.5">
-              <h3 className="text-[16px] font-medium text-stone-900 dark:text-stone-200">{edu.institution}</h3>
+              <h3 className="text-[15px] font-medium text-stone-900 dark:text-stone-200">{edu.institution}</h3>
               <span className="text-[10px] text-stone-500 dark:text-stone-500 mono uppercase">{edu.period}</span>
             </div>
             <div className="space-y-1.5">
-              <p className="text-[15px] text-stone-700 dark:text-stone-300 leading-relaxed">{edu.degree}</p>
+              <p className="text-[14px] text-stone-700 dark:text-stone-300 leading-relaxed">{edu.degree}</p>
               {edu.details && (
-                <p className="text-[14px] text-stone-600 dark:text-stone-400 leading-relaxed max-w-3xl">{edu.details}</p>
+                <p className="text-[13px] text-stone-600 dark:text-stone-400 leading-relaxed max-w-3xl">{edu.details}</p>
               )}
             </div>
           </div>
@@ -202,13 +202,13 @@ export const AcademicSection = () => (
             {EXPERIENCES.map((exp, i) => (
               <div key={i} className="space-y-3">
                 <div className="flex flex-col sm:flex-row justify-between sm:items-baseline gap-1.5">
-                  <h3 className="text-[16px] font-medium text-stone-900 dark:text-stone-200">{exp.company}</h3>
+                  <h3 className="text-[15px] font-medium text-stone-900 dark:text-stone-200">{exp.company}</h3>
                   <span className="text-[10px] text-stone-500 dark:text-stone-500 mono uppercase">{exp.period}</span>
                 </div>
-                <p className="text-[15px] text-stone-700 dark:text-stone-300 font-normal">{exp.role}</p>
+                <p className="text-[14px] text-stone-700 dark:text-stone-300 font-normal">{exp.role}</p>
                 <ul className="list-disc pl-6 space-y-1.5 marker:text-stone-400 dark:marker:text-stone-600">
                   {exp.description.map((desc, j) => (
-                    <li key={j} className="text-[14px] text-stone-700 dark:text-stone-300 leading-relaxed max-w-3xl">{desc}</li>
+                    <li key={j} className="text-[13px] text-stone-700 dark:text-stone-300 leading-relaxed max-w-3xl">{desc}</li>
                   ))}
                 </ul>
               </div>
@@ -232,8 +232,8 @@ export const LogisticsSection = () => (
           <div className="space-y-5">
             {group.skills.map((skill, j) => (
               <div key={j} className="space-y-0.5">
-                <p className="text-[14px] font-normal text-stone-900 dark:text-stone-200">{skill.name}</p>
-                <p className="text-[13px] leading-normal text-stone-700 dark:text-stone-300 max-w-xs">{skill.desc}</p>
+                <p className="text-[13px] font-normal text-stone-900 dark:text-stone-200">{skill.name}</p>
+                <p className="text-[12px] leading-normal text-stone-700 dark:text-stone-300 max-w-xs">{skill.desc}</p>
               </div>
             ))}
           </div>

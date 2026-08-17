@@ -106,13 +106,7 @@ header.app-header {
 
 @media (min-width: 640px) {
   .app-main {
-    padding-top: 4.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .app-main {
-    padding-top: 4.75rem;
+    padding-top: 0;
   }
 }
 

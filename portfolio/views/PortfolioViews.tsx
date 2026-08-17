@@ -73,7 +73,7 @@ export const ViewCV = () => (
     <div className="max-w-4xl mx-auto space-y-10 md:space-y-12">
       <div className="text-center space-y-6">
         <div className="space-y-2">
-          <h1 className="text-2xl sm:text-3xl font-medium text-stone-900 dark:text-stone-100">{PROFILE.name}</h1>
+          <h1 className="text-xl sm:text-2xl font-medium text-stone-900 dark:text-stone-100">{PROFILE.name}</h1>
           <p className="text-sm text-stone-500 dark:text-stone-400 uppercase">{PROFILE.title}</p>
         </div>
 
@@ -108,7 +108,7 @@ export const ViewProjects = ({ onSelect }: { onSelect: (project: Project) => voi
             <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 uppercase">{t}</span>
           ))}
         </div>
-        <p className="text-[15px] leading-relaxed text-stone-700 dark:text-stone-300 max-w-3xl">{project.description}</p>
+        <p className="text-[14px] leading-relaxed text-stone-700 dark:text-stone-300 max-w-3xl">{project.description}</p>
       </ArticleRow>
     ))}
   </ArticleList>
@@ -137,7 +137,7 @@ export const ViewZenList = ({ onSelect }: { onSelect: (post: ZenPost) => void })
       <div className="space-y-0">
         {ZEN_POSTS.map((post) => (
           <ArticleRow key={post.id} variant="essay" onClick={() => onSelect(post)} title={post.title} meta={post.date}>
-            <p className="newsreader italic text-[16px] leading-[1.75] text-stone-600 dark:text-stone-400 max-w-[58ch]">
+            <p className="newsreader italic text-[15px] leading-[1.75] text-stone-600 dark:text-stone-400 max-w-[58ch]">
               {post.description}
             </p>
           </ArticleRow>
