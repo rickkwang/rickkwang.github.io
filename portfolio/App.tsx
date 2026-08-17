@@ -130,13 +130,13 @@ const App = () => {
   }, [isMobileMenuOpen]);
 
   return (
-    <div className="min-h-screen max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 dark:text-neutral-200">
+    <div className="min-h-screen max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 dark:text-stone-200">
       <header className="app-header">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 font-medium text-[11px]">
           <div className="sm:hidden mobile-header-row flex items-center justify-between">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer transition-colors text-neutral-900 dark:text-neutral-100 hover:text-neutral-500 dark:hover:text-neutral-400"
+              className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -146,7 +146,7 @@ const App = () => {
                 <button
                   type="button"
                   onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-                  className="text-neutral-500 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-0.5"
+                  className="text-stone-500 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors p-0.5"
                   aria-label="Open navigation menu"
                 >
                   <span className="relative block w-4 h-4" aria-hidden="true">
@@ -156,13 +156,13 @@ const App = () => {
                   </span>
                 </button>
                 {isMobileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-44 z-20 bg-white dark:bg-neutral-900 border-[0.5px] border-neutral-300 dark:border-neutral-700 p-1.5">
+                  <div className="absolute right-0 mt-2 w-44 z-20 bg-white dark:bg-stone-900 border-[0.5px] border-stone-300 dark:border-stone-700 p-1.5">
                     {NAV_TABS.map((tab) => (
                       <button
                         key={tab}
                         type="button"
                         onClick={() => handleTabChange(tab)}
-                        className={`w-full text-left px-2 py-1.5 text-[10px] uppercase tracking-[0.08em] transition-colors border-l ${activeTab === tab ? 'text-black dark:text-white bg-neutral-100 dark:bg-neutral-800 border-neutral-400 dark:border-neutral-500' : 'text-neutral-500 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800 border-transparent'}`}
+                        className={`w-full text-left px-2 py-1.5 text-[10px] uppercase tracking-[0.08em] transition-colors border-l ${activeTab === tab ? 'text-black dark:text-white bg-stone-100 dark:bg-stone-800 border-stone-400 dark:border-stone-500' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 border-transparent'}`}
                       >
                         {TAB_LABEL[tab]}
                       </button>
@@ -172,7 +172,7 @@ const App = () => {
               </div>
               <button
                 onClick={toggleTheme}
-                className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors p-1"
+                className="text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors p-1"
                 aria-label="Toggle Dark Mode"
               >
                 {theme === 'dark' ? <IconSun /> : <IconMoon />}
@@ -183,7 +183,7 @@ const App = () => {
           <div className="hidden sm:flex justify-between items-center h-11">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer transition-colors text-neutral-900 dark:text-neutral-100 hover:text-neutral-500 dark:hover:text-neutral-400 leading-none flex items-center"
+              className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400 leading-none flex items-center"
               onClick={() => handleTabChange('HOME')}
             >
               Myrick Wang
@@ -193,15 +193,15 @@ const App = () => {
                 <button
                   key={tab}
                   onClick={() => handleTabChange(tab)}
-                  className={`transition-all whitespace-nowrap text-[11px] uppercase tracking-[0.08em] leading-none flex items-center border-b ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white border-neutral-800 dark:border-neutral-200' : 'text-neutral-500 dark:text-neutral-500 border-transparent hover:text-black dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-600'}`}
+                  className={`transition-all whitespace-nowrap text-[11px] uppercase tracking-[0.08em] leading-none flex items-center border-b ${activeTab === tab && !selectedArticle ? 'text-black dark:text-white border-stone-800 dark:border-stone-200' : 'text-stone-500 dark:text-stone-500 border-transparent hover:text-black dark:hover:text-white hover:border-stone-300 dark:hover:border-stone-600'}`}
                 >
                   {TAB_LABEL[tab]}
                 </button>
               ))}
-              <span className="ml-2 pl-6 border-l-[0.5px] border-neutral-200 dark:border-neutral-700 flex items-center">
+              <span className="ml-2 pl-6 flex items-center">
                 <button
                   onClick={toggleTheme}
-                  className="text-neutral-400 dark:text-neutral-500 hover:text-black dark:hover:text-white transition-colors flex items-center"
+                  className="text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors flex items-center"
                   aria-label="Toggle Dark Mode"
                 >
                   {theme === 'dark' ? <IconSun /> : <IconMoon />}
@@ -230,12 +230,12 @@ const App = () => {
         )}
       </main>
 
-      <footer className="mt-16 md:mt-20 pt-6 border-t-[0.5px] border-neutral-200 dark:border-neutral-700 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-neutral-500 dark:text-neutral-400 uppercase pb-8 font-medium tracking-[0.04em]">
+      <footer className="mt-16 md:mt-20 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
         <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
         <div className="flex items-center gap-6">
           <button
             type="button"
-            className="bg-transparent p-0 cursor-pointer text-neutral-500 dark:text-neutral-400 hover:text-black dark:hover:text-neutral-200 transition-colors flex items-center gap-1.5"
+            className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 transition-colors flex items-center gap-1.5"
             onClick={() => window.scrollTo(0, 0)}
           >
             top <span aria-hidden>↑</span>
