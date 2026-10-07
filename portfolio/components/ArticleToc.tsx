@@ -5,19 +5,21 @@ import { slugify } from './MarkdownContent';
 const stripMarkup = (text: string) =>
   text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '');
 
+const extractSections = (content: string) =>
+  content
+    .split('\n')
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith('## '))
+    .map((line) => {
+      const raw = line.replace('## ', '');
+      return { id: slugify(raw), label: stripMarkup(raw) };
+    });
+
+// The TREE only renders with 2+ sections; the content column reserves its slot using the same rule
+export const hasToc = (content: string) => extractSections(content).length >= 2;
+
 const ArticleToc = ({ content }: { content: string }) => {
-  const sections = useMemo(
-    () =>
-      content
-        .split('\n')
-        .map((line) => line.trim())
-        .filter((line) => line.startsWith('## '))
-        .map((line) => {
-          const raw = line.replace('## ', '');
-          return { id: slugify(raw), label: stripMarkup(raw) };
-        }),
-    [content],
-  );
+  const sections = useMemo(() => extractSections(content), [content]);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
 

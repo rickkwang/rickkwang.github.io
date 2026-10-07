@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Article, Tab } from './types';
 import { SOCIAL_LINKS } from './constants';
+import { hasToc } from './components/ArticleToc';
 import { ARTICLE_COLUMN, HOME_COLUMN, useContentColumn } from './lib/useContentColumn';
 import Snail from './components/Snail';
 import { IconMoon, IconSun } from './components/Icons';
@@ -121,7 +122,7 @@ const App = () => {
   // Footer follows the same column as the page above it (home / article); other pages keep the default flow
   const footerColumn = useContentColumn(
     selectedArticle
-      ? ARTICLE_COLUMN
+      ? { ...ARTICLE_COLUMN, reserveToc: hasToc(selectedArticle.content) }
       : activeTab === 'HOME'
         ? HOME_COLUMN
         : { enabled: false },
@@ -298,7 +299,7 @@ const App = () => {
           <div ref={footerColumn.wrapperRef}>
           <div style={footerColumn.columnStyle} className="max-w-4xl">
           <Snail />
-          <footer className="mono mt-2 pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
+          <footer className="mono pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-[23px] font-medium tracking-[0.04em]">
             <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
             <div className="dim-siblings flex items-center gap-6">
               {FOOTER_LINKS.map((link) => (

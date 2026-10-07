@@ -12,7 +12,7 @@ import { Article, Project, Publication, Work, ZenPost } from '../types';
 import MarkdownContent from '../components/MarkdownContent';
 import { ArticleList, ArticleRow } from '../components/ArticleList';
 import PageHeader from '../components/PageHeader';
-import ArticleToc from '../components/ArticleToc';
+import ArticleToc, { hasToc } from '../components/ArticleToc';
 import WorkIndex from '../components/WorkIndex';
 import { HOME_COLUMN, useContentColumn } from '../lib/useContentColumn';
 import TypedText from '../components/TypedText';
@@ -54,7 +54,7 @@ export const ViewArticle = ({ data, onBack, backLabel, onSelect }: ArticleProps)
   const index = siblings.findIndex((item) => item.id === data.id);
   const prev = index > 0 ? siblings[index - 1] : undefined;
   const next = index >= 0 && index < siblings.length - 1 ? siblings[index + 1] : undefined;
-  const { wrapperRef, columnStyle } = useContentColumn();
+  const { wrapperRef, columnStyle } = useContentColumn({ reserveToc: hasToc(data.content) });
   return (
     <div ref={wrapperRef} className={`page-fade-in pb-32 ${isZen ? 'zen' : ''}`}>
       <div className="max-w-4xl min-w-0" style={columnStyle}>
