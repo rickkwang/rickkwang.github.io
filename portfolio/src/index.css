@@ -6,6 +6,7 @@
   --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-serif: "Source Serif 4", Georgia, serif;
+  --font-zen-serif: "Newsreader", Georgia, "Times New Roman", serif;
 }
 
 :root {
@@ -54,8 +55,8 @@ body {
 .ruler-label,
 .kbd-hint { font-family: var(--font-mono); }
 
-/* Zen Garden only: Anthropic-style serif */
-.zen, .zen h1, .zen h2, .zen h3, .zen p, .zen button, .zen .mono { font-family: var(--font-serif); }
+/* Zen Garden only: Newsreader serif */
+.zen, .zen h1, .zen h2, .zen h3, .zen p, .zen button, .zen .mono, .zen .serif { font-family: var(--font-zen-serif); }
 .zen pre, .zen code { font-family: var(--font-mono); }
 .serif {
   font-family: var(--font-serif);
