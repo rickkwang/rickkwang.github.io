@@ -1,9 +1,44 @@
+import type { ReactNode } from 'react';
+
+export const slugify =(text: string) =>
+  text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+type CodeBlock = { code: string[] };
+
+// Collapse ``` fenced regions into single code blocks so they render as one <pre>
+const groupFences = (lines: string[]): (string | CodeBlock)[] => {
+  const out: (string | CodeBlock)[] = [];
+  let block: CodeBlock | null = null;
+  for (const line of lines) {
+    if (line.trim().startsWith('```')) {
+      if (block) {
+        out.push(block);
+        block = null;
+      } else {
+        block = { code: [] };
+      }
+    } else if (block) {
+      block.code.push(line);
+    } else {
+      out.push(line);
+    }
+  }
+  if (block) out.push(block);
+  return out;
+};
+
 const MarkdownContent = ({ content }: { content: string }) => {
-  const parseBold = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
+  const parseBold = (text: string): ReactNode[] => {
+    const parts = text.split(/(\*\*.*?\*\*|`[^`]+`|\*[^*]+\*)/g);
     return parts.map((part, i) => {
+      if (part.length > 2 && part.startsWith('`') && part.endsWith('`')) {
+        return <code key={i} className="font-mono text-[0.86em] px-1 py-px bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200">{part.slice(1, -1)}</code>;
+      }
+      if (part.length > 2 && part.startsWith('*') && !part.startsWith('**') && part.endsWith('*')) {
+        return <em key={i}>{part.slice(1, -1)}</em>;
+      }
       if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={i} className="font-medium text-stone-900 dark:text-stone-100">{part.slice(2, -2)}</strong>;
+        return <strong key={i} className="font-medium text-stone-900 dark:text-stone-100">{parseBold(part.slice(2, -2))}</strong>;
       }
       return <span key={i}>{part}</span>;
     });
@@ -47,7 +82,10 @@ const MarkdownContent = ({ content }: { content: string }) => {
 
   return (
     <div className="prose max-w-none text-stone-800 dark:text-stone-200 leading-7 font-normal">
-      {content.split('\n').map((line, i) => {
+      {groupFences(content.split('\n')).map((line, i) => {
+        if (typeof line !== 'string') {
+          return <pre key={i} className={codeBlockStyle}><code>{line.code.join('\n')}</code></pre>;
+        }
         const trimmed = line.trim();
         if (trimmed === '') return <div key={i} className="h-3" />;
         if (trimmed === '---') return <hr key={i} className="border-stone-100 dark:border-stone-700 my-8" />;
@@ -61,7 +99,7 @@ const MarkdownContent = ({ content }: { content: string }) => {
         }
         if (trimmed.startsWith('## ')) {
           return (
-            <h2 key={i} className="text-[12px] uppercase font-medium text-stone-500 dark:text-stone-400 mt-12 mb-6 pb-2 border-b border-stone-100 dark:border-stone-700 tracking-[0.06em]">
+            <h2 key={i} id={slugify(trimmed.replace('## ', ''))} className="scroll-mt-16 text-[12px] uppercase font-medium text-stone-500 dark:text-stone-400 mt-12 mb-6 pb-2 border-b border-stone-100 dark:border-stone-700 tracking-[0.06em]">
               {parseLine(trimmed.replace('## ', ''))}
             </h2>
           );
@@ -88,7 +126,6 @@ const MarkdownContent = ({ content }: { content: string }) => {
           );
         }
 
-        if (trimmed.startsWith('```')) return null;
         if (line.startsWith('    ') || line.startsWith('\t')) {
           return <div key={i} className={codeBlockStyle}>{line}</div>;
         }

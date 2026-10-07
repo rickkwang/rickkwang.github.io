@@ -2,14 +2,17 @@
 id: synchronous-design
 title: The Elegance of Synchronous Design
 date: OCTOBER 12, 2024
-description: "Reflections on FPGA clocks and the cost of a nanosecond."
+tag: "Engineering"
+description: "On FPGA clocks, and what a single nanosecond costs."
 ---
 # The Elegance of Synchronous Design
 
-Working on FPGA clocks reminded me that time is the most expensive resource in hardware. A single nanosecond of skew can invalidate a complex state machine.
+Building a clock on an FPGA taught me that time is the scarcest resource in hardware. A single nanosecond of skew is enough to unravel a carefully built state machine.
 
-There is something profoundly satisfying about seeing thousands of flip-flops switching in perfect unison, orchestrated by a crystal oscillator beating 50 million times per second. It is the closest humanity has come to manifesting pure logic as a physical force.
+And yet there is a deep satisfaction in watching thousands of flip-flops change state in perfect unison, all keeping time to one crystal that beats fifty million times a second. It is as close as we have come to turning pure logic into a physical force.
 
-In software, time is often an abstraction - a "tick" or a "timestamp". In hardware, time is physical distance. It is the speed of light through copper traces. It is the setup and hold time of a transistor gate. To build a system is to understand these physical limits, not just the logical ones.
+In software, time is an abstraction — a tick, a timestamp, a number that only grows. In hardware, time is distance. It is the speed of light along a copper trace; it is the setup and hold window of a single gate. To build a system is to respect these physical limits, not only the logical ones.
 
-> "The simplicity is the ultimate sophistication." - Leonardo da Vinci
+Synchrony, in the end, is a kind of humility: every part agrees to wait for the same beat.
+
+> "Simplicity is the ultimate sophistication." — often attributed to Leonardo da Vinci

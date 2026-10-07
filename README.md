@@ -8,9 +8,10 @@ Personal academic homepage built with React + Vite, deployed on GitHub Pages.
 portfolio/
 ├── content/              # Content files (Markdown)
 │   ├── cv.md            # CV / Resume
-│   ├── projects/        # Projects
-│   ├── publications/   # Publications
-│   └── zen/            # Notes / Blog posts
+│   ├── work/            # Apps & tools (WORK)
+│   ├── projects/        # Academic projects (ACADEMIC)
+│   ├── publications/   # Publications (ACADEMIC)
+│   └── zen/            # Zen Garden essays (ZEN)
 ├── src/                 # Source code
 │   ├── components/      # UI components
 │   ├── views/          # Page views
@@ -21,9 +22,12 @@ portfolio/
 ## Update Content
 
 - **CV**: `portfolio/content/cv.md`
+- **Work**: `portfolio/content/work/*.md`
 - **Projects**: `portfolio/content/projects/*.md`
 - **Publications**: `portfolio/content/publications/*.md`
-- **Notes**: `portfolio/content/zen/*.md`
+- **Zen Garden**: `portfolio/content/zen/*.md`
+
+New files must also be imported and added to the matching list in `portfolio/constants.tsx`.
 
 Content files use Markdown + Frontmatter:
 
@@ -38,9 +42,10 @@ year: "2026"
 
 ### Frontmatter Fields
 
+**work/*.md**: `id`, `title`, `year`, `kind`, `tagline`, `cover`, `url`, `github` (`cover` / `url` / `github` may be empty)
 **projects/*.md**: `id`, `title`, `year`, `tech`, `description`
 **publications/*.md**: `id`, `title`, `authors`, `venue`, `year`, `status`
-**zen/*.md**: `id`, `title`, `date`, `description`
+**zen/*.md**: `id`, `title`, `date`, `tag` (filter tab, defaults to `Thoughts`), `description`
 
 ## Deploy
 

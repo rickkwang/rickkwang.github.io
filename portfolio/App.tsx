@@ -1,29 +1,39 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Article, Tab } from './types';
+import { SOCIAL_LINKS } from './constants';
+import { ARTICLE_COLUMN, HOME_COLUMN, useContentColumn } from './lib/useContentColumn';
+import Snail from './components/Snail';
 import { IconMoon, IconSun } from './components/Icons';
 import {
+  ViewAcademic,
   ViewArticle,
   ViewCV,
   ViewHome,
-  ViewProjects,
-  ViewPublications,
-  ViewZenList,
+  ViewWork,
+  ViewZenGarden,
   WorldTime,
 } from './views/PortfolioViews';
 
-const NAV_TABS: Tab[] = ['CV', 'PROJECTS', 'PUBLICATIONS', 'ZEN'];
+const NAV_TABS: Tab[] = ['WORK', 'ACADEMIC', 'CV', 'ZEN'];
 const TAB_LABEL: Record<Tab, string> = {
   HOME: 'HOME',
+  WORK: 'WORK',
+  ACADEMIC: 'ACADEMIC',
   CV: 'CV',
-  PROJECTS: 'PROJECTS',
-  PUBLICATIONS: 'PUBLICATIONS',
-  ZEN: 'ZEN LAND',
+  ZEN: 'ZEN GARDEN',
 };
+// Old ?tab= links keep working after the restructure
+const LEGACY_TAB: Record<string, Tab> = { PROJECTS: 'ACADEMIC', PUBLICATIONS: 'ACADEMIC', WRITING: 'ZEN' };
+const TAB_KEY: Record<string, Tab> = { h: 'HOME', w: 'WORK', a: 'ACADEMIC', c: 'CV', z: 'ZEN' };
+
+const FOOTER_LINKS = SOCIAL_LINKS.filter((link) => link.label !== 'LinkedIn');
+
 const getInitialTab = (): Tab => {
   if (typeof window === 'undefined') return 'HOME';
   const query = new URLSearchParams(window.location.search).get('tab');
-  const normalized = query?.toUpperCase();
-  return normalized && NAV_TABS.includes(normalized as Tab) ? (normalized as Tab) : 'HOME';
+  const normalized = query?.toUpperCase() ?? '';
+  if (LEGACY_TAB[normalized]) return LEGACY_TAB[normalized];
+  return NAV_TABS.includes(normalized as Tab) ? (normalized as Tab) : 'HOME';
 };
 
 const App = () => {
@@ -107,6 +117,33 @@ const App = () => {
     window.scrollTo(0, 0);
   };
 
+  const [showKbdHint, setShowKbdHint] = useState(false);
+  // Footer follows the same column as the page above it (home / article); other pages keep the default flow
+  const footerColumn = useContentColumn(
+    selectedArticle
+      ? ARTICLE_COLUMN
+      : activeTab === 'HOME'
+        ? HOME_COLUMN
+        : { enabled: false },
+  );
+
+  useEffect(() => {
+    setShowKbdHint(true);
+    const hide = setTimeout(() => setShowKbdHint(false), 6000);
+    const handleKey = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      const target = event.target as HTMLElement;
+      if (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
+      const tab = TAB_KEY[event.key.toLowerCase()];
+      if (tab) handleTabChange(tab);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      clearTimeout(hide);
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, []);
+
   const handleArticleSelect = (article: Article) => {
     setSelectedArticle(article);
   };
@@ -139,7 +176,7 @@ const App = () => {
               className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400"
               onClick={() => handleTabChange('HOME')}
             >
-              Myrick Wang
+              Zhenhao
             </button>
             <div className="flex items-center gap-3" ref={mobileMenuRef}>
               <div className="relative">
@@ -186,16 +223,17 @@ const App = () => {
         <aside className="hidden sm:block sm:w-[150px] md:w-[168px] flex-shrink-0">
           <div className="sticky top-14 flex flex-col justify-between h-[calc(100vh-5rem)]">
             <div>
-              <button
-                type="button"
-                className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400 leading-none"
-                onClick={() => handleTabChange('HOME')}
-              >
-                Myrick Wang
-              </button>
-              <nav className="mt-10 relative pl-5">
-                <span className="absolute left-0 top-0 bottom-0 w-px bg-stone-200 dark:bg-stone-700" aria-hidden="true"></span>
-                <div className="flex flex-col gap-1.5">
+              <nav className="ruler-nav">
+                <button
+                  type="button"
+                  onClick={() => handleTabChange('HOME')}
+                  aria-current={activeTab === 'HOME' && !selectedArticle ? 'page' : undefined}
+                  className={`ruler-item ruler-home flex items-center gap-2.5 bg-transparent p-0 cursor-pointer leading-none py-1 mb-2 ${activeTab === 'HOME' && !selectedArticle ? 'is-active' : ''}`}
+                >
+                  <span className="w-8 flex-none" aria-hidden="true"><span className="ruler-tick"></span></span>
+                  <span className="ruler-label whitespace-nowrap text-[13px]">Zhenhao</span>
+                </button>
+                <div className="flex flex-col gap-2">
                   {NAV_TABS.map((tab) => {
                     const active = activeTab === tab && !selectedArticle;
                     return (
@@ -203,13 +241,11 @@ const App = () => {
                         key={tab}
                         onClick={() => handleTabChange(tab)}
                         aria-current={active ? 'page' : undefined}
-                        className={`group relative flex items-center py-1 text-left text-[11px] uppercase tracking-[0.08em] transition-colors ${active ? 'text-black dark:text-white' : 'text-stone-500 dark:text-stone-500 hover:text-black dark:hover:text-white'}`}
+                        aria-label={TAB_LABEL[tab]}
+                        className={`ruler-item group flex items-center gap-2.5 py-1 text-left text-[11px] uppercase tracking-[0.08em] ${active ? 'is-active' : ''}`}
                       >
-                        <span
-                          className={`absolute -left-5 h-px transition-all duration-200 ${active ? 'w-4 bg-stone-900 dark:bg-stone-100' : 'w-2.5 bg-stone-300 dark:bg-stone-600 group-hover:w-3.5 group-hover:bg-stone-500 dark:group-hover:bg-stone-400'}`}
-                          aria-hidden="true"
-                        ></span>
-                        {TAB_LABEL[tab]}
+                        <span className="w-8 flex-none" aria-hidden="true"><span className="ruler-tick"></span></span>
+                        <span className="ruler-label whitespace-nowrap">{TAB_LABEL[tab]}</span>
                       </button>
                     );
                   })}
@@ -233,30 +269,50 @@ const App = () => {
                 data={selectedArticle}
                 onBack={() => handleTabChange(activeTab)}
                 backLabel={TAB_LABEL[activeTab]}
+                onSelect={handleArticleSelect}
               />
             ) : (
               <>
-                {activeTab === 'HOME' && <ViewHome time={time} />}
+                {activeTab === 'HOME' && <ViewHome time={time} onSelect={handleArticleSelect} onNavigate={handleTabChange} />}
+                {activeTab === 'WORK' && <ViewWork onSelect={handleArticleSelect} />}
+                {activeTab === 'ACADEMIC' && <ViewAcademic onSelect={handleArticleSelect} />}
                 {activeTab === 'CV' && <ViewCV />}
-                {activeTab === 'PROJECTS' && <ViewProjects onSelect={handleArticleSelect} />}
-                {activeTab === 'PUBLICATIONS' && <ViewPublications onSelect={handleArticleSelect} />}
-                {activeTab === 'ZEN' && <ViewZenList onSelect={handleArticleSelect} />}
+                {activeTab === 'ZEN' && <ViewZenGarden onSelect={handleArticleSelect} />}
               </>
             )}
           </main>
 
-          <footer className="mt-16 md:mt-20 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
+          <div ref={footerColumn.wrapperRef}>
+          <div style={footerColumn.columnStyle} className="max-w-4xl">
+          <Snail />
+          <footer className="mono mt-2 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
             <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
-            <div className="flex items-center gap-6">
+            <div className="dim-siblings flex items-center gap-6">
+              {FOOTER_LINKS.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200"
+                >
+                  {link.label}
+                </a>
+              ))}
               <button
                 type="button"
-                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 transition-colors flex items-center gap-1.5"
+                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 top <span aria-hidden>↑</span>
               </button>
             </div>
           </footer>
+          </div>
+          </div>
+          <div className={`kbd-hint ${showKbdHint ? 'show' : ''}`} aria-hidden="true">
+            Press <b>H</b> <b>W</b> <b>A</b> <b>C</b> <b>Z</b> to navigate
+          </div>
         </div>
       </div>
     </div>

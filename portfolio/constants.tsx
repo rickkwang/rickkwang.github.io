@@ -1,4 +1,4 @@
-import { NewsItem, Project, Publication, Experience, ZenPost } from './types';
+import { Project, Publication, ZenPost, Work } from './types';
 import { parseMarkdown } from './lib/markdown';
 
 import cvMarkdownRaw from './content/cv.md?raw';
@@ -9,61 +9,60 @@ import projectFpgaClockRaw from './content/projects/03-fpga-clock.md?raw';
 
 import publicationEfficiencyRaw from './content/publications/01-efficiency-optimization.md?raw';
 
+import workNoaRaw from './content/work/01-noa.md?raw';
+import workDesklingRaw from './content/work/02-deskling.md?raw';
+import workNoaClaudeRaw from './content/work/03-noa-claude.md?raw';
+
 import zenSynchronousDesignRaw from './content/zen/01-synchronous-design.md?raw';
 import zenAnalogDecayRaw from './content/zen/02-analog-decay.md?raw';
 
 export const PROFILE = {
   name: 'Myrick Wang',
   title: 'Electrical & Electronic Engineering / University of Bristol',
-  bio: 'Specializing in semiconductor physics, analog & digital circuit design, communication systems, signal processing, and power conversion technologies. Currently pursuing a BEng in Electrical and Electronic Engineering (Class of 2027).',
+  // One is picked at random on each page load
+  intros: [
+    "Welcome in — I'm Zhenhao. Have a look around, and say hello if something catches your eye.",
+    "You made it. I'm Zhenhao; wander through my work, then come tell me what you think.",
+    "Good to see you. I'm Zhenhao — poke around, try things out, and let's swap notes.",
+    "Come on in, I'm Zhenhao. Browse as long as you like; new friends are always welcome.",
+    "Zhenhao here. Take a look at what I've been making — I'd love to hear about yours too.",
+    "Pull up a chair — I'm Zhenhao. Explore a bit, and drop me a line anytime.",
+    "Glad you wandered in. I'm Zhenhao, and good conversations are always welcome here.",
+    "Make yourself at home; I'm Zhenhao. If you're building something too, let's talk.",
+  ],
+  about: [
+    "Undergraduate in the UK by day. Between lectures, I make small things — toys, mostly — for an audience of one.",
+    "A lot of software doesn't look the way I wish it did, so I build my own versions and live in them. If you end up liking one too, that's a very nice bonus.",
+    "Otherwise: wandering new cities, rearranging my flat, headphones on at the gym, and writing things down before I forget them.",
+  ],
+  // Scrolling ticker on the home page — edit freely
+  ticker: [
+    'Currently building Noa',
+    'Based between Bristol and Xiamen',
+    'Rearranging the flat again',
+    'Headphones on, probably',
+    'Writing things down before I forget them',
+  ],
+  stack: ['TypeScript', 'React', 'Vite', 'Electron', 'Python', 'C', 'VHDL'],
   email: 'myrickwan9@gmail.com',
   phone: '+86 15160733691',
   location: 'Bristol, UK / Xiamen, China',
-  avatar: '/avatar.jpg',
   socials: {
     github: 'github.com/rickkwang',
     linkedin: 'linkedin.com/in/myrick-wang',
-    scholar: 'scholar.google.com/citations?user=PS_CX0AAAAAJ',
     twitter: 'twitter.com/rickMygod',
-    bluesky: 'bsky.app/profile/myrwang.bsky.social',
   },
 };
 
+// Home page shows all of these; the footer drops LinkedIn
+export const SOCIAL_LINKS = [
+  { label: 'GitHub', href: `https://${PROFILE.socials.github}` },
+  { label: 'X', href: `https://${PROFILE.socials.twitter}` },
+  { label: 'LinkedIn', href: `https://${PROFILE.socials.linkedin}` },
+  { label: 'Email', href: `mailto:${PROFILE.email}` },
+];
+
 export const CV_MARKDOWN = parseMarkdown(cvMarkdownRaw).content;
-
-export const NEWS: NewsItem[] = [
-  { date: 'Sep 2024', content: 'Started Year 2 of BEng Electrical and Electronic Engineering at University of Bristol.' },
-  { date: 'Jun 2024', content: "Completed 'Social Network Simulation' independent research project." },
-  { date: 'May 2024', content: "Presented 'Optimizing Graph Traversal' at the Undergraduate Research Symposium." },
-  { date: 'Sep 2023', content: 'Joined the Automatic Lamp Post design group as Lead Hardware Engineer.' },
-];
-
-export const FOCUS_AREAS = [
-  'Signal Processing & Analysis',
-  'Embedded Systems Design',
-  'Machine Learning in Hardware',
-  'Circuit Analysis & Simulation',
-  'Network Topology Simulation',
-];
-
-export const PROFICIENCY = [
-  {
-    category: 'PROGRAMMING',
-    skills: [
-      { name: 'Python', desc: 'Data analysis, simulation, and automation (NumPy, Matplotlib, argparse)' },
-      { name: 'C / C++', desc: 'Embedded firmware, microcontroller programming (ARM/RISC-V)' },
-      { name: 'MATLAB', desc: 'Signal processing, numerical computation, and control system design' },
-    ],
-  },
-  {
-    category: 'ENGINEERING TOOLS',
-    skills: [
-      { name: 'Arduino / RP2040', desc: 'Hardware prototyping, sensor integration & control logic' },
-      { name: 'Intel Quartus / FPGA', desc: 'Digital logic design, Verilog implementation & timing analysis' },
-      { name: 'Fusion 360', desc: '3D modeling, enclosure design & mechanical simulation' },
-    ],
-  },
-];
 
 const getMeta = (meta: Record<string, string>, key: string) => meta[key] ?? '';
 const splitCsv = (value: string) => value.split(',').map((v) => v.trim()).filter(Boolean);
@@ -119,10 +118,33 @@ const toZenPost = (raw: string): ZenPost => {
     id: getMeta(meta, 'id'),
     title: getMeta(meta, 'title'),
     date: getMeta(meta, 'date'),
+    tag: getMeta(meta, 'tag') || 'Thoughts',
     description: getMeta(meta, 'description'),
     content,
   };
 };
+
+const toWork = (raw: string): Work => {
+  const { meta, content } = parseMarkdown(raw);
+
+  return {
+    id: getMeta(meta, 'id'),
+    title: getMeta(meta, 'title'),
+    year: getMeta(meta, 'year'),
+    kind: getMeta(meta, 'kind'),
+    tagline: getMeta(meta, 'tagline'),
+    cover: getMeta(meta, 'cover') || undefined,
+    url: getMeta(meta, 'url') || undefined,
+    github: getMeta(meta, 'github') || undefined,
+    content,
+  };
+};
+
+export const WORKS: Work[] = [
+  workNoaRaw,
+  workDesklingRaw,
+  workNoaClaudeRaw,
+].map(toWork);
 
 export const PROJECTS: Project[] = [
   projectSocialNetworkRaw,
@@ -138,25 +160,3 @@ export const ZEN_POSTS: ZenPost[] = [
   zenSynchronousDesignRaw,
   zenAnalogDecayRaw,
 ].map(toZenPost);
-
-export const EDUCATION = [
-  {
-    institution: 'University of Bristol',
-    degree: 'BEng Electrical & Electronic Engineering',
-    period: '2023 – 2027',
-    details: 'Year 2 Undergraduate. Studying Semiconductor Physics, Analog/Digital Circuits, and Embedded Systems.',
-  },
-];
-
-export const EXPERIENCES: Experience[] = [
-  {
-    company: 'University of Bristol',
-    role: 'Lead Hardware Engineer (Project Group)',
-    period: '2023 – Present',
-    description: [
-      'Coordinated hardware specifications for autonomous sensor networks and robotic platforms.',
-      'Optimized power consumption in embedded units for municipal infrastructure applications.',
-      'Documented technical specifications and managed sensor integration workflows.',
-    ],
-  },
-];

@@ -2,12 +2,15 @@
 id: analog-decay
 title: Analog Decay
 date: SEPTEMBER 05, 2024
-description: "Why the imperfections of analog signals are more beautiful than digital precision."
+tag: "Engineering"
+description: "Why the imperfections of analog signals can be more beautiful than digital precision."
 ---
 # Analog Decay
 
-We spend so much effort digitizing the world. ADC (Analog to Digital Converters) are the gatekeepers of modern processing. We crave the clean, discrete 0s and 1s.
+We work hard to digitize the world. Analog-to-digital converters stand at the gates of modern computation, and on the far side we crave clean, discrete certainty: zero, one, nothing in between.
 
-But the real world is messy. It's a continuous sine wave, not a square wave. Noise isn't just an error; it's information about the environment (thermal noise, electromagnetic interference).
+But the world itself is not discrete. It moves in sine waves, not square ones. Noise is not merely error — it carries news of its surroundings: the warmth of a resistor, the hum of a nearby wire.
 
-In my recent work with operational amplifiers, I've come to appreciate the "decay". The way a capacitor discharges is a perfect exponential curve, defined by physics, not code. There is a truth in that curve that a digital approximation can only asymptotically approach, never truly touch.
+Working with operational amplifiers lately, I have come to love the decay. A capacitor letting go of its charge traces a perfect exponential, written by physics rather than by code. There is a truth in that curve that a digital approximation can only approach, sample by sample, and never quite touch.
+
+Perhaps that is the quiet lesson of analog: precision is something we impose; continuity is what was there all along.
