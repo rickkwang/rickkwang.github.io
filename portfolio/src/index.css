@@ -406,9 +406,13 @@ html.dark .toc-meter-fill { color: #f5f5f4; }
 html.dark .ticker { color: #a8a29e; border-color: #3a3a37; }
 
 /* Prev / next at the end of an article */
-.prevnext a, .prevnext button { transition: background-color .2s ease; }
-.prevnext button:hover { background: #f1efe8; }
-html.dark .prevnext button:hover { background: #2f2f2d; }
+/* Prev / next: no box, no underline (wraps badly on long titles) — the title firms up and the label nudges outward */
+.prevnext-label { transition: color .4s ease, transform .7s var(--ease-out); }
+.prevnext-title { opacity: .72; transition: opacity .4s ease; }
+.prevnext button:hover .prevnext-title { opacity: 1; }
+.prevnext button:hover .prevnext-label { color: #57534e; transform: translateX(var(--nudge)); }
+html.dark .prevnext button:hover .prevnext-label { color: #d6d3d1; }
+@media (prefers-reduced-motion: reduce) { .prevnext-title, .prevnext-label { transition: none; } }
 
 /* Zen Garden filter tabs */
 .filter-tab { transition: color .2s ease; }

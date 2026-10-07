@@ -95,12 +95,12 @@ export const ViewArticle = ({ data, onBack, backLabel, onSelect }: ArticleProps)
           </div>
         )}
         {(prev || next) && (
-          <nav className={`prevnext mt-16 grid grid-cols-2 gap-px border-t-[0.5px] border-stone-200 dark:border-stone-700 ${columnStyle ? '' : 'md:mx-8'}`} aria-label="More">
-            {[{ item: prev, label: '← Previous', align: 'text-left' }, { item: next, label: 'Next →', align: 'text-right' }].map(({ item, label, align }) =>
+          <nav className={`prevnext mt-16 grid grid-cols-2 gap-8 border-t-[0.5px] border-stone-200 dark:border-stone-700 ${columnStyle ? '' : 'md:mx-8'}`} aria-label="More">
+            {[{ item: prev, label: '← Previous', align: 'text-left [--nudge:-3px]' }, { item: next, label: 'Next →', align: 'text-right [--nudge:3px]' }].map(({ item, label, align }) =>
               item ? (
                 <button key={label} type="button" onClick={() => onSelect(item)} className={`${align} py-5 px-3 -mx-3`}>
-                  <span className="block mono text-[10px] uppercase tracking-[0.08em] text-stone-400 dark:text-stone-500">{label}</span>
-                  <span className="block mt-1.5 text-[14px] text-stone-900 dark:text-stone-100">{item.title}</span>
+                  <span className="prevnext-label block mono text-[10px] uppercase tracking-[0.08em] text-stone-400 dark:text-stone-500">{label}</span>
+                  <span className="block mt-1.5 text-[14px] leading-snug text-stone-900 dark:text-stone-100 line-clamp-2 [text-wrap:balance]"><span className="prevnext-title">{item.title}</span></span>
                 </button>
               ) : (
                 <span key={label} />
