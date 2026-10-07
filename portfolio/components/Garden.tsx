@@ -197,47 +197,84 @@ const Planet = () => (
   </span>
 );
 
-// Butterfly, side-on and facing right (CSS mirrors it when it flies left). Unlike the rest of
-// the garden it's drawn as vector shapes: at this size a pixel grid can't separate forewing,
-// hindwing, body and antennae, and it stopped reading as a butterfly. The wings hinge at the
-// thorax and flap by folding through the body line (scaleY 1 → −0.65), which is what a real
-// wingbeat looks like from the side; the far pair runs a beat behind in a darker tone.
-const FOREWING = 'M12 13C13 9 14.5 4 15.5 1.2C12 1.5 7 4.5 5.5 8.5C7.5 10 10 11.5 12 13Z';
-const HINDWING = 'M11.5 13.5C9 10 5.5 9 3.5 10.5C2.5 12.5 4 15 6.5 15.5C8.5 15.6 10.5 14.8 11.5 13.5Z';
+// Butterfly, side-on and facing right (CSS mirrors it when it flies left), on the same 2px grid
+// as the pagoda and planet. The frames were traced from a vector drawing and then cleaned up by
+// hand: a pointed forewing with a dark tip and one white spot, a rounded pale hindwing, the far
+// pair peeking out behind, and a thin body with a short clubbed antenna. Flight steps through
+// folded → half → down → half; perched it stays folded and opens halfway now and then.
+// e outline · a forewing · t wing tip · w tip spot · z hindwing · f/g far fore/hindwing
+// x body · h head · n antenna and legs
+const BF_PX = 2;
+const BF_W = 15;
+const BF_H = 18;
+const BF_ROW = '...............';
+const BF_FOLDED = [
+  '.........ftt...',
+  '........ftwt...',
+  '......feaatt...',
+  '.....feaaaae...',
+  '....feaaaaae...',
+  '...feaaaaae....',
+  '..feaaaaaae....',
+  '.geeeeaaae...nn',
+  'gezzzzeaae...n.',
+  'gezzzzzeae..n..',
+  '.ezzzzzexxhh...',
+  '..eeeeexxxh....',
+  '....xxxx.......',
+  '........n.n....',
+  BF_ROW, BF_ROW, BF_ROW, BF_ROW,
+];
+const BF_HALF = [
+  BF_ROW, BF_ROW, BF_ROW, BF_ROW, BF_ROW, BF_ROW, BF_ROW,
+  '...ffeeeettt.nn',
+  '.ggeaaaaatwt.n.',
+  'gezzzzeeaae.n..',
+  '.eeeeeeexxhh...',
+  '.......xxxh....',
+  '....xxxx.......',
+  '........n.n....',
+  BF_ROW, BF_ROW, BF_ROW, BF_ROW,
+];
+const BF_DOWN = [
+  BF_ROW, BF_ROW, BF_ROW, BF_ROW, BF_ROW, BF_ROW, BF_ROW,
+  '.............nn',
+  '.............n.',
+  '............n..',
+  '........xxhh...',
+  '.geeeeexxxh....',
+  'gezzzzzeaae....',
+  '.gezzzzeaaae...',
+  '..geeeeeaaaae..',
+  '....feaaaatt...',
+  '.....fetwtt....',
+  '.......fttt....',
+];
+const BF_FLY = [BF_FOLDED, BF_HALF, BF_DOWN, BF_HALF];
+const BF_REST = [BF_FOLDED, BF_HALF];
 
-const ButterflySprite = () => (
-  <svg className="bf" width={28} height={23} viewBox="0 0 24 20" overflow="visible">
-    <g transform="translate(-1.6 0.4)">
-      <g className="bf-wings far">
-        <path d={FOREWING} className="bf-far-fore" />
-        <path d={HINDWING} className="bf-far-hind" />
-      </g>
-    </g>
-    <path d="M5.2 15.6C7 14.6 10 14 12.5 13.8L12.5 15.2C10 15.3 7 15.6 5.2 15.6Z" className="bf-body" />
-    <ellipse cx={13} cy={14.2} rx={1.9} ry={1.5} className="bf-body" />
-    <circle cx={15.4} cy={13.4} r={1.25} className="bf-head" />
-    <path d="M15.8 12.4C16.6 11.2 17.4 10.1 18.3 9.3" className="bf-antenna" />
-    <path d="M15.3 12.3C15.9 11 16.5 9.9 17.2 9" className="bf-antenna far" />
-    <circle cx={18.4} cy={9.2} r={0.6} className="bf-body" />
-    <circle cx={17.3} cy={8.9} r={0.5} className="bf-club-far" />
-    <path d="M12.4 15.4L11.6 18M13.6 15.4L13.6 18.2M14.6 15L15.6 17.6" className="bf-legs" />
-    <g className="bf-wings near">
-      <path d={FOREWING} className="bf-fore" />
-      <path d="M15.5 1.2C13.6 1.4 11.6 2.3 10.2 3.4C11.8 4.3 13.2 5.2 14.2 6C14.7 4.3 15.1 2.7 15.5 1.2Z" className="bf-tip" />
-      <circle cx={13.3} cy={3} r={0.55} className="bf-spot" />
-      <circle cx={14.1} cy={4.5} r={0.45} className="bf-spot" />
-      <path d={HINDWING} className="bf-hind" />
-      <path d="M11.6 12.6C10 10.5 8.5 8 7.5 6.6M11.4 12.9C9.5 11.6 7.5 10.6 5.6 9.8" className="bf-vein" />
-    </g>
+const ButterflyFrame = ({ map, className }: { map: string[]; className: string }) => (
+  <svg className={className} width={BF_W * BF_PX} height={BF_H * BF_PX} shapeRendering="crispEdges">
+    {map.flatMap((row, y) =>
+      row.split('').map((cell, x) =>
+        cell === '.' ? null : (
+          <rect key={`${x}-${y}`} x={x * BF_PX} y={y * BF_PX} width={BF_PX} height={BF_PX} className={`bf-${cell}`} />
+        ),
+      ),
+    )}
   </svg>
 );
 
-// Two copies — one flapping, one perched — swapped by the path animation's clock (see CSS)
+// Flying and perched frame sets, swapped by the path animation's clock (see CSS)
 const Butterfly = () => (
   <span className="butterfly">
     <span className="butterfly-face">
-      <span className="butterfly-fly"><ButterflySprite /></span>
-      <span className="butterfly-rest"><ButterflySprite /></span>
+      <span className="butterfly-fly">
+        {BF_FLY.map((map, i) => <ButterflyFrame key={i} map={map} className={`butterfly-frame f${i}`} />)}
+      </span>
+      <span className="butterfly-rest">
+        {BF_REST.map((map, i) => <ButterflyFrame key={i} map={map} className={`butterfly-frame r${i}`} />)}
+      </span>
     </span>
   </span>
 );

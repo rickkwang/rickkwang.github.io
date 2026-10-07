@@ -41,7 +41,7 @@ const App = () => {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [time, setTime] = useState<WorldTime>({ ldn: '', bjs: '' });
-  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+  const mobileMenuRef = useRef<HTMLElement | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
     const savedTheme = localStorage.getItem('theme');
@@ -157,67 +157,80 @@ const App = () => {
       setIsMobileMenuOpen(false);
     };
 
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
     document.addEventListener('touchstart', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
 
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
       document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
     };
   }, [isMobileMenuOpen]);
 
   return (
     <div className="min-h-screen max-w-[1200px] sm:max-w-[1460px] mx-auto px-4 sm:px-6 md:px-12 dark:text-stone-200">
-      <header className="app-header sm:hidden">
-        <div className="max-w-[1200px] mx-auto px-4 font-medium text-[11px]">
+      <header className="app-header sm:hidden" ref={mobileMenuRef}>
+        <div className="px-4 font-medium text-[11px]">
           <div className="mobile-header-row flex items-center justify-between">
             <button
               type="button"
-              className="bg-transparent p-0 cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400"
+              className="mobile-tap -ml-2 px-2 bg-transparent cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400"
               onClick={() => handleTabChange('HOME')}
             >
               Zhenhao
             </button>
-            <div className="flex items-center gap-3" ref={mobileMenuRef}>
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-                  className="text-stone-500 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors p-0.5"
-                  aria-label="Open navigation menu"
-                >
-                  <span className="relative block w-4 h-4" aria-hidden="true">
-                    <span className={`absolute left-0 top-[3px] h-[1.5px] w-4 bg-current transition-all duration-200 ${isMobileMenuOpen ? 'top-[7px] rotate-45' : ''}`}></span>
-                    <span className={`absolute left-0 top-[7px] h-[1.5px] w-4 bg-current transition-all duration-150 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-                    <span className={`absolute left-0 top-[11px] h-[1.5px] w-4 bg-current transition-all duration-200 ${isMobileMenuOpen ? 'top-[7px] -rotate-45' : ''}`}></span>
-                  </span>
-                </button>
-                {isMobileMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-44 z-20 bg-white dark:bg-stone-900 border-[0.5px] border-stone-300 dark:border-stone-700 p-1.5">
-                    {NAV_TABS.map((tab) => (
-                      <button
-                        key={tab}
-                        type="button"
-                        onClick={() => handleTabChange(tab)}
-                        className={`w-full text-left px-2 py-1.5 text-[10px] uppercase tracking-[0.08em] transition-colors border-l ${activeTab === tab ? 'text-black dark:text-white bg-stone-100 dark:bg-stone-800 border-stone-400 dark:border-stone-500' : 'text-stone-500 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800 border-transparent'}`}
-                      >
-                        {TAB_LABEL[tab]}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
+            <div className="flex items-center -mr-2">
               <button
                 onClick={toggleTheme}
-                className="text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors p-1"
+                className="mobile-tap w-11 text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors"
                 aria-label="Toggle Dark Mode"
               >
                 {theme === 'dark' ? <IconSun /> : <IconMoon />}
               </button>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+                className="mobile-tap w-11 text-stone-500 hover:text-black dark:hover:text-white transition-colors"
+                aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-nav"
+              >
+                <span className="relative block w-[18px] h-[14px]" aria-hidden="true">
+                  <span className={`absolute left-0 h-[1.5px] w-full bg-current transition-all duration-200 ${isMobileMenuOpen ? 'top-[6px] rotate-45' : 'top-[1px]'}`}></span>
+                  <span className={`absolute left-0 top-[6px] h-[1.5px] bg-current transition-all duration-150 ${isMobileMenuOpen ? 'w-full opacity-0' : 'w-3/4 opacity-100'}`}></span>
+                  <span className={`absolute left-0 h-[1.5px] w-full bg-current transition-all duration-200 ${isMobileMenuOpen ? 'top-[6px] -rotate-45' : 'top-[11px]'}`}></span>
+                </span>
+              </button>
             </div>
           </div>
         </div>
+        <nav id="mobile-nav" className={`mobile-nav ${isMobileMenuOpen ? 'is-open' : ''}`} aria-hidden={!isMobileMenuOpen}>
+          <div className="px-4 pb-4 flex flex-col">
+            {NAV_TABS.map((tab) => {
+              const active = activeTab === tab && !selectedArticle;
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  tabIndex={isMobileMenuOpen ? 0 : -1}
+                  onClick={() => handleTabChange(tab)}
+                  aria-current={active ? 'page' : undefined}
+                  className={`ruler-item flex items-center gap-2.5 min-h-[44px] text-left text-[11px] uppercase tracking-[0.08em] ${active ? 'is-active' : ''}`}
+                >
+                  <span className="w-8 flex-none" aria-hidden="true"><span className="ruler-tick"></span></span>
+                  <span className="ruler-label whitespace-nowrap">{TAB_LABEL[tab]}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
       </header>
+      {isMobileMenuOpen && <div className="mobile-nav-scrim sm:hidden" aria-hidden="true" />}
 
       <div className="sm:flex sm:gap-14 md:gap-20 lg:gap-24 pt-12 sm:pt-14">
         <aside className="hidden sm:block sm:w-[150px] md:w-[168px] flex-shrink-0">

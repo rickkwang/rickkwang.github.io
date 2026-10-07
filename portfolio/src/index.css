@@ -88,9 +88,36 @@ header.app-header {
 }
 
 .mobile-header-row {
-  padding-top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
-  padding-bottom: 0.75rem;
+  padding-top: env(safe-area-inset-top, 0px);
+  min-height: calc(env(safe-area-inset-top, 0px) + 52px);
 }
+
+/* 44px touch targets without changing visual size */
+.mobile-tap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+}
+
+.mobile-nav {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.25s ease, opacity 0.2s ease;
+}
+.mobile-nav > div { overflow: hidden; min-height: 0; }
+.mobile-nav.is-open { grid-template-rows: 1fr; opacity: 1; }
+
+.mobile-nav-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+html.dark .mobile-nav-scrim { background: rgba(0, 0, 0, 0.35); }
 
 .app-main {
   padding-top: calc(env(safe-area-inset-top, 0px) + 4rem);
@@ -550,7 +577,7 @@ html.dark .prevnext button:hover { background: #2f2f2d; }
 .g-Q { fill: #b0674f; }
 .g-D { fill: #e4ded2; }
 
-/* Butterfly: side-on, wings folding through the body line. One 44s loop flies right to the iris (66.5%), rests,
+/* Butterfly: side-on pixel sprite, 4-frame flap. One 44s loop flies right to the iris (66.5%), rests,
    drifts up past the maple, turns, and flies back out to the left. Path, facing and
    fly/rest state are three animations sharing the same clock, so their percentages line up. */
 .butterfly {
@@ -561,39 +588,38 @@ html.dark .prevnext button:hover { background: #2f2f2d; }
   animation: butterfly-path 44s ease-in-out infinite;
   pointer-events: none;
 }
-.butterfly-face { position: relative; display: block; width: 28px; height: 23px; animation: butterfly-face 44s step-end infinite; }
+.butterfly-face { position: relative; display: block; width: 30px; height: 36px; animation: butterfly-face 44s step-end infinite; }
 .butterfly-fly, .butterfly-rest { position: absolute; inset: 0; }
 .butterfly-fly { animation: butterfly-fly 44s step-end infinite, butterfly-bob 1.6s ease-in-out infinite; }
 .butterfly-rest { opacity: 0; animation: butterfly-rest 44s step-end infinite; }
-.bf { display: block; }
-/* wings hinge on the thorax; scaleY folds them up, flat, and down through the body line */
-.bf-wings { transform-box: view-box; transform-origin: 12px 13.5px; }
-.butterfly-fly .bf-wings { animation: bf-flap .42s ease-in-out infinite; }
-.butterfly-fly .bf-wings.far { animation-delay: -.05s; }
-.butterfly-rest .bf-wings { animation: bf-perch 3.4s ease-in-out infinite; }
-.butterfly-rest .bf-wings.far { animation-delay: -.08s; }
-@keyframes bf-flap { 0%, 100% { transform: scaleY(1); } 30% { transform: scaleY(.15); } 50% { transform: scaleY(-.65); } 70% { transform: scaleY(.15); } }
-@keyframes bf-perch { 0%, 58%, 92%, 100% { transform: scaleY(1); } 75% { transform: scaleY(.3); } }
+.butterfly-frame { position: absolute; inset: 0; display: block; opacity: 0; }
+.butterfly-fly .butterfly-frame { animation: butterfly-flap .44s step-end infinite; }
+.butterfly-frame.f1 { animation-delay: -.11s; }
+.butterfly-frame.f2 { animation-delay: -.22s; }
+.butterfly-frame.f3 { animation-delay: -.33s; }
+/* perched: folded most of the time, half-open now and then */
+.butterfly-frame.r0 { opacity: 1; animation: butterfly-fold 3.4s step-end infinite; }
+.butterfly-frame.r1 { animation: butterfly-open 3.4s step-end infinite; }
+@keyframes butterfly-flap { 0% { opacity: 1; } 25%, 100% { opacity: 0; } }
+@keyframes butterfly-fold { 0% { opacity: 1; } 62% { opacity: 0; } 80%, 100% { opacity: 1; } }
+@keyframes butterfly-open { 0% { opacity: 0; } 62% { opacity: 1; } 80%, 100% { opacity: 0; } }
 @keyframes butterfly-bob { 50% { transform: translateY(-4px); } }
-.bf-fore { fill: #e8a282; stroke: #9a5f45; stroke-width: .5; }
-.bf-hind { fill: #f2c7a0; stroke: #9a5f45; stroke-width: .5; }
-.bf-tip { fill: #6f4636; }
-.bf-spot { fill: #fbf5ea; }
-.bf-vein { fill: none; stroke: #c98a6e; stroke-width: .35; }
-.bf-far-fore { fill: #c4866b; }
-.bf-far-hind { fill: #d9a986; }
-.bf-body { fill: #5e4638; }
-.bf-head { fill: #4e3a2e; }
-.bf-club-far { fill: #7a5f4e; }
-.bf-antenna { fill: none; stroke: #5e4638; stroke-width: .55; }
-.bf-antenna.far { stroke: #7a5f4e; stroke-width: .45; }
-.bf-legs { stroke: #5e4638; stroke-width: .45; }
+.bf-e { fill: #9a5f45; }
+.bf-a { fill: #e8a282; }
+.bf-t { fill: #6f4636; }
+.bf-w { fill: #fbf5ea; }
+.bf-z { fill: #f2c7a0; }
+.bf-f { fill: #c4866b; }
+.bf-g { fill: #d9a986; }
+.bf-x { fill: #5e4638; }
+.bf-h { fill: #4e3a2e; }
+.bf-n { fill: #6a5142; }
 @keyframes butterfly-path {
   0%   { left: -3%; top: 70px; opacity: 0; }
   3%   { opacity: 1; }
   14%  { left: 30%; top: 46px; }
-  25%  { left: calc(66.5% - 14px); top: 85px; }   /* land on the iris */
-  37%  { left: calc(66.5% - 14px); top: 85px; }   /* rest */
+  25%  { left: calc(66.5% - 17px); top: 78px; }   /* land on the iris */
+  37%  { left: calc(66.5% - 17px); top: 78px; }   /* rest */
   48%  { left: 84%; top: 44px; }
   52%  { left: 87%; top: 54px; }                  /* turn */
   64%  { left: 52%; top: 36px; }
@@ -726,7 +752,7 @@ html.dark .snail .px-K { fill: #8a7d6b; }
 html.dark .snail .px-E { fill: #f5f5f4; }
 @media (prefers-reduced-motion: reduce) {
   .snail-head, .snail-foot, .snail-eyes { transition: none; }
-  .snail-bob, .snail-shell, .snail-stalks, .garden-piece svg, .garden-cloud, .garden-bird, .garden-bird svg, .g-pond .glint, .g-y, .garden-firefly, .butterfly, .butterfly-face, .butterfly-fly, .butterfly-rest, .bf-wings { animation: none; }
+  .snail-bob, .snail-shell, .snail-stalks, .garden-piece svg, .garden-cloud, .garden-bird, .garden-bird svg, .g-pond .glint, .g-y, .garden-firefly, .butterfly, .butterfly-face, .butterfly-fly, .butterfly-rest, .butterfly-frame { animation: none; }
   .butterfly { display: none; }
 }
 
