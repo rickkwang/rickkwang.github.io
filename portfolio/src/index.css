@@ -315,7 +315,17 @@ html.dark .work-row .w-name { color: #f5f5f4; }
 html.dark .work-row .w-year { color: #8a847d; }
 @media (max-width: 640px) {
   .work-head, .work-row { grid-template-columns: 44px minmax(0, 1fr) 14px; gap: 12px; }
-  .work-head .w-kind, .work-row .w-kind, .work-row .w-num, .work-row .w-tagline { display: none; }
+  .work-head .w-kind, .work-row .w-kind, .work-row .w-num { display: none; }
+  /* Touch: tagline drops to a second line, arrow stays visible (no hover on phones) */
+  .work-row { padding: 14px 0; }
+  .work-row .w-title { white-space: normal; }
+  .work-row .w-name { display: inline; }
+  .work-row .w-tagline {
+    display: block; margin: 4px 0 0; color: #8a847d;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  html.dark .work-row .w-tagline { color: #8a847d; }
+  .work-row .w-arrow { opacity: .5; transform: none; align-self: center; }
 }
 
 .writing-row { grid-template-columns: 150px minmax(0, 1fr) 18px; }

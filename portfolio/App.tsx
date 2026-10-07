@@ -298,7 +298,7 @@ const App = () => {
           <div ref={footerColumn.wrapperRef}>
           <div style={footerColumn.columnStyle} className="max-w-4xl">
           <Snail />
-          <footer className="mono mt-2 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
+          <footer className="mono mt-2 pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-8 font-medium tracking-[0.04em]">
             <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
             <div className="dim-siblings flex items-center gap-6">
               {FOOTER_LINKS.map((link) => (
@@ -307,7 +307,7 @@ const App = () => {
                   href={link.href}
                   target={link.href.startsWith('http') ? '_blank' : undefined}
                   rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200"
+                  className="hidden sm:inline text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200"
                 >
                   {link.label}
                 </a>
