@@ -30,7 +30,7 @@ export const ArticleRow = ({ onClick, title, meta, variant = 'index', children }
     <button
       type="button"
       onClick={onClick}
-      className={`article-row w-full text-left bg-transparent cursor-pointer border-t-[0.5px] border-stone-200 dark:border-stone-700 flex flex-col gap-2 group ${isEssay ? 'py-6 md:py-7' : 'py-6 md:py-7'}`}
+      className={`article-row w-full text-left bg-transparent cursor-pointer border-t-[0.5px] border-stone-200 dark:border-stone-700 flex flex-col gap-2 group py-4 md:py-5`}
     >
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-baseline gap-2 sm:gap-4">
         <h3
@@ -47,7 +47,7 @@ export const ArticleRow = ({ onClick, title, meta, variant = 'index', children }
           className={
             'row-meta ' + (isEssay
               ? 'serif text-[11px] sm:text-[12px] tracking-[0.04em] text-stone-500 dark:text-stone-500 whitespace-nowrap'
-              : 'text-[11px] sm:text-[12px] mono text-stone-500 dark:text-stone-500 font-medium whitespace-nowrap')
+              : 'text-[11px] sm:text-[12px] mono text-stone-500 dark:text-stone-500 whitespace-nowrap')
           }
         >
           {meta}

@@ -214,7 +214,7 @@ html.dark ::-webkit-scrollbar-thumb:hover { background: #525252; }
 .article-row:hover .row-arrow { opacity: 1; transform: none; }
 .row-meta { transition: color .4s ease; }
 .article-row:hover .row-meta { color: #1c1917; }
-html.dark .article-row:hover .row-meta { color: #f5f5f4; }
+html.dark .article-row:hover .row-meta { color: var(--text-primary); }
 .article-row { transition: border-color .6s ease; }
 .article-row:hover { border-color: #a8a29e; }
 html.dark .article-row:hover { border-color: #78716c; }
@@ -257,7 +257,7 @@ html.dark .ruler-item.is-active .ruler-tick { background: #f5f5f4; }
   grid-template-columns: 52px minmax(0, 1fr) 96px 16px;
   align-items: baseline;
   gap: 16px;
-  padding: 13px 0;
+  padding: 20px 0;
   font-size: 12px;
 }
 .work-head {
@@ -266,7 +266,7 @@ html.dark .ruler-item.is-active .ruler-tick { background: #f5f5f4; }
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: .08em;
-  color: #a39d96;
+  color: #78716c;
   border-bottom: 0.5px solid #e2dfd8;
 }
 .work-row {
@@ -278,7 +278,7 @@ html.dark .ruler-item.is-active .ruler-tick { background: #f5f5f4; }
   border-bottom: 0.5px solid #ebe8e1;
   transition: opacity .5s ease;
 }
-.work-row .w-year { color: #a39d96; }
+.work-row .w-year { color: #78716c; }
 .work-row .w-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .work-row .w-num { margin-right: 14px; }
 .work-row .w-tagline { margin-left: 14px; }
@@ -311,8 +311,8 @@ html.dark .ruler-item.is-active .ruler-tick { background: #f5f5f4; }
 .work-index:has(.work-row:hover) .work-row:not(:hover),
 .work-index.has-active .work-row:not(.is-active) { opacity: .35; }
 html.dark .work-head { border-color: #44443f; color: #8a847d; }
-html.dark .work-row { color: #f5f5f4; border-color: #3a3a37; }
-html.dark .work-row .w-name { color: #f5f5f4; }
+html.dark .work-row { color: var(--text-primary); border-color: #3a3a37; }
+html.dark .work-row .w-name { color: var(--text-primary); }
 html.dark .work-row .w-year { color: #8a847d; }
 @media (max-width: 640px) {
   .work-head, .work-row { grid-template-columns: 44px minmax(0, 1fr) 14px; gap: 12px; }
