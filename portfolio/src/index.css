@@ -21,9 +21,9 @@ html {
 }
 
 html.dark {
-  --bg-primary: #262624;
-  --text-primary: #ededed;
-  --header-bg: rgba(38, 38, 36, 0.95);
+  --bg-primary: #181817;
+  --text-primary: #faf9f5;
+  --header-bg: rgba(24, 24, 23, 0.95);
 }
 
 html, body {

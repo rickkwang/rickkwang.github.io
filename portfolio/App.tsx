@@ -1,11 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Article, Tab } from './types';
-import { SOCIAL_LINKS } from './constants';
 import { hasToc } from './components/ArticleToc';
 import { ARTICLE_COLUMN, HOME_COLUMN, useContentColumn } from './lib/useContentColumn';
 import Snail from './components/Snail';
 import Terminal from './components/Terminal';
-import { IconMoon, IconSun } from './components/Icons';
 import {
   ViewAcademic,
   ViewArticle,
@@ -27,8 +25,6 @@ const TAB_LABEL: Record<Tab, string> = {
 // Old ?tab= links keep working after the restructure
 const LEGACY_TAB: Record<string, Tab> = { PROJECTS: 'ACADEMIC', PUBLICATIONS: 'ACADEMIC', WRITING: 'ZEN' };
 const TAB_KEY: Record<string, Tab> = { h: 'HOME', w: 'WORK', a: 'ACADEMIC', c: 'CV', z: 'ZEN' };
-
-const FOOTER_LINKS = SOCIAL_LINKS.filter((link) => link.label !== 'LinkedIn');
 
 const getInitialTab = (): Tab => {
   if (typeof window === 'undefined') return 'HOME';
@@ -82,10 +78,6 @@ const App = () => {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
 
   useEffect(() => {
     const updateTime = () => {
@@ -233,13 +225,6 @@ const App = () => {
             </button>
             <div className="flex items-center -mr-2">
               <button
-                onClick={toggleTheme}
-                className="mobile-tap w-11 text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors"
-                aria-label="Toggle Dark Mode"
-              >
-                {theme === 'dark' ? <IconSun /> : <IconMoon />}
-              </button>
-              <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen((prev) => !prev)}
                 className="mobile-tap w-11 text-stone-500 hover:text-black dark:hover:text-white transition-colors"
@@ -312,13 +297,6 @@ const App = () => {
                 </div>
               </nav>
             </div>
-            <button
-              onClick={toggleTheme}
-              className="text-stone-400 dark:text-stone-500 hover:text-black dark:hover:text-white transition-colors flex items-center gap-2 text-[11px] uppercase tracking-[0.08em]"
-              aria-label="Toggle Dark Mode"
-            >
-              {theme === 'dark' ? <IconSun /> : <IconMoon />}
-            </button>
           </div>
         </aside>
 
@@ -346,19 +324,8 @@ const App = () => {
           <div style={footerColumn.columnStyle} className="max-w-4xl">
           <Snail onSecret={openTerminal} />
           <footer className="mono pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-[23px] font-medium tracking-[0.04em]">
-            <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
+            <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG</div>
             <div className="dim-siblings flex items-center gap-6">
-              {FOOTER_LINKS.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target={link.href.startsWith('http') ? '_blank' : undefined}
-                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="hidden sm:inline text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200"
-                >
-                  {link.label}
-                </a>
-              ))}
               <button
                 type="button"
                 className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"

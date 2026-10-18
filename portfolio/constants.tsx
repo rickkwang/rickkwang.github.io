@@ -68,7 +68,6 @@ export const PROFILE = {
   },
 };
 
-// Home page shows all of these; the footer drops LinkedIn
 export const SOCIAL_LINKS = [
   { label: 'GitHub', href: `https://${PROFILE.socials.github}` },
   { label: 'X', href: `https://${PROFILE.socials.twitter}` },
