@@ -892,8 +892,8 @@ html.dark .term { --t-accent: #d97757; }
   cursor: pointer;
   transition: color 0.12s, transform 0.2s var(--ease-out);
 }
-.term-menu-item:hover,
-.term-menu-item.is-on { color: var(--t-ink); transform: translateX(4px); }
+.term-menu-item:hover { color: var(--t-ink); transform: translateX(4px); }
+.term-menu-item.is-on { color: var(--t-ink); }
 .term-menu-key { color: var(--t-ink-3); margin-right: 6px; }
 .term-menu-item:hover .term-menu-key,
 .term-menu-item.is-on .term-menu-key { color: var(--t-ink-2); }
@@ -957,7 +957,8 @@ html.dark .term { --t-accent: #d97757; }
 }
 .term-sub {
   max-width: 62ch;
-  margin: 0 0 26px;
+  margin: 0 0 18px;
+  text-wrap: pretty;
   color: var(--t-ink-2);
   font-size: 12px;
 }
