@@ -61,7 +61,7 @@ export const ViewArticle = ({ data, onBack, backLabel, onSelect }: ArticleProps)
         <div className="mb-12 text-center">
           <button
             onClick={onBack}
-            className="group inline-flex items-center gap-3 text-[10px] text-stone-400 hover:text-black dark:text-stone-500 dark:hover:text-stone-100 uppercase transition-colors"
+            className="group inline-flex items-center gap-3 text-[10px] text-stone-400 hover:text-black dark:text-[var(--tier-meta)] dark:hover:text-stone-100 uppercase transition-colors"
           >
             <span className="transition-transform group-hover:-translate-x-1">←</span>
             <span>Back to {backLabel}</span>
@@ -75,7 +75,7 @@ export const ViewArticle = ({ data, onBack, backLabel, onSelect }: ArticleProps)
               className="block w-full h-auto"
               onError={(event) => { (event.currentTarget.closest('figure') as HTMLElement).style.display = 'none'; }}
             />
-            <figcaption className="mt-3 flex items-baseline gap-3 text-[10px] mono uppercase tracking-[0.08em] text-stone-500 dark:text-stone-500">
+            <figcaption className="mt-3 flex items-baseline gap-3 text-[10px] mono uppercase tracking-[0.08em] text-stone-500 dark:text-[var(--tier-meta)]">
               <span>{figure.id}</span>
               <span className="opacity-30">/</span>
               <span>{figure.label}</span>
@@ -88,7 +88,7 @@ export const ViewArticle = ({ data, onBack, backLabel, onSelect }: ArticleProps)
         {links.length > 0 && (
           <div className={`mt-12 flex gap-6 mono ${columnStyle ? '' : 'md:px-8'} text-[11px] uppercase tracking-[0.08em]`}>
             {links.map((link) => (
-              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="link-draw text-stone-900 dark:text-stone-100">
+              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="link-draw text-stone-900 dark:text-[var(--text-primary)]">
                 {link.label} ↗
               </a>
             ))}
@@ -99,8 +99,8 @@ export const ViewArticle = ({ data, onBack, backLabel, onSelect }: ArticleProps)
             {[{ item: prev, label: '← Previous', align: 'text-left [--nudge:-3px]' }, { item: next, label: 'Next →', align: 'text-right [--nudge:3px]' }].map(({ item, label, align }) =>
               item ? (
                 <button key={label} type="button" onClick={() => onSelect(item)} className={`${align} py-5 px-3 -mx-3`}>
-                  <span className="prevnext-label block mono text-[10px] uppercase tracking-[0.08em] text-stone-400 dark:text-stone-500">{label}</span>
-                  <span className="block mt-1.5 text-[14px] leading-snug text-stone-900 dark:text-stone-100 line-clamp-2 [text-wrap:balance]"><span className="prevnext-title">{item.title}</span></span>
+                  <span className="prevnext-label block mono text-[10px] uppercase tracking-[0.08em] text-stone-400 dark:text-[var(--tier-meta)]">{label}</span>
+                  <span className="block mt-1.5 text-[14px] leading-snug text-stone-900 dark:text-[var(--text-primary)] line-clamp-2 [text-wrap:balance]"><span className="prevnext-title">{item.title}</span></span>
                 </button>
               ) : (
                 <span key={label} />
@@ -119,9 +119,9 @@ const INTRO = PROFILE.intros[Math.floor(Math.random() * PROFILE.intros.length)];
 
 const SectionLabel = ({ children, action }: { children: string; action?: { label: string; onClick: () => void } }) => (
   <div className="flex items-baseline justify-between mb-4">
-    <h2 className="mono text-[11px] text-stone-500 dark:text-stone-500 uppercase tracking-[0.06em]">{children}</h2>
+    <h2 className="mono text-[11px] text-stone-500 dark:text-[var(--tier-meta)] uppercase tracking-[0.06em]">{children}</h2>
     {action && (
-      <button type="button" onClick={action.onClick} className="link-draw mono text-[10px] uppercase tracking-[0.08em] text-stone-500 dark:text-stone-400">
+      <button type="button" onClick={action.onClick} className="link-draw mono text-[10px] uppercase tracking-[0.08em] text-stone-500 dark:text-[var(--tier-meta)]">
         {action.label} →
       </button>
     )}
@@ -183,10 +183,10 @@ export const ViewHome = ({ time, onSelect, onNavigate, onTerminal }: HomeProps) 
   <div ref={wrapperRef}>
   <div className="stagger max-w-4xl space-y-12 md:space-y-14 pb-16" style={columnStyle}>
     <section className="space-y-4">
-      <p className="text-[19px] md:text-[23px] font-medium tracking-tight-titles leading-snug text-stone-900 dark:text-stone-100">
+      <p className="text-[19px] md:text-[23px] font-medium tracking-tight-titles leading-snug text-stone-900 dark:text-[var(--text-primary)]">
         <TypedText text={INTRO} />
       </p>
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mono text-[11px] uppercase tracking-[0.06em] text-stone-500 dark:text-stone-400">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mono text-[11px] uppercase tracking-[0.06em] text-stone-500 dark:text-[var(--tier-meta)]">
         <span>{PROFILE.location}</span>
         <span>LDN {time.ldn} <span className="opacity-40 mx-1">/</span> BJS {time.bjs}</span>
       </div>
@@ -198,7 +198,7 @@ export const ViewHome = ({ time, onSelect, onNavigate, onTerminal }: HomeProps) 
             href={link.href}
             target={link.href.startsWith('http') ? '_blank' : undefined}
             rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-            className="link-draw text-stone-900 dark:text-stone-100"
+            className="link-draw text-stone-900 dark:text-[var(--text-primary)]"
           >
             {link.label} ↗
           </a>
@@ -208,19 +208,19 @@ export const ViewHome = ({ time, onSelect, onNavigate, onTerminal }: HomeProps) 
 
     <section>
       <SectionLabel>About</SectionLabel>
-      <div className="space-y-3 text-[14px] leading-relaxed text-stone-700 dark:text-stone-300">
+      <div className="space-y-3 text-[14px] leading-relaxed text-stone-700 dark:text-[var(--tier-body)]">
         <p>
           Undergraduate in Electrical &amp; Electronic Engineering at Bristol. More in my{' '}
-          <button type="button" onClick={() => onNavigate('ACADEMIC')} className="link-draw text-stone-900 dark:text-stone-100">academic work</button>
+          <button type="button" onClick={() => onNavigate('ACADEMIC')} className="link-draw text-stone-900 dark:text-[var(--text-primary)]">academic work</button>
           {' '}and{' '}
-          <span className="whitespace-nowrap"><button type="button" onClick={() => onNavigate('CV')} className="link-draw text-stone-900 dark:text-stone-100">CV</button>.</span>
+          <span className="whitespace-nowrap"><button type="button" onClick={() => onNavigate('CV')} className="link-draw text-stone-900 dark:text-[var(--text-primary)]">CV</button>.</span>
         </p>
         {PROFILE.about.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
       </div>
-      <p className="mt-4 mono text-[11px] text-stone-700 dark:text-stone-300">
-        <span className="text-stone-400 dark:text-stone-500 uppercase tracking-[0.06em] mr-3">Usually with</span>
+      <p className="mt-4 mono text-[11px] text-stone-700 dark:text-[var(--tier-body)]">
+        <span className="text-stone-400 dark:text-[var(--tier-meta)] uppercase tracking-[0.06em] mr-3">Usually with</span>
         {PROFILE.stack.join(' · ')}
       </p>
     </section>
@@ -251,11 +251,11 @@ export const ViewCV = () => (
     <div className="stagger max-w-4xl space-y-12 md:space-y-14">
       <div className="text-center space-y-6">
         <div className="space-y-2">
-          <h1 className="text-xl sm:text-2xl font-medium text-stone-900 dark:text-stone-100">{PROFILE.name}</h1>
-          <p className="text-sm text-stone-500 dark:text-stone-400 uppercase">{PROFILE.title}</p>
+          <h1 className="text-xl sm:text-2xl font-medium text-stone-900 dark:text-[var(--text-primary)]">{PROFILE.name}</h1>
+          <p className="text-sm text-stone-500 dark:text-[var(--tier-meta)] uppercase">{PROFILE.title}</p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-stone-500 dark:text-stone-400">
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[13px] text-stone-500 dark:text-[var(--tier-meta)]">
           <span>{PROFILE.email}</span>
           <span>{PROFILE.phone}</span>
           <span>{PROFILE.location}</span>
@@ -263,7 +263,7 @@ export const ViewCV = () => (
 
         <button
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 text-[10px] text-stone-400 hover:text-black dark:text-stone-500 dark:hover:text-stone-200 uppercase transition-colors pt-4"
+          className="inline-flex items-center gap-2 text-[10px] text-stone-400 hover:text-black dark:text-[var(--tier-meta)] dark:hover:text-stone-200 uppercase transition-colors pt-4"
         >
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
           Download / Print PDF
@@ -283,19 +283,19 @@ export const ViewAcademic = ({ onSelect }: { onSelect: (article: Project | Publi
       <ArticleRow key={project.id} onClick={() => onSelect(project)} title={project.title} meta={project.year}>
         <div className="flex flex-wrap gap-2.5">
           {project.tech.map((t) => (
-            <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-stone-200 dark:border-stone-700 text-stone-500 dark:text-stone-500 uppercase">{t}</span>
+            <span key={t} className="px-2 py-0.5 text-[9px] mono border-[0.5px] border-stone-200 dark:border-stone-700 text-stone-500 dark:text-[var(--tier-meta)] uppercase">{t}</span>
           ))}
         </div>
-        <p className="text-[13.5px] leading-relaxed text-stone-700 dark:text-stone-300 max-w-3xl">{project.description}</p>
+        <p className="text-[13.5px] leading-relaxed text-stone-700 dark:text-[var(--tier-body)] max-w-3xl">{project.description}</p>
       </ArticleRow>
     ))}
     {PUBLICATIONS.map((pub) => (
       <ArticleRow key={pub.id} onClick={() => onSelect(pub)} title={pub.title} meta={pub.year}>
         <div className="space-y-2">
-          <p className="text-[12px] text-stone-700 dark:text-stone-300 uppercase">{pub.authors}</p>
+          <p className="text-[12px] text-stone-700 dark:text-[var(--tier-body)] uppercase">{pub.authors}</p>
           <div className="flex flex-wrap items-center gap-2 sm:gap-4">
-            <p className="text-[12px] text-stone-700 dark:text-stone-300 italic">{pub.venue}</p>
-            <span className="px-2 py-0.5 text-[8px] mono bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-500 border-[0.5px] border-stone-200 dark:border-stone-700 uppercase">{pub.status}</span>
+            <p className="text-[12px] text-stone-700 dark:text-[var(--tier-body)] italic">{pub.venue}</p>
+            <span className="px-2 py-0.5 text-[8px] mono bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-[var(--tier-meta)] border-[0.5px] border-stone-200 dark:border-stone-700 uppercase">{pub.status}</span>
           </div>
         </div>
       </ArticleRow>
@@ -319,7 +319,7 @@ export const ViewZenGarden = ({ onSelect }: { onSelect: (post: ZenPost) => void 
               role="tab"
               aria-selected={tag === name}
               onClick={() => setTag(name)}
-              className={`filter-tab mono ${tag === name ? 'text-stone-900 dark:text-stone-100' : 'text-stone-400 hover:text-stone-700 dark:text-stone-500 dark:hover:text-stone-300'}`}
+              className={`filter-tab mono ${tag === name ? 'text-stone-900 dark:text-[var(--text-primary)]' : 'text-stone-400 hover:text-stone-700 dark:text-[var(--tier-meta)] dark:hover:text-stone-300'}`}
             >
               {name}
             </button>
@@ -328,7 +328,7 @@ export const ViewZenGarden = ({ onSelect }: { onSelect: (post: ZenPost) => void 
         <div key={tag} className="stagger dim-siblings">
           {posts.map((post) => (
             <ArticleRow key={post.id} variant="essay" onClick={() => onSelect(post)} title={post.title} meta={post.date}>
-              <p className="serif text-[13.5px] leading-[1.65] text-stone-700 dark:text-stone-300 max-w-[58ch]">
+              <p className="serif text-[13.5px] leading-[1.65] text-stone-700 dark:text-[var(--tier-body)] max-w-[58ch]">
                 {post.description}
               </p>
             </ArticleRow>

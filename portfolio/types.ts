@@ -52,3 +52,5 @@ export interface Work {
 
 export type Tab = 'HOME' | 'WORK' | 'ACADEMIC' | 'CV' | 'ZEN';
 export type Article = Work | Project | Publication | ZenPost;
+
+export type ThemeName = 'light' | 'dark' | 'moss';

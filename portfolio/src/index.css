@@ -5,8 +5,7 @@
 @theme {
   --font-sans: "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --font-serif: "Source Serif 4", Georgia, serif;
-  --font-zen-serif: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
 }
 
 :root {
@@ -24,6 +23,19 @@ html.dark {
   --bg-primary: #181817;
   --text-primary: #faf9f5;
   --header-bg: rgba(24, 24, 23, 0.95);
+  --tier-body: #b0aea5;
+  --tier-meta: #87867f;
+  --tier-quiet: #5e5d59;
+}
+
+/* moss: a dark green-grey theme (Zen Garden palette); keeps every dark rule, swaps the tokens */
+html.moss {
+  --bg-primary: #262b22;
+  --text-primary: #eceee3;
+  --header-bg: rgba(38, 43, 34, 0.95);
+  --tier-body: #c3c9b8;
+  --tier-meta: #9ca393;
+  --tier-quiet: #6f7766;
 }
 
 html, body {
@@ -56,7 +68,7 @@ body {
 .kbd-hint { font-family: var(--font-mono); }
 
 /* Zen Garden only: Newsreader serif */
-.zen, .zen h1, .zen h2, .zen h3, .zen p, .zen button, .zen .mono, .zen .serif { font-family: var(--font-zen-serif); }
+.zen, .zen h1, .zen h2, .zen h3, .zen p, .zen button, .zen .mono, .zen .serif { font-family: var(--font-serif); }
 .zen pre, .zen code { font-family: var(--font-mono); }
 .serif {
   font-family: var(--font-serif);
@@ -241,12 +253,12 @@ html.dark .article-row:hover { border-color: #78716c; }
 /* The name keeps full ink at all times; only its tick signals state */
 .ruler-home .ruler-label { color: #1c1917; }
 html.dark .ruler-tick { background: #5c5752; }
-html.dark .ruler-label { color: #a8a29e; }
+html.dark .ruler-label { color: var(--tier-meta); }
 html.dark .ruler-item:hover .ruler-tick { background: #a8a29e; }
 html.dark .ruler-item:hover .ruler-label,
 html.dark .ruler-item.is-active .ruler-label,
-html.dark .ruler-home .ruler-label { color: #f5f5f4; }
-html.dark .ruler-item.is-active .ruler-tick { background: #f5f5f4; }
+html.dark .ruler-home .ruler-label { color: var(--text-primary); }
+html.dark .ruler-item.is-active .ruler-tick { background: var(--text-primary); }
 
 /* Work index: mono rows; hover underlines the name and quiets the rest.
    Only dates/years and the header are grey; everything else is ink */
@@ -310,10 +322,10 @@ html.dark .ruler-item.is-active .ruler-tick { background: #f5f5f4; }
 .work-row:focus-visible { outline: none; }
 .work-index:has(.work-row:hover) .work-row:not(:hover),
 .work-index.has-active .work-row:not(.is-active) { opacity: .35; }
-html.dark .work-head { border-color: #44443f; color: #8a847d; }
+html.dark .work-head { border-color: #44443f; color: var(--tier-meta); }
 html.dark .work-row { color: var(--text-primary); border-color: #3a3a37; }
 html.dark .work-row .w-name { color: var(--text-primary); }
-html.dark .work-row .w-year { color: #8a847d; }
+html.dark .work-row .w-year { color: var(--tier-meta); }
 @media (max-width: 640px) {
   .work-head, .work-row { grid-template-columns: 44px minmax(0, 1fr) 14px; gap: 12px; }
   .work-head .w-kind, .work-row .w-kind, .work-row .w-num { display: none; }
@@ -322,10 +334,10 @@ html.dark .work-row .w-year { color: #8a847d; }
   .work-row .w-title { white-space: normal; }
   .work-row .w-name { display: inline; }
   .work-row .w-tagline {
-    display: block; margin: 4px 0 0; color: #8a847d;
+    display: block; margin: 4px 0 0; color: #87867f;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
-  html.dark .work-row .w-tagline { color: #8a847d; }
+  html.dark .work-row .w-tagline { color: var(--tier-meta); }
   .work-row .w-arrow { opacity: .5; transform: none; align-self: center; }
 }
 
@@ -364,8 +376,8 @@ html.dark .work-row .w-year { color: #8a847d; }
   background-position: 0 0, 1.5px 1.5px;
   transition: width .3s var(--ease-out);
 }
-html.dark .toc-meter { color: #57534e; }
-html.dark .toc-meter-fill { color: #f5f5f4; }
+html.dark .toc-meter { color: var(--tier-quiet); }
+html.dark .toc-meter-fill { color: var(--text-primary); }
 
 /* Typing caret for the intro */
 .type-caret {
@@ -743,7 +755,7 @@ html.dark .g-O, html.dark .g-R { fill: #4c463f; }
 
 html.dark .snail .px-B { fill: #6b6155; }
 html.dark .snail .px-K { fill: #8a7d6b; }
-html.dark .snail .px-E { fill: #f5f5f4; }
+html.dark .snail .px-E { fill: var(--text-primary); }
 @media (prefers-reduced-motion: reduce) {
   .snail-head, .snail-foot, .snail-eyes { transition: none; }
   .snail-bob, .snail-shell, .snail-stalks, .garden-piece svg, .garden-cloud, .garden-bird, .garden-bird svg, .g-pond .glint, .g-y, .garden-firefly, .butterfly, .butterfly-face, .butterfly-fly, .butterfly-rest, .butterfly-frame { animation: none; }
@@ -788,7 +800,7 @@ html.dark .snail .px-E { fill: #f5f5f4; }
   padding: 24px;
   background: rgba(20, 20, 19, 0.34);
 }
-html.dark .term-scrim { background: rgba(0, 0, 0, 0.58); }
+html.dark .term-scrim { background: rgba(24, 24, 23, 0.9); }
 
 .term {
   /* the terminal has no theme of its own: it reuses the site's existing light/dark tokens */
@@ -815,6 +827,8 @@ html.dark .term-scrim { background: rgba(0, 0, 0, 0.58); }
   letter-spacing: 0;
 }
 html.dark .term { --t-accent: #d97757; }
+html.moss .term { --t-accent: #b4cb96; }
+html.moss .term-scrim { background: rgba(38, 43, 34, 0.9); }
 .term.is-expanded { width: 100%; height: 100%; border: 0; }
 
 /* sidebar: brand at the top, keyed menu at the bottom */
@@ -994,6 +1008,19 @@ html.dark .term { --t-accent: #d97757; }
 @keyframes term-ghost-in { from { opacity: 0; } }
 
 /* slash hint: a list above the prompt, first match selected (claude.dev/terminal) */
+/* /theme picker: rows keep a whole-pixel height so the highlight does not shimmer */
+.term-picker { margin: 6px 0 18px; }
+.term-pick-row {
+  display: flex;
+  gap: 2ch;
+  line-height: 22px;
+  padding: 0 2px;
+  color: var(--t-ink-3);
+}
+.term-pick-row.on { background: var(--t-ink); color: var(--t-bg); }
+.term-pick-name { width: 9ch; flex: none; }
+.term-pick-hint { margin-top: 8px; color: var(--t-ink-3); }
+
 .term-suggest {
   position: absolute;
   left: 23px;
@@ -1057,7 +1084,7 @@ html.dark .term-launch:hover { border-color: #78716c; }
 /* fixed width (longest hint, /academic) so the box does not resize as the hint cycles */
 .term-launch-ghost { display: inline-block; width: 9ch; white-space: nowrap; color: #a39d96; opacity: 0; transition: opacity 0.35s ease; }
 .term-launch-ghost.is-shown { opacity: 1; }
-html.dark .term-launch-ghost { color: #78716c; }
+html.dark .term-launch-ghost { color: var(--tier-quiet); }
 @keyframes term-launch-in { from { opacity: 0; transform: translateY(8px); } }
 @media (prefers-reduced-motion: reduce) {
   .term-launch { animation: none; }

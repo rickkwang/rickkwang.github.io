@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Article, Tab } from './types';
+import { Article, Tab, ThemeName } from './types';
 import { hasToc } from './components/ArticleToc';
 import { ARTICLE_COLUMN, HOME_COLUMN, useContentColumn } from './lib/useContentColumn';
 import Snail from './components/Snail';
@@ -47,10 +47,10 @@ const App = () => {
   const terminalOpenRef = useRef(false);
   const keySeqRef = useRef('');
   const mobileMenuRef = useRef<HTMLElement | null>(null);
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+  const [theme, setTheme] = useState<ThemeName>(() => {
     if (typeof window === 'undefined') return 'light';
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme;
+    if (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'moss') return savedTheme;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
@@ -71,11 +71,9 @@ const App = () => {
   }, [activeTab, selectedArticle]);
 
   useEffect(() => {
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    // moss is a dark theme with its own tokens, so it carries both classes
+    document.documentElement.classList.toggle('dark', theme !== 'light');
+    document.documentElement.classList.toggle('moss', theme === 'moss');
     localStorage.setItem('theme', theme);
   }, [theme]);
 
@@ -218,7 +216,7 @@ const App = () => {
           <div className="mobile-header-row flex items-center justify-between">
             <button
               type="button"
-              className="mobile-tap -ml-2 px-2 bg-transparent cursor-pointer transition-colors text-stone-900 dark:text-stone-100 hover:text-stone-500 dark:hover:text-stone-400"
+              className="mobile-tap -ml-2 px-2 bg-transparent cursor-pointer transition-colors text-stone-900 dark:text-[var(--text-primary)] hover:text-stone-500 dark:hover:text-stone-400"
               onClick={() => handleTabChange('HOME')}
             >
               Zhenhao
@@ -323,12 +321,12 @@ const App = () => {
           <div ref={footerColumn.wrapperRef}>
           <div style={footerColumn.columnStyle} className="max-w-4xl">
           <Snail onSecret={openTerminal} />
-          <footer className="mono pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-[23px] tracking-[0.04em]">
+          <footer className="mono pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-[var(--tier-meta)] uppercase pb-[23px] tracking-[0.04em]">
             <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG</div>
             <div className="dim-siblings flex items-center gap-6">
               <button
                 type="button"
-                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
+                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-[var(--tier-meta)] hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 top <span aria-hidden>↑</span>

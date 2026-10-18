@@ -36,8 +36,8 @@ export const ArticleRow = ({ onClick, title, meta, variant = 'index', children }
         <h3
           className={
             isEssay
-              ? 'serif text-[15px] sm:text-[16px] font-normal tracking-tight-titles text-stone-900 dark:text-stone-100 leading-[1.2] text-left'
-              : 'text-[15px] sm:text-[16px] font-normal tracking-tight-titles text-stone-900 dark:text-stone-100 leading-tight text-left'
+              ? 'serif text-[15px] sm:text-[16px] font-normal tracking-tight-titles text-stone-900 dark:text-[var(--text-primary)] leading-[1.2] text-left'
+              : 'text-[15px] sm:text-[16px] font-normal tracking-tight-titles text-stone-900 dark:text-[var(--text-primary)] leading-tight text-left'
           }
         >
           <span className="row-title">{title}</span>
@@ -46,8 +46,8 @@ export const ArticleRow = ({ onClick, title, meta, variant = 'index', children }
         <span
           className={
             'row-meta ' + (isEssay
-              ? 'serif text-[11px] sm:text-[12px] tracking-[0.04em] text-stone-500 dark:text-stone-500 whitespace-nowrap'
-              : 'text-[11px] sm:text-[12px] mono text-stone-500 dark:text-stone-500 whitespace-nowrap')
+              ? 'serif text-[11px] sm:text-[12px] tracking-[0.04em] text-stone-500 dark:text-[var(--tier-meta)] whitespace-nowrap'
+              : 'text-[11px] sm:text-[12px] mono text-stone-500 dark:text-[var(--tier-meta)] whitespace-nowrap')
           }
         >
           {meta}

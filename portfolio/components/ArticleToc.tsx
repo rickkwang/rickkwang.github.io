@@ -66,7 +66,7 @@ const ArticleToc = ({ content }: { content: string }) => {
   // Portalled to <body>: the page's fade-in transform would otherwise trap position: fixed
   return createPortal(
     <aside className="toc hidden xl:block fixed top-14 right-12 w-[130px] pt-[5px]">
-      <div className="mono text-[11px] text-stone-500 dark:text-stone-500">
+      <div className="mono text-[11px] text-stone-500 dark:text-[var(--tier-meta)]">
         <div className="uppercase tracking-[0.08em] mb-4">Tree</div>
         <ul className="space-y-2">
           {sections.map(({ id, label }) => {
@@ -79,9 +79,9 @@ const ArticleToc = ({ content }: { content: string }) => {
                     event.preventDefault();
                     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className={`toc-link flex gap-2.5 leading-snug ${active ? 'is-active text-stone-900 dark:text-stone-100' : 'hover:text-stone-900 dark:hover:text-stone-100'}`}
+                  className={`toc-link flex gap-2.5 leading-snug ${active ? 'is-active text-stone-900 dark:text-[var(--text-primary)]' : 'hover:text-stone-900 dark:hover:text-stone-100'}`}
                 >
-                  <span className={active ? 'text-stone-900 dark:text-stone-100' : 'text-stone-300 dark:text-stone-600'} aria-hidden="true">└</span>
+                  <span className={active ? 'text-stone-900 dark:text-[var(--text-primary)]' : 'text-stone-300 dark:text-[var(--tier-quiet)]'} aria-hidden="true">└</span>
                   <span className="toc-label">{label}</span>
                 </a>
               </li>
@@ -94,7 +94,7 @@ const ArticleToc = ({ content }: { content: string }) => {
           </div>
           <span className="tabular-nums w-8 text-right">{pct}%</span>
         </div>
-        <div className="mt-4 uppercase tracking-[0.08em] text-stone-400 dark:text-stone-600">↑ / ↓ to jump</div>
+        <div className="mt-4 uppercase tracking-[0.08em] text-stone-400 dark:text-[var(--tier-quiet)]">↑ / ↓ to jump</div>
       </div>
     </aside>,
     document.body,

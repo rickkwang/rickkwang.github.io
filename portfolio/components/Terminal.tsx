@@ -1,13 +1,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
-import type { Tab } from '../types';
+import type { Tab, ThemeName } from '../types';
 import type { NoaWorldInstance } from '../src/game/noa';
 
 interface TerminalProps {
   open: boolean;
   onClose: () => void;
   onNavigate: (tab: Tab) => void;
-  onTheme: (theme: 'light' | 'dark') => void;
+  onTheme: (theme: ThemeName) => void;
   activeTab: Tab;
 }
 
@@ -40,9 +40,16 @@ const COMMANDS: { name: string; desc: string }[] = [
 ];
 export const GHOSTS = ['/help', '/game', '/theme', '/work', '/zen', '/academic'];
 
-const WELCOME: Line[] = [
-  { kind: 'dim', text: 'type /help to see what this shell can do' },
+const THEMES: { name: ThemeName; desc: string }[] = [
+  { name: 'light', desc: 'the house light' },
+  { name: 'dark', desc: 'the house dark' },
+  { name: 'moss', desc: 'the garden, after dark' },
 ];
+
+const currentTheme = (): ThemeName => {
+  const root = document.documentElement.classList;
+  return root.contains('moss') ? 'moss' : root.contains('dark') ? 'dark' : 'light';
+};
 
 const GLYPHS: Record<string, string[]> = {
   R: ['####.', '#...#', '####.', '#..#.', '#...#'],
@@ -62,12 +69,18 @@ const PROMPT = 'guest@rickkwang';
 
 const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalProps) => {
   const [mode, setMode] = useState<'shell' | 'game'>('shell');
-  const [lines, setLines] = useState<Line[]>(WELCOME);
+  const [lines, setLines] = useState<Line[]>([]);
   const [value, setValue] = useState('');
   const [expanded, setExpanded] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
   const [suggestAt, setSuggestAt] = useState(0);
   const [suggestOff, setSuggestOff] = useState(false);
+  // open theme picker: index into THEMES, or null when closed
+  const [picker, setPicker] = useState<number | null>(null);
+  const pickerRef = useRef<number | null>(null);
+  pickerRef.current = picker;
+  // theme in use before the picker previewed anything; restored on esc or close
+  const themeBeforePick = useRef<ThemeName>('light');
   const [ghost, setGhost] = useState(GHOSTS[0]);
   const historyAt = useRef(-1);
   // IME state: the Enter that commits a composition must not run the command
@@ -84,12 +97,14 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
   navigateRef.current = onNavigate;
 
   useEffect(() => {
+    if (!open && pickerRef.current !== null) onTheme(themeBeforePick.current);
+    setPicker(null);
     if (!open) {
       setMode('shell');
       return;
     }
     setMode('shell');
-    setLines(WELCOME);
+    setLines([]);
   }, [open]);
 
   useEffect(() => {
@@ -100,7 +115,7 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
     if (!open) return;
     const scroller = scrollerRef.current;
     if (scroller) scroller.scrollTop = scroller.scrollHeight;
-  }, [lines, open]);
+  }, [lines, open, picker]);
 
   // keep the highlighted row in view when arrowing through a clipped list.
   // layout effect: scroll before paint, otherwise the row lands off-screen for a frame
@@ -137,7 +152,7 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
     const onKey = (event: globalThis.KeyboardEvent) => {
       if (event.key !== 'Escape') return;
       if (event.isComposing) return; // Escape cancels the IME, not the terminal
-      if (mode === 'shell') closeRef.current();
+      if (mode === 'shell' && pickerRef.current === null) closeRef.current(); // esc first dismisses the picker
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -300,13 +315,19 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
         return;
       case 'theme': {
         // toggles the site's own theme; the terminal inherits it, there is no separate palette
-        const next = arg ?? (document.documentElement.classList.contains('dark') ? 'light' : 'dark');
-        if (next !== 'light' && next !== 'dark') {
-          print([echo, { kind: 'err', text: 'usage: theme [light|dark]' }]);
+        if (!arg) {
+          print([echo]);
+          themeBeforePick.current = currentTheme();
+          setPicker(Math.max(0, THEMES.findIndex((t) => t.name === themeBeforePick.current)));
           return;
         }
-        onTheme(next);
-        print([echo, { kind: 'dim', text: `theme: ${next}` }]);
+        const chosen = THEMES.find((t) => t.name === arg);
+        if (!chosen) {
+          print([echo, { kind: 'err', text: `usage: theme [${THEMES.map((t) => t.name).join('|')}]` }]);
+          return;
+        }
+        onTheme(chosen.name);
+        print([echo, { kind: 'dim', text: `theme: ${chosen.name}` }]);
         return;
       }
       case 'whoami':
@@ -348,8 +369,40 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
     // Safari can report the confirming Enter after compositionend
     performance.now() - composedAt.current < 120;
 
+  // moving through the list previews the theme; enter keeps it, esc puts the old one back
+  const previewTheme = (index: number) => {
+    setPicker(index);
+    onTheme(THEMES[index].name);
+  };
+
+  const applyTheme = (name: ThemeName) => {
+    onTheme(name);
+    setPicker(null);
+    print([{ kind: 'dim', text: `theme: ${name}` }]);
+  };
+
   const onInputKey = (event: ReactKeyboardEvent<HTMLInputElement>) => {
     if (isComposing(event)) return;
+
+    if (picker !== null) {
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        const step = event.key === 'ArrowDown' ? 1 : -1;
+        previewTheme((picker + step + THEMES.length) % THEMES.length);
+        return;
+      }
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        applyTheme(THEMES[picker].name);
+        return;
+      }
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onTheme(themeBeforePick.current);
+        setPicker(null);
+        return;
+      }
+    }
 
     if (suggestOpen) {
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
@@ -477,6 +530,27 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
               ) : (
                 <div key={i} className={`term-out ${line.kind}`}>{line.text}</div>
               ),
+            )}
+            {picker !== null && (
+              <div className="term-picker" role="listbox" aria-label="Themes">
+                {THEMES.map((theme, i) => (
+                  <div
+                    key={theme.name}
+                    role="option"
+                    aria-selected={i === picker}
+                    className={`term-pick-row ${i === picker ? 'on' : ''}`}
+                    onMouseEnter={() => previewTheme(i)}
+                    onMouseDown={(event) => {
+                      event.preventDefault();
+                      applyTheme(theme.name);
+                    }}
+                  >
+                    <span className="term-pick-name">{theme.name}</span>
+                    <span className="term-pick-desc">{theme.desc}</span>
+                  </div>
+                ))}
+                <div className="term-pick-hint">↑↓ to choose · enter to apply · esc to dismiss</div>
+              </div>
             )}
           </div>
           <form
