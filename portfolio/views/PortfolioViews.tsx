@@ -7,8 +7,9 @@ import {
   WORKS,
   SOCIAL_LINKS,
 } from '../constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Article, Project, Publication, Work, ZenPost } from '../types';
+import { GHOSTS } from '../components/Terminal';
 import MarkdownContent from '../components/MarkdownContent';
 import { ArticleList, ArticleRow } from '../components/ArticleList';
 import PageHeader from '../components/PageHeader';
@@ -16,7 +17,6 @@ import ArticleToc, { hasToc } from '../components/ArticleToc';
 import WorkIndex from '../components/WorkIndex';
 import { HOME_COLUMN, useContentColumn } from '../lib/useContentColumn';
 import TypedText from '../components/TypedText';
-import Ticker from '../components/Ticker';
 
 interface ArticleProps {
   data: Article;
@@ -144,9 +144,40 @@ interface HomeProps {
   time: WorldTime;
   onSelect: (article: Article) => void;
   onNavigate: (tab: 'WORK' | 'ACADEMIC' | 'CV' | 'ZEN') => void;
+  onTerminal: () => void;
 }
 
-export const ViewHome = ({ time, onSelect, onNavigate }: HomeProps) => {
+// Entry chip: a prompt with a cycling hint after it, like claude.dev's terminal
+const TerminalLaunch = ({ onClick }: { onClick: () => void }) => {
+  const [hint, setHint] = useState(0);
+  const [shown, setShown] = useState(true);
+
+  // fade out, swap the hint while invisible, fade back in
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let swap: number | undefined;
+    const id = window.setInterval(() => {
+      setShown(false);
+      swap = window.setTimeout(() => {
+        setHint((i) => (i + 1) % GHOSTS.length);
+        setShown(true);
+      }, 350);
+    }, 3800);
+    return () => {
+      window.clearInterval(id);
+      window.clearTimeout(swap);
+    };
+  }, []);
+
+  return (
+    <button type="button" className="term-launch flex normal-case tracking-normal" onClick={onClick} aria-label="Open terminal">
+      <span>guest@rickkwang &gt;</span>
+      <span className={`term-launch-ghost ${shown ? 'is-shown' : ''}`} aria-hidden="true">{GHOSTS[hint]}</span>
+    </button>
+  );
+};
+
+export const ViewHome = ({ time, onSelect, onNavigate, onTerminal }: HomeProps) => {
   const { wrapperRef, columnStyle } = useContentColumn(HOME_COLUMN);
   return (
   <div ref={wrapperRef}>
@@ -159,7 +190,8 @@ export const ViewHome = ({ time, onSelect, onNavigate }: HomeProps) => {
         <span>{PROFILE.location}</span>
         <span>LDN {time.ldn} <span className="opacity-40 mx-1">/</span> BJS {time.bjs}</span>
       </div>
-      <div className="dim-siblings flex flex-wrap gap-x-6 gap-y-2 mono text-[11px] uppercase tracking-[0.08em]">
+      <div className="dim-siblings flex flex-wrap items-center gap-x-6 gap-y-2 mono text-[11px] uppercase tracking-[0.08em]">
+        <TerminalLaunch onClick={onTerminal} />
         {SOCIAL_LINKS.map((link) => (
           <a
             key={link.label}
@@ -174,11 +206,15 @@ export const ViewHome = ({ time, onSelect, onNavigate }: HomeProps) => {
       </div>
     </section>
 
-    <Ticker items={PROFILE.ticker} />
-
     <section>
       <SectionLabel>About</SectionLabel>
       <div className="space-y-3 text-[14px] leading-relaxed text-stone-700 dark:text-stone-300">
+        <p>
+          Undergraduate in Electrical &amp; Electronic Engineering at Bristol. More in my{' '}
+          <button type="button" onClick={() => onNavigate('ACADEMIC')} className="link-draw text-stone-900 dark:text-stone-100">academic work</button>
+          {' '}and{' '}
+          <span className="whitespace-nowrap"><button type="button" onClick={() => onNavigate('CV')} className="link-draw text-stone-900 dark:text-stone-100">CV</button>.</span>
+        </p>
         {PROFILE.about.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
@@ -192,13 +228,6 @@ export const ViewHome = ({ time, onSelect, onNavigate }: HomeProps) => {
     <section>
       <SectionLabel action={{ label: 'All work', onClick: () => onNavigate('WORK') }}>Selected Work</SectionLabel>
       <WorkIndex works={WORKS} onSelect={onSelect} />
-    </section>
-
-    <section className="text-[14px] leading-relaxed text-stone-700 dark:text-stone-300">
-      Also studying Electrical &amp; Electronic Engineering at the University of Bristol —{' '}
-      <button type="button" onClick={() => onNavigate('ACADEMIC')} className="link-draw text-stone-900 dark:text-stone-100">academic work</button>
-      {' '}and{' '}
-      <span className="whitespace-nowrap"><button type="button" onClick={() => onNavigate('CV')} className="link-draw text-stone-900 dark:text-stone-100">CV</button>.</span>
     </section>
 
     <section>

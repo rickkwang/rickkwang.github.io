@@ -38,7 +38,7 @@ const COMMANDS: { name: string; desc: string }[] = [
   { name: 'date', desc: 'today’s date and time' },
   { name: 'exit', desc: 'close the terminal' },
 ];
-const GHOSTS = ['/help', '/game', '/theme', '/work', '/zen', '/academic'];
+export const GHOSTS = ['/help', '/game', '/theme', '/work', '/zen', '/academic'];
 
 const WELCOME: Line[] = [
   { kind: 'dim', text: 'type /help to see what this shell can do' },
@@ -310,7 +310,11 @@ const Terminal = ({ open, onClose, onNavigate, onTheme, activeTab }: TerminalPro
         return;
       }
       case 'whoami':
-        print([echo, { kind: 'out', text: 'a curious visitor' }]);
+        print([
+          echo,
+          { kind: 'out', text: 'guest' },
+          { kind: 'out', text: 'a curious visitor. helpful, honest, and harmless (mostly).' },
+        ]);
         return;
       case 'date':
         print([echo, { kind: 'out', text: new Date().toString() }]);

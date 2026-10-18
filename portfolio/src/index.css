@@ -121,7 +121,7 @@ header.app-header {
 html.dark .mobile-nav-scrim { background: rgba(0, 0, 0, 0.35); }
 
 .app-main {
-  padding-top: calc(env(safe-area-inset-top, 0px) + 4rem);
+  padding-top: calc(env(safe-area-inset-top, 0px) + 1.75rem);
 }
 
 @media (min-width: 640px) {
@@ -379,32 +379,6 @@ html.dark .toc-meter-fill { color: #f5f5f4; }
 }
 @keyframes caret-blink { 50% { opacity: 0; } }
 
-/* Ticker: typewriter line */
-.ticker {
-  font-size: 11px;
-  color: #78716c;
-  border-top: 0.5px solid #e7e5e4;
-  border-bottom: 0.5px solid #e7e5e4;
-  display: flex;
-  align-items: baseline;
-  gap: 16px;
-  height: 38px;
-  padding-top: 10px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.ticker-prompt { flex: none; color: #c6c0b9; }
-.ticker-item { white-space: nowrap; overflow: hidden; }
-.ticker-caret {
-  display: inline-block;
-  width: 1px;
-  height: 1.05em;
-  margin-left: 2px;
-  vertical-align: -0.2em;
-  background: currentColor;
-  animation: caret-blink 1.05s step-end infinite;
-}
-html.dark .ticker { color: #a8a29e; border-color: #3a3a37; }
 
 /* Prev / next at the end of an article */
 /* Prev / next: no box, no underline (wraps badly on long titles) — the title firms up and the label nudges outward */
@@ -798,7 +772,6 @@ html.dark .snail .px-E { fill: #f5f5f4; }
 @media (max-width: 860px) { .kbd-hint { display: none; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .ticker-caret { animation: none; }
   .stagger > *, .page-fade-in { animation: none; }
   .row-meta, .row-arrow, .dim-siblings > * { transition: none; }
 }
@@ -1061,6 +1034,34 @@ html.dark .term { --t-accent: #d97757; }
 .term-suggest .sug.on { background: var(--t-ink); }
 .term-suggest .sug.on .sc,
 .term-suggest .sug.on .sd { color: var(--t-bg); }
+
+/* terminal entry: a hairline box in the site's ink, so it reads as part of the page */
+.term-launch {
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: transparent;
+  color: #1c1917;
+  border: 0.5px solid #d6d3d1;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  animation: term-launch-in 0.6s var(--ease-out) both;
+  transition: border-color 0.2s;
+}
+html.dark .term-launch { color: var(--text-primary); border-color: #44443f; }
+.term-launch:hover { border-color: #a8a29e; }
+html.dark .term-launch:hover { border-color: #78716c; }
+.term-launch:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+/* fixed width (longest hint, /academic) so the box does not resize as the hint cycles */
+.term-launch-ghost { display: inline-block; width: 9ch; white-space: nowrap; color: #a39d96; opacity: 0; transition: opacity 0.35s ease; }
+.term-launch-ghost.is-shown { opacity: 1; }
+html.dark .term-launch-ghost { color: #78716c; }
+@keyframes term-launch-in { from { opacity: 0; transform: translateY(8px); } }
+@media (prefers-reduced-motion: reduce) {
+  .term-launch { animation: none; }
+}
 
 /* the game takes the whole viewport, the way claude.dev/game runs it */
 .term-game-full {

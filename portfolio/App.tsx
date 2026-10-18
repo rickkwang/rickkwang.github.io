@@ -264,9 +264,9 @@ const App = () => {
       </header>
       {isMobileMenuOpen && <div className="mobile-nav-scrim sm:hidden" aria-hidden="true" />}
 
-      <div className="sm:flex sm:gap-14 md:gap-20 lg:gap-24 pt-12 sm:pt-14">
+      <div className="sm:flex sm:gap-14 md:gap-20 lg:gap-24 pt-12 sm:pt-8">
         <aside className="hidden sm:block sm:w-[150px] md:w-[168px] flex-shrink-0">
-          <div className="sticky top-14 flex flex-col justify-between h-[calc(100vh-5rem)]">
+          <div className="sticky top-8 flex flex-col justify-between h-[calc(100vh-4rem)]">
             <div>
               <nav className="ruler-nav">
                 <button
@@ -311,7 +311,7 @@ const App = () => {
               />
             ) : (
               <>
-                {activeTab === 'HOME' && <ViewHome time={time} onSelect={handleArticleSelect} onNavigate={handleTabChange} />}
+                {activeTab === 'HOME' && <ViewHome time={time} onSelect={handleArticleSelect} onNavigate={handleTabChange} onTerminal={openTerminal} />}
                 {activeTab === 'WORK' && <ViewWork onSelect={handleArticleSelect} />}
                 {activeTab === 'ACADEMIC' && <ViewAcademic onSelect={handleArticleSelect} />}
                 {activeTab === 'CV' && <ViewCV />}
@@ -326,14 +326,6 @@ const App = () => {
           <footer className="mono pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-[23px] tracking-[0.04em]">
             <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG</div>
             <div className="dim-siblings flex items-center gap-6">
-              <button
-                type="button"
-                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
-                onClick={openTerminal}
-                title="Open terminal (`)"
-              >
-                <span aria-hidden>&gt;_</span> terminal
-              </button>
               <button
                 type="button"
                 className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
