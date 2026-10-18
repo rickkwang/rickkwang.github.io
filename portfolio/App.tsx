@@ -4,6 +4,7 @@ import { SOCIAL_LINKS } from './constants';
 import { hasToc } from './components/ArticleToc';
 import { ARTICLE_COLUMN, HOME_COLUMN, useContentColumn } from './lib/useContentColumn';
 import Snail from './components/Snail';
+import Terminal from './components/Terminal';
 import { IconMoon, IconSun } from './components/Icons';
 import {
   ViewAcademic,
@@ -42,6 +43,13 @@ const App = () => {
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [time, setTime] = useState<WorldTime>({ ldn: '', bjs: '' });
+  const [terminalOpen, setTerminalOpen] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    if (new URLSearchParams(window.location.search).get('terminal') === '1') return true;
+    return window.location.pathname.replace(/\/+$/, '').endsWith('/terminal');
+  });
+  const terminalOpenRef = useRef(false);
+  const keySeqRef = useRef('');
   const mobileMenuRef = useRef<HTMLElement | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     if (typeof window === 'undefined') return 'light';
@@ -129,13 +137,31 @@ const App = () => {
   );
 
   useEffect(() => {
+    terminalOpenRef.current = terminalOpen;
+  }, [terminalOpen]);
+
+  useEffect(() => {
     setShowKbdHint(true);
     const hide = setTimeout(() => setShowKbdHint(false), 6000);
     const handleKey = (event: KeyboardEvent) => {
+      if (terminalOpenRef.current) return;
+      if (event.isComposing || event.keyCode === 229) return;
       if (event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target as HTMLElement;
       if (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName)) return;
-      const tab = TAB_KEY[event.key.toLowerCase()];
+      if (event.key === '`') {
+        event.preventDefault();
+        openTerminal();
+        return;
+      }
+      const key = event.key.toLowerCase();
+      keySeqRef.current = key.length === 1 ? (keySeqRef.current + key).slice(-3) : '';
+      if (keySeqRef.current === 'noa') {
+        keySeqRef.current = '';
+        openTerminal();
+        return;
+      }
+      const tab = TAB_KEY[key];
       if (tab) handleTabChange(tab);
     };
     window.addEventListener('keydown', handleKey);
@@ -147,6 +173,26 @@ const App = () => {
 
   const handleArticleSelect = (article: Article) => {
     setSelectedArticle(article);
+  };
+
+  // Easter egg: press `, type NOA, tap the snail three times, or arrive with ?terminal=1
+  const openTerminal = () => {
+    setTerminalOpen(true);
+    const url = new URL(window.location.href);
+    if (!url.searchParams.has('terminal')) {
+      url.searchParams.set('terminal', '1');
+      window.history.replaceState({}, '', url);
+    }
+  };
+
+  const closeTerminal = () => {
+    setTerminalOpen(false);
+    const url = new URL(window.location.href);
+    const fromTerminalPath = url.pathname.replace(/\/+$/, '').endsWith('/terminal');
+    if (!url.searchParams.has('terminal') && !fromTerminalPath) return;
+    url.searchParams.delete('terminal');
+    if (fromTerminalPath) url.pathname = import.meta.env.BASE_URL;
+    window.history.replaceState({}, '', url);
   };
 
   useEffect(() => {
@@ -298,7 +344,7 @@ const App = () => {
 
           <div ref={footerColumn.wrapperRef}>
           <div style={footerColumn.columnStyle} className="max-w-4xl">
-          <Snail />
+          <Snail onSecret={openTerminal} />
           <footer className="mono pt-6 flex flex-row justify-between items-center gap-3 text-[10px] text-stone-500 dark:text-stone-400 uppercase pb-[23px] font-medium tracking-[0.04em]">
             <div className="leading-relaxed">© {new Date().getFullYear()} MYRICK WANG <span className="mx-3 opacity-20">/</span> BRISTOL EEE</div>
             <div className="dim-siblings flex items-center gap-6">
@@ -316,6 +362,14 @@ const App = () => {
               <button
                 type="button"
                 className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
+                onClick={openTerminal}
+                title="Open terminal (`)"
+              >
+                <span aria-hidden>&gt;_</span> terminal
+              </button>
+              <button
+                type="button"
+                className="bg-transparent p-0 cursor-pointer text-stone-500 dark:text-stone-400 hover:text-black dark:hover:text-stone-200 flex items-center gap-1.5"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 top <span aria-hidden>↑</span>
@@ -325,10 +379,20 @@ const App = () => {
           </div>
           </div>
           <div className={`kbd-hint ${showKbdHint ? 'show' : ''}`} aria-hidden="true">
-            Press <b>H</b> <b>W</b> <b>A</b> <b>C</b> <b>Z</b> to navigate
+            Press <b>H</b> <b>W</b> <b>A</b> <b>C</b> <b>Z</b> to navigate <b>`</b> for terminal
           </div>
         </div>
       </div>
+      <Terminal
+        open={terminalOpen}
+        onClose={closeTerminal}
+        onNavigate={(tab) => {
+          handleTabChange(tab);
+          closeTerminal();
+        }}
+        onTheme={setTheme}
+        activeTab={activeTab}
+      />
     </div>
   );
 };

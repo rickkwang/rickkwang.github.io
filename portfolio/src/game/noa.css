@@ -1,0 +1,210 @@
+/* NOA'S WORLD overlays, scoped to .nw-root with ids prefixed nw-; a host may override the
+   colour and font variables on .nw-root (the top inset is the topInset option, set inline). */
+.nw-root {
+  --nw-bg: #171717; --nw-bg-rgb: 23,23,23;
+  --nw-chip: rgba(26,26,26,.92); --nw-panel: rgba(26,26,26,.97);
+  --nw-btn: #262626; --nw-btn-active: #363636;
+  --nw-line: #333; --nw-line-2: #3a3a3a; --nw-line-3: #555;
+  --nw-ink: #d8d8d8; --nw-ink-soft: #8a8a8a; --nw-ink-faint: #555;
+  --nw-shadow: rgba(0,0,0,.5); --nw-slip-shadow: rgba(0,0,0,.5);
+  --nw-font-serif: "Anthropic Serif", Georgia, serif;
+  --nw-font-sans: "Anthropic Sans", system-ui, sans-serif;
+  --nw-font-mono: "Anthropic Mono", ui-monospace, Menlo, monospace;
+  --nw-top-inset: 0px;
+  position: relative; width: 100%; height: 100%; overflow: hidden;
+}
+.nw-root.nw-light {
+  --nw-bg: #faf9f5; --nw-bg-rgb: 250,249,245;
+  --nw-chip: rgba(255,255,255,.9); --nw-panel: rgba(255,255,255,.97);
+  --nw-btn: #f1eee6; --nw-btn-active: #e5e1d7;
+  --nw-line: #dfdbd1; --nw-line-2: #d6d2c7; --nw-line-3: #b7b3a8;
+  --nw-ink: #2b2a27; --nw-ink-soft: #6f6c64; --nw-ink-faint: #9e9a90;
+  --nw-shadow: rgba(60,50,30,.12); --nw-slip-shadow: rgba(60,50,30,.28);
+}
+.nw-root canvas { display: block; touch-action: none; }
+/* touch controls — shown only on coarse-pointer devices */
+/* touch: a simple game pad along the bottom, only once a run is on
+   (the title screen has its own begin slip) */
+#nw-touchUI { display: none; }
+.nw-root.nw-touch.nw-playing #nw-touchUI {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+  display: flex; align-items: center; justify-content: space-between; gap: 9px;
+  padding: 14px 14px calc(12px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, rgba(var(--nw-bg-rgb),.94) 55%, rgba(var(--nw-bg-rgb),0));
+  pointer-events: none;
+}
+.nw-root .tbtn {
+  pointer-events: auto; appearance: none; margin: 0; padding: 0;
+  user-select: none; -webkit-user-select: none; touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--nw-btn); border: 1px solid var(--nw-line-2); color: var(--nw-ink);
+  font: 600 11px/1 var(--nw-font-mono);
+  display: flex; align-items: center; justify-content: center;
+}
+.nw-root .tbtn:active { background: var(--nw-btn-active); border-color: var(--nw-line-3); }
+.nw-root .tpad {
+  display: flex; gap: 5px; padding: 5px; pointer-events: auto;
+  background: var(--nw-chip); border: 1px solid var(--nw-line); border-radius: 34px;
+}
+#nw-tLeft, #nw-tRight, #nw-tJump, #nw-tSprint { width: 56px; height: 56px; border-radius: 50%; }
+.nw-root .tact { display: flex; gap: 10px; pointer-events: auto; }
+.nw-root .tbtn svg { display: block; pointer-events: none; }
+/* optical centering: a chevron's weight sits on its open side */
+#nw-tLeft svg { transform: translateX(-1.5px); }
+#nw-tRight svg { transform: translateX(1.5px); }
+#nw-tJump, #nw-tSprint {
+  background: #f4f2ec; border-color: #f4f2ec; color: #1f1e1d; font-size: 10px;
+}
+#nw-tJump:active, #nw-tSprint:active { background: #d9d6cd; border-color: #d9d6cd; }
+#nw-topBar {
+  position: absolute; right: 14px; top: 14px; z-index: 6;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.nw-root .topBtn {
+  background: var(--nw-chip); border: 1px solid var(--nw-line); border-radius: 6px;
+  box-sizing: border-box; height: 30px; padding: 0 13px;
+  font: 11px/1 var(--nw-font-mono);
+  color: var(--nw-ink-soft); user-select: none; cursor: pointer; text-decoration: none;
+  display: flex; align-items: center;
+}
+.nw-root button.topBtn { appearance: none; margin: 0; }
+.nw-root .topBtn:hover { border-color: var(--nw-line-3); color: var(--nw-ink); }
+.nw-root .topBtn:focus-visible { border-color: var(--nw-line-3); color: var(--nw-ink); outline: 2px solid #d97757; outline-offset: 2px; }
+.nw-root .topBtn.on { color: var(--nw-ink); }
+#nw-soundBtn { padding: 0 8px; }
+#nw-soundBtn svg { display: block; }
+#nw-soundBtn .snd-off, #nw-soundBtn.on .snd-on { display: inline; }
+#nw-soundBtn .snd-on, #nw-soundBtn.on .snd-off { display: none; }
+.nw-root.nw-touch #nw-controlsBtn, .nw-root.nw-touch #nw-controls { display: none; }
+#nw-controls {
+  position: absolute; right: 14px; top: 52px; z-index: 6; box-sizing: border-box;
+  width: max-content; max-width: calc(100vw - 28px);
+  background: var(--nw-panel); border: 1px solid var(--nw-line-2); border-radius: 12px;
+  box-shadow: 0 16px 60px var(--nw-shadow);
+  padding: 14px 16px 13px; display: none;
+  font: 11px/1.3 var(--nw-font-mono); color: var(--nw-ink-soft);
+}
+#nw-controls.open { display: block; }
+#nw-controls h2 { font: inherit; font-weight: 600; color: var(--nw-ink); margin: 0 0 12px; }
+#nw-controls .grp { font-size: 10px; color: var(--nw-ink-faint); margin: 14px 0 8px; }
+#nw-controls h2 + .grp { margin-top: 0; }
+#nw-controls dl { display: grid; grid-template-columns: 132px auto; gap: 7px 14px; align-items: center; margin: 0; }
+#nw-controls dt { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+#nw-controls dd { margin: 0; white-space: nowrap; }
+#nw-controls kbd {
+  font: inherit; font-size: 10px; line-height: 1; color: var(--nw-ink);
+  min-width: 12px; padding: 3px 5px 2px; text-align: center;
+  border: 1px solid var(--nw-line-2); border-bottom-width: 2px; border-radius: 4px;
+}
+#nw-controls .or { font-size: 10px; color: var(--nw-ink-faint); margin: 0 2px; }
+#nw-controls .note { color: var(--nw-ink-faint); font-size: 10px; margin-top: 14px; padding-top: 11px; border-top: 1px solid var(--nw-line); }
+#nw-ultraChip {
+  position: absolute; left: 14px; top: 14px; display: flex; align-items: center; gap: 8px;
+  background: var(--nw-chip); border: 1px solid var(--nw-line); border-radius: 6px;
+  box-sizing: border-box; height: 30px; padding: 0 13px; font: 11px/1 var(--nw-font-mono);
+  color: var(--nw-ink); user-select: none; pointer-events: none;
+  transition: opacity .4s; opacity: 0;
+}
+#nw-ultraChip.show { opacity: 1; }
+.nw-root .hearts { display: flex; gap: 3px; }
+.nw-root .hearts svg { display: block; }
+/* hearts pill, then the mission pill sliding in beside it once play starts */
+#nw-questChips { position: absolute; left: 14px; top: 14px; display: flex; gap: 8px; pointer-events: none; }
+#nw-livesChip .hearts { transform: translateY(-.5px); }   /* optical: the hearts sit low */
+#nw-sparkChip { transform: translateX(-8px); transition: opacity .5s, transform .5s cubic-bezier(.2, .8, .2, 1); }
+#nw-sparkChip.show { transform: none; }
+.nw-root .qchip {
+  background: var(--nw-chip); border: 1px solid var(--nw-line); border-radius: 6px;
+  box-sizing: border-box; height: 30px; padding: 0 13px; display: flex; align-items: center;
+  font: 11px/1 var(--nw-font-mono);
+  color: var(--nw-ink); user-select: none; pointer-events: none;
+  transition: opacity .5s; opacity: 0;
+}
+.nw-root .qchip.show { opacity: 1; }
+/* the chips share the top row with the buttons: never wrap under them */
+#nw-ultraChip { max-width: calc(100vw - 270px); }
+#nw-sparkChip { max-width: calc(100vw - 350px); }
+.nw-root .qchip, #nw-ultraChip { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nw-root.nw-touch #nw-ultraChip { max-width: calc(100vw - 180px); }
+.nw-root.nw-touch #nw-sparkChip { max-width: calc(100vw - 260px); }
+@media (prefers-reduced-motion: reduce) { #nw-sparkChip { transform: none; } }
+/* text never sits bare on the dots: it rides a paper slip;
+   the wrapper carries the shadow because clip-path would clip it on the slip */
+.nw-root .slipWrap { position: absolute; left: 50%; filter: drop-shadow(0 5px 7px var(--nw-slip-shadow)); }
+.nw-root .slip {
+  background-color: #f3efe4; color: #211f1c;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .26 0 0 0 0 .2 0 0 0 .15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    linear-gradient(172deg, rgba(255,255,255,.14), rgba(255,255,255,0) 60%);
+  font: 400 16px/1.45 var(--nw-font-serif); letter-spacing: normal;
+}
+#nw-storyWrap { top: 32%; transform: translateX(-50%) rotate(-0.6deg); pointer-events: none; }
+#nw-story {
+  /* never reaches the screen edges: a 24px gutter, padding included */
+  box-sizing: border-box; text-align: center; width: max-content;
+  max-width: min(620px, calc(100vw - 48px)); padding: 17px 30px 19px;
+  clip-path: polygon(0.5% 7%, 19% 4.2%, 46% 5.6%, 74% 2.4%, 99.1% 0, 100% 36%, 99.4% 70%,
+    100% 97%, 72% 99.2%, 39% 100%, 12% 97.6%, 0 94%, 0.9% 51%);
+  user-select: none; opacity: 0; transform: translateY(10px);
+  transition: opacity .28s ease-out, transform .45s cubic-bezier(.2, .8, .2, 1);
+}
+#nw-story.leaving { opacity: 0; transform: translateY(-8px);
+  transition: opacity .17s ease-in, transform .17s ease-in; }
+.nw-root.nw-titleUp #nw-startSlip { animation: nw-slipIn .5s cubic-bezier(.2, .8, .2, 1) .1s both; }
+@keyframes nw-slipIn { from { opacity: 0; transform: translateY(12px); } }
+@media (prefers-reduced-motion: reduce) {
+  #nw-story, #nw-story.leaving { transform: none; }
+  .nw-root.nw-titleUp #nw-startSlip { animation-name: nw-fadeIn; }
+  @keyframes nw-fadeIn { from { opacity: 0; } }
+}
+#nw-startWrap { z-index: 3; display: none; transform: translateX(-50%) rotate(0.8deg); }
+.nw-root.nw-titleUp #nw-startWrap { display: block; }
+#nw-startSlip {
+  appearance: none; border: 0; margin: 0; padding: 13px 32px 15px;
+  font-size: 18px; cursor: pointer; display: block;
+  clip-path: polygon(1.3% 0, 33% 3.2%, 69% 1%, 98.4% 4.4%, 100% 47%, 99% 100%,
+    63% 96.8%, 28% 99.6%, 0 96%, 0.7% 43%);
+}
+#nw-startSlip:hover { background-color: #fbf9f3; }
+/* the short hash tagging the next note (Trail of Commits) */
+#nw-markTag {
+  position: absolute; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .3s;
+  transform: translate(-50%, -100%) rotate(-1.5deg); padding: 4px 7px 5px;
+  font: 500 11px/1 var(--nw-font-mono);
+  clip-path: polygon(2% 6%, 98% 0, 100% 94%, 0 100%);
+}
+#nw-markTag.show { opacity: 1; }
+#nw-pauseWrap { top: 40%; z-index: 4; display: none; transform: translateX(-50%) rotate(-0.8deg); }
+.nw-root.nw-paused #nw-pauseWrap { display: block; }
+.nw-root.nw-paused #nw-storyWrap, .nw-root.nw-paused #nw-markTag { visibility: hidden; }
+#nw-pauseSlip { padding: 14px 30px 16px; text-align: center; font-size: 18px;
+  clip-path: polygon(0.8% 5%, 36% 2%, 99% 0, 100% 52%, 99.2% 100%, 58% 97%, 0 99%, 0.5% 46%); }
+#nw-pauseSlip .hint { display: block; margin-top: 6px; font: 11px/1.3 var(--nw-font-sans); color: #8a8578; }
+#nw-startSlip:focus-visible { background-color: #fbf9f3; outline: 2px solid #d97757; outline-offset: 2px; }
+#nw-story.show { opacity: 1; transform: none; }
+#nw-story.summary { padding: 30px 38px 27px; }
+#nw-story .sum-kicker { font: 11px/1 var(--nw-font-sans); color: #8a8578; }
+#nw-story .sum-title { font-size: 26px; line-height: 1.15; margin-top: 9px; }
+#nw-story .sum-line { font-size: 15px; color: #4d4940; margin-top: 5px; }
+#nw-story .sum-stats { display: flex; justify-content: center; margin-top: 15px; padding-top: 13px;
+  border-top: 1px solid rgba(90, 76, 52, .18); }
+#nw-story .sum-stat { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 0 16px; }
+#nw-story .sum-stat + .sum-stat { border-left: 1px solid rgba(90, 76, 52, .18); }
+#nw-story .sum-stat .k { font: 10px/1 var(--nw-font-sans); color: #8a8578; }
+#nw-story .sum-stat .v { font: 15px/1 var(--nw-font-mono); color: #211f1c;
+  height: 15px; display: flex; align-items: center; }
+#nw-story .sum-stat .tag { font: 9px/1 var(--nw-font-sans); color: #b8603f; }
+#nw-story .sum-foot { font: 11px/1.3 var(--nw-font-sans); color: #8a8578; margin-top: 13px; }
+@media (max-width: 560px) {
+  #nw-story.summary { padding: 24px 22px 21px; }
+  #nw-story .sum-title { font-size: 22px; }
+  #nw-story .sum-stat { padding: 0 10px; }
+}
+#nw-story .hint { display: block; margin-top: 8px; font: 11px/1.3 var(--nw-font-sans); color: #8a8578; }
+@media (max-width: 560px) {
+  #nw-story { padding: 15px 22px 17px; }
+}
+@media (min-width: 561px) { #nw-storyWrap { top: 22%; } }
+/* a host's own text along the top (--nw-top-inset) pushes the top row and the story slip below it */
+#nw-topBar, #nw-questChips, #nw-ultraChip { top: calc(14px + var(--nw-top-inset)); }
+#nw-controls { top: calc(52px + var(--nw-top-inset)); }
+#nw-storyWrap { margin-top: var(--nw-top-inset); }

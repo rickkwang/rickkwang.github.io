@@ -45,9 +45,10 @@ const pixels = (part: Part) =>
 
 type Phase = 'crawl' | 'hiding' | 'hidden' | 'emerging' | 'look' | 'tuck' | 'turn-out';
 
-const Snail = () => {
+const Snail = ({ onSecret }: { onSecret?: () => void }) => {
   const laneRef = useRef<HTMLDivElement | null>(null);
   const snailRef = useRef<HTMLButtonElement | null>(null);
+  const secret = useRef({ taps: 0, last: 0 });
   const [phase, setPhase] = useState<Phase>('crawl');
   const [facingLeft, setFacingLeft] = useState(false);
   const [blink, setBlink] = useState(false);
@@ -86,6 +87,21 @@ const Snail = () => {
       later(160, () => setBlink(false));
       state.current.busy = false;
     });
+  };
+
+  const handleClick = () => {
+    if (onSecret) {
+      const now = performance.now();
+      const s = secret.current;
+      s.taps = now - s.last < 2200 ? s.taps + 1 : 1;
+      s.last = now;
+      if (s.taps >= 3) {
+        s.taps = 0;
+        onSecret();
+        return;
+      }
+    }
+    hide();
   };
 
   const turn = (dir: number) => {
@@ -135,7 +151,7 @@ const Snail = () => {
         type="button"
         tabIndex={-1}
         className={`snail phase-${phase} ${blink ? 'is-blinking' : ''}`}
-        onClick={hide}
+        onClick={handleClick}
         title="Hello there"
       >
         <span className="snail-bob">

@@ -802,3 +802,309 @@ html.dark .snail .px-E { fill: #f5f5f4; }
   .stagger > *, .page-fade-in { animation: none; }
   .row-meta, .row-arrow, .dim-siblings > * { transition: none; }
 }
+
+
+/* Virtual terminal — after claude.dev/terminal: paper and ink, hairlines, no radius.
+   Palette follows the site theme; the game pane keeps its own dark world. */
+.term-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(20, 20, 19, 0.34);
+}
+html.dark .term-scrim { background: rgba(0, 0, 0, 0.58); }
+
+.term {
+  /* the terminal has no theme of its own: it reuses the site's existing light/dark tokens */
+  --t-bg: var(--bg-primary);
+  --t-ink: var(--text-primary);
+  --t-ink-2: color-mix(in srgb, var(--text-primary) 72%, var(--bg-primary));
+  --t-ink-3: color-mix(in srgb, var(--text-primary) 50%, var(--bg-primary));
+  --t-ink-4: color-mix(in srgb, var(--text-primary) 32%, var(--bg-primary));
+  --t-accent: #c15f3c;
+  --t-line: color-mix(in srgb, var(--text-primary) 22%, transparent);
+  --t-line-soft: color-mix(in srgb, var(--text-primary) 11%, transparent);
+  position: relative;
+  display: flex;
+  width: min(980px, 100%);
+  height: min(640px, 100%);
+  overflow: hidden;
+  background: var(--t-bg);
+  border: 1px solid var(--t-line);
+  border-radius: 0;
+  color: var(--t-ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.65;
+  letter-spacing: 0;
+}
+html.dark .term { --t-accent: #d97757; }
+.term.is-expanded { width: 100%; height: 100%; border: 0; }
+
+/* sidebar: brand at the top, keyed menu at the bottom */
+.term-side {
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 200px;
+  padding: 22px 20px;
+  border-right: 1px solid var(--t-line-soft);
+}
+.term-brand {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--t-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.term-brand-name { font-size: 13px; letter-spacing: 0.01em; }
+.term-brand-sub {
+  color: var(--t-ink-3);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.term-menu-wrap { margin-top: auto; padding-bottom: 18px; }
+.term-menu { display: flex; flex-direction: column; gap: 2px; }
+.term-menu-item {
+  appearance: none;
+  display: flex;
+  align-items: baseline;
+  margin: 0;
+  padding: 4px 0;
+  background: none;
+  border: 0;
+  color: var(--t-ink-2);
+  font: inherit;
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.12s, transform 0.2s var(--ease-out);
+}
+.term-menu-item:hover,
+.term-menu-item.is-on { color: var(--t-ink); transform: translateX(4px); }
+.term-menu-key { color: var(--t-ink-3); margin-right: 6px; }
+.term-menu-item:hover .term-menu-key,
+.term-menu-item.is-on .term-menu-key { color: var(--t-ink-2); }
+.term-side-foot {
+  color: var(--t-ink-4);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* main column: crumb bar, scrollback, dock */
+.term-main { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.term-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  padding: 15px 24px;
+  border-bottom: 1px solid var(--t-line-soft);
+  color: var(--t-ink-3);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.term-actions { display: flex; gap: 16px; }
+.term-act {
+  appearance: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--t-ink-3);
+  font: inherit;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.12s;
+}
+.term-act:hover { color: var(--t-ink); }
+.term-act:focus-visible { outline: 1px solid var(--t-ink); outline-offset: 3px; }
+
+.term-body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 26px 24px 10px;
+  font-size: 12.5px;
+  line-height: 1.65;
+  cursor: text;
+}
+.term-banner {
+  margin: 0 0 18px;
+  color: var(--t-ink);
+  font: inherit;
+  font-size: clamp(6px, 1.08vw, 10px);
+  line-height: 1.25;
+  white-space: pre;
+  overflow-x: auto;
+}
+.term-sub {
+  max-width: 62ch;
+  margin: 0 0 26px;
+  color: var(--t-ink-2);
+  font-size: 12px;
+}
+.term-cmd { color: var(--t-ink); }
+.term-echo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 16px;
+  color: var(--t-ink);
+}
+.term-user { flex: none; color: var(--t-ink); }
+.term-gt { flex: none; color: var(--t-ink-2); }
+.term-out {
+  padding-left: 2ch;
+  color: var(--t-ink-2);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.term-out.dim { color: var(--t-ink-3); }
+.term-out.err { color: var(--t-accent); }
+.term-dock {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  padding: 13px 25px;
+  border-top: 1px solid var(--t-line-soft);
+  font-size: 12.5px;
+  cursor: text;
+}
+.term-input-wrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+.term-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: 0;
+  color: var(--t-ink);
+  font: inherit;
+  caret-color: var(--t-accent);
+}
+.term-input::placeholder { color: var(--t-ink-4); opacity: 1; }
+.term-ghost {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--t-ink-4);
+  pointer-events: none;
+  user-select: none;
+  animation: term-ghost-in 0.35s ease;
+}
+@keyframes term-ghost-in { from { opacity: 0; } }
+
+/* slash hint: a list above the prompt, first match selected (claude.dev/terminal) */
+.term-suggest {
+  position: absolute;
+  left: 23px;
+  right: 23px;
+  bottom: calc(100% + 10px);
+  z-index: 60;
+  padding: 5px;
+  background: var(--t-bg);
+  border: 1px solid var(--t-line-soft);
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.16);
+  max-height: min(72vh, 480px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.term-suggest .sug {
+  display: flex;
+  gap: 14px;
+  /* whole-pixel row height: inherited 1.65 line-height gives 24.625px rows, and the highlight jitters on sub-pixel edges */
+  line-height: 20px;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+.term-suggest .sug .sc {
+  flex: none;
+  width: 116px;
+  color: var(--t-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.term-suggest .sug .sd {
+  min-width: 0;
+  color: var(--t-ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.term-suggest .sug.on { background: var(--t-ink); }
+.term-suggest .sug.on .sc,
+.term-suggest .sug.on .sd { color: var(--t-bg); }
+
+/* the game takes the whole viewport, the way claude.dev/game runs it */
+.term-game-full {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  background: #171717;
+}
+.term-game-host { position: absolute; inset: 0; }
+.term-game-host .nw-root {
+  --nw-font-serif: var(--font-serif);
+  --nw-font-sans: var(--font-sans);
+  --nw-font-mono: var(--font-mono);
+}
+
+/* mobile: menu becomes a horizontal strip, the panel fills the screen */
+.term-mobile-menu { display: none; }
+@media (max-width: 760px) {
+  .term-scrim { padding: 0; }
+  .term { width: 100%; height: 100%; border: 0; }
+  .term-side { display: none; }
+  .term-mobile-menu {
+    display: flex;
+    flex: none;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--t-line-soft);
+    scrollbar-width: none;
+  }
+  .term-mobile-menu::-webkit-scrollbar { display: none; }
+  .term-mobile-menu .term-menu { flex-direction: row; gap: 18px; }
+  .term-mobile-menu .term-menu-item { white-space: nowrap; padding: 2px 0; }
+  .term-mobile-menu .term-menu-item:hover,
+  .term-mobile-menu .term-menu-item.is-on { transform: none; }
+  .term-top { padding: 12px 16px; }
+  .term-body { padding: 18px 16px 8px; }
+  .term-banner { font-size: 9px; }
+  .term-sub { font-size: 11.5px; }
+  .term-dock { padding: 12px 17px; }
+  .term-suggest { left: 15px; right: 15px; max-height: 56vh; }
+  .term-suggest .sug { gap: 10px; }
+  .term-suggest .sug .sc { width: 96px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .term-menu-item { transition: none; }
+  .term-ghost { animation: none; }
+}
